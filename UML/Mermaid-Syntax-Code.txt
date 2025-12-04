@@ -1,0 +1,108 @@
+---
+config:
+  theme: redux
+  look: neo
+---
+%% https://www.mermaidchart.com/d/41853db4-9642-4a9d-8b5a-48121f31173e
+classDiagram
+direction TB
+    class User {
+	    String username
+	    String password
+	    String firstName
+	    String lastName
+	    login()
+    }
+
+    class Customer {
+	    double walletBalance
+	    chargeWallet()
+	    placeOrder()
+    }
+
+    class RestaurantManager {
+	    registerRestaurant()
+	    processOrder()
+    }
+
+    class Admin {
+	    approveRestaurant()
+    }
+
+    class Restaurant {
+	    String name
+	    int regionId
+	    double averageScore
+	    RestaurantStatus status
+	    addFood()
+	    getDeliveryCost()
+    }
+
+    class Address {
+	    String description
+	    int regionId
+    }
+
+    class Food {
+	    String name
+	    double price
+	    boolean isActive
+    }
+
+    class MainDish {
+	    String ingredients
+	    int cookTime
+    }
+
+    class Appetizer {
+	    int count
+    }
+
+    class Drink {
+	    int volume
+	    boolean isDiet
+    }
+
+    class Order {
+	    int id
+	    OrderStatus status
+	    LocalDateTime time
+	    double totalAmount
+    }
+
+    class OrderItem {
+	    int quantity
+	    double priceSnapshot
+    }
+
+    class Cart {
+	    calculateTotal()
+    }
+
+    class Review {
+	    int rating
+	    String comment
+    }
+
+	<<Abstract>> User
+	<<Abstract>> Food
+
+    User <|-- Customer
+    User <|-- RestaurantManager
+    User <|-- Admin
+    Food <|-- MainDish
+    Food <|-- Appetizer
+    Food <|-- Drink
+    RestaurantManager "1" -- "1" Restaurant : manages
+    Restaurant "1" *-- "*" Food : Menu
+    Customer "1" *-- "*" Address : saved addresses
+    Customer "1" *-- "1" Cart : has
+    Cart "1" o-- "*" OrderItem : contains
+    OrderItem "*" --> "1" Food : refers to
+    Customer "1" -- "*" Order : places
+    Restaurant "1" -- "*" Order : receives
+    Order "1" *-- "*" OrderItem : contains
+    Order "1" --> "1" Review : has
+
+	classDef Rose :,stroke-width:1px,stroke-dasharray:none,stroke:#FF5978,fill:#FFDFE5,color:#8E2236
+	classDef Ash :,stroke-width:1px,stroke-dasharray:none,stroke:#999999,fill:#EEEEEE,color:#000000
