@@ -1,12 +1,13 @@
-package ir.ac.kntu;
-
-import ir.ac.kntu.models.enums.CommandAfterFunction;
+import Helper.Logger;
+import Models.CommandAfterFunction;
 
 import java.util.Scanner;
 
-public class Main {
-
-    public static void main(String[] args) {
+public class Main
+{
+    public static void main(String[] args)
+    {
+        Logger.init(args.length >= 1 && args[0].equals("--dev"));
 
         Scanner sc = new Scanner(System.in);
 
@@ -18,7 +19,5 @@ public class Main {
             function = commandHandler.handleCommand(input);
 
         } while (function != CommandAfterFunction.EXIT);
-
     }
-
 }
