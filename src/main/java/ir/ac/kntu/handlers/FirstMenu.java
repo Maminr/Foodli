@@ -3,6 +3,8 @@ package ir.ac.kntu.handlers;
 import ir.ac.kntu.helper.Logger;
 import ir.ac.kntu.managers.InputManager;
 import ir.ac.kntu.managers.UserManager;
+import ir.ac.kntu.models.Customer;
+import ir.ac.kntu.models.Manager;
 import ir.ac.kntu.models.MenuItem;
 import ir.ac.kntu.models.User;
 import ir.ac.kntu.models.enums.TextColor;
@@ -54,13 +56,39 @@ public class FirstMenu extends Menu {
     }
 
     private void handleSignIn() {
-        //System.out.println("\n" + YELLOW + "--- SIGN IN PAGE ---" + RESET);
-        // Here you would ask for username/password using InputManager
-        // Example:
-        // System.out.print("Username: ");
-        // String user = ir.ac.kntu.managers.InputManager.getInstance().getLine();
+        Logger.getInstance().debug("Entering Sign In process.");
+        Logger.getInstance().print("\n--- SIGN IN PAGE ---", TextColor.YELLOW);
 
-        System.out.println("Feature coming soon...\n");
+        // 1. Get Phone (Validation is okay here)
+        String phoneNumber = getPhoneNumber();
+
+        // 2. Get Password
+        // DO NOT use getPassword() here! It enforces strong password rules.
+        // Just read the raw line.
+        Logger.getInstance().print("Enter your password: ");
+        String password = InputManager.getInstance().getLine();
+
+        // 3. Attempt Login
+        // Assuming signInUser checks password and adds to SessionManager
+        User loggedInUser = UserManager.getInstance().signInUser(phoneNumber, password);
+
+        if (loggedInUser == null) {
+            // --- FAILURE ---
+            Logger.getInstance().print("Phone number or Password is incorrect!", TextColor.RED);
+        } else {
+            // --- SUCCESS ---
+            Logger.getInstance().success("Login successful! Welcome " + loggedInUser.getName());
+
+            // 4. Open the correct Menu based on Role
+            if (loggedInUser instanceof Customer) {
+                new CustomerMenu().enterMenu();
+            } else if (loggedInUser instanceof Manager) {
+                // new ManagerMenu().enterMenu();
+                Logger.getInstance().print("Manager menu coming soon...");
+            } else {
+                Logger.getInstance().print("Admin menu coming soon...");
+            }
+        }
     }
 
     private void handleSignUp() {
@@ -70,13 +98,14 @@ public class FirstMenu extends Menu {
         String name = getName();
         String lastname = getLastname();
         String phoneNumber = getPhoneNumber();
-        String password = getPassword();
 
         if(UserManager.getInstance().findUserByPhoneNumber(phoneNumber) != null) {
             Logger.getInstance().debug("User tried to login with "+phoneNumber+" phone number.");
             Logger.getInstance().print("User already exists with this phone number.", TextColor.RED);
             return;
         }
+
+        String password = getPassword();
 
         SelectRoleMenu roleMenu = new SelectRoleMenu();
         roleMenu.enterMenu();
@@ -88,9 +117,28 @@ public class FirstMenu extends Menu {
             return;
         }
 
+        if(role == UserRole.CUSTOMER){
+            if(UserManager.getInstance().signUpCustomer(name, lastname, phoneNumber, password) == null){
+                Logger.getInstance().error("Failed to sign up customer.");
+                return;
+            }
+        } else if (role == UserRole.RESTAURANT_MANAGER) {
+            if(UserManager.getInstance().signUpManager(name, lastname, phoneNumber, password) == null){
+                Logger.getInstance().error("Failed to sign up manager.");
+                return;
+            }
+        }
+
 
         Logger.getInstance().debug("New user("+role+") created: " + name + " " + lastname);
         Logger.getInstance().print("Welcome " + name + " " + lastname, TextColor.YELLOW);
+
+        if(role == UserRole.CUSTOMER){
+            Logger.getInstance().debug("Opening "+role+" Menu...");
+            CustomerMenu customerMenu = new CustomerMenu();
+            customerMenu.enterMenu();
+        }
+
     }
 
     private void handleAboutUs() {

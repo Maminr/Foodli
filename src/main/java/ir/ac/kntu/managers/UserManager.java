@@ -32,14 +32,25 @@ public class UserManager {
 
     public User signUpCustomer(String name, String lastName, String phone, String password) {
         if (findUserByPhoneNumber(phone) != null) {
-            System.out.println("User already exists!");
-            return null;
+            return null ;
         }
 
         Customer newCustomer = new Customer(name, lastName, phone, password);
         newCustomer.setId(idCounter++);
         users.add(newCustomer);
+
+        SessionManager.getInstance().login(newCustomer);
+
         return newCustomer;
+    }
+
+    public User signInUser(String phone, String password) {
+        User user = findUserByPhoneNumber(phone);
+        if (user != null && user.getPassword().equals(password)) {
+            SessionManager.getInstance().login(user);
+            return user;
+        }
+        return null;
     }
 
     public User signUpManager(String name, String lastName, String phone, String password) {
@@ -48,6 +59,9 @@ public class UserManager {
         Manager newManager = new Manager(name, lastName, phone, password);
         newManager.setId(idCounter++);
         users.add(newManager);
+
+        SessionManager.getInstance().login(newManager);
+
         return newManager;
     }
 

@@ -26,6 +26,8 @@ public abstract class User {
     public UserRole getRole() { return role; }
     public void setId(Long id) { this.id = id; }
     public Long getId() { return id; }
+    public String getName() { return name; }
+    public String getLastName() { return lastName; }
 
     @Override
     public String toString() {
