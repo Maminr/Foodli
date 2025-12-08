@@ -1,4 +1,4 @@
-package ir.ac.kntu.helper;
+package ir.ac.kntu.models.errors;
 
 public class InvalidInputError extends RuntimeException {
     public InvalidInputError(String message)
