@@ -14,6 +14,8 @@ public class MenuHandler {
     private MenuHandler() {
         menus = new HashMap<>();
         menus.put(MenuType.MAIN_MENU, new MainMenu());
+        menus.put(MenuType.CUSTOMER_MENU, new CustomerMenu());
+        menus.put(MenuType.ABOUT_US_MENU, new AboutUsMenu());
     }
 
     public static MenuHandler getInstance() {
@@ -25,9 +27,9 @@ public class MenuHandler {
 
 
     public void loadMenu(MenuType menuType) {
-        if (menus.containsKey(menuType)) {
-            menus.get(menuType).enterMenu();
+        if (!menus.containsKey(menuType)) {
+            throw new MenuNotFoundError("Menu " + menuType + " not found!");
         }
-        throw new MenuNotFoundError("Menu " + menuType + " not found!");
+        menus.get(menuType).enterMenu();
     }
 }

@@ -7,25 +7,24 @@ import ir.ac.kntu.models.Customer;
 import ir.ac.kntu.models.Manager;
 import ir.ac.kntu.models.MenuItem;
 import ir.ac.kntu.models.User;
+import ir.ac.kntu.models.enums.MenuItemAction;
+import ir.ac.kntu.models.enums.MenuType;
 import ir.ac.kntu.models.enums.TextColor;
 import ir.ac.kntu.models.enums.UserRole;
 import ir.ac.kntu.utilities.PasswordUtils;
 import ir.ac.kntu.utilities.StringUtils;
 
 public class MainMenu extends Menu {
+    private final UserManager userManager = UserManager.getInstance();
     private final Logger logger = Logger.getInstance();
     private final InputManager inputManager = InputManager.getInstance();
 
     public MainMenu() {
         super("Main Menu");
-        items.add(new MenuItem("1","Sign In", TextColor.GREEN,this::handleSignIn));
-        items.add(new MenuItem("2","Sign Up", TextColor.BLUE,this::handleSignUp));
-        items.add(new MenuItem("3","About Us", TextColor.YELLOW,this::handleAboutUs));
-        items.add(new MenuItem("0","Exit", TextColor.RED,this::handleExit));
-    }
-
-    private void handleExit() {
-        
+        items.add(new MenuItem("1", "Sign In", TextColor.GREEN, this::handleSignIn));
+        items.add(new MenuItem("2", "Sign Up", TextColor.BLUE, this::handleSignUp));
+        items.add(new MenuItem("3", "About Us", TextColor.YELLOW, this::handleAboutUs));
+        items.add(new MenuItem("0", "Exit", TextColor.RED, MenuItemAction.EXIT));
     }
 
     private void handleSignIn() {
@@ -36,7 +35,7 @@ public class MainMenu extends Menu {
         logger.print("Enter your password: ");
         String password = inputManager.getLine();
 
-        User loggedInUser = UserManager.getInstance().signInUser(phoneNumber, password);
+        User loggedInUser = userManager.signInUser(phoneNumber, password);
 
         if (loggedInUser == null) {
             logger.print("Phone number or Password is incorrect!", TextColor.RED);
@@ -44,7 +43,7 @@ public class MainMenu extends Menu {
             logger.success("Login successful! Welcome " + loggedInUser.getName());
 
             if (loggedInUser instanceof Customer) {
-                new CustomerMenu().enterMenu();
+                MenuHandler.getInstance().loadMenu(MenuType.CUSTOMER_MENU);
             } else if (loggedInUser instanceof Manager) {
                 logger.print("Manager menu coming soon...");
             } else {
@@ -61,52 +60,50 @@ public class MainMenu extends Menu {
         String lastname = getLastname();
         String phoneNumber = getPhoneNumber();
 
-        if(UserManager.getInstance().findUserByPhoneNumber(phoneNumber) != null) {
-            logger.debug("User tried to login with "+phoneNumber+" phone number.");
+        if (userManager.findUserByPhoneNumber(phoneNumber) != null) {
+            logger.debug("User tried to login with " + phoneNumber + " phone number.");
             logger.print("User already exists with this phone number.", TextColor.RED);
             return;
         }
 
         String password = getPassword();
 
-        SelectRoleMenu roleMenu = new SelectRoleMenu();
-        roleMenu.enterMenu();
 
-        UserRole role = roleMenu.getSelectedRole();
+        //todo: get role from input
+        UserRole role = UserRole.CUSTOMER;
+
 
         if (role == null) {
             logger.error("No role selected. Sign up cancelled.");
             return;
         }
 
-        if(role == UserRole.CUSTOMER){
-            if(UserManager.getInstance().signUpCustomer(name, lastname, phoneNumber, password) == null){
+        if (role == UserRole.CUSTOMER) {
+            if (userManager.signUpCustomer(name, lastname, phoneNumber, password) == null) {
                 logger.error("Failed to sign up customer.");
                 return;
             }
         } else if (role == UserRole.RESTAURANT_MANAGER) {
-            if(UserManager.getInstance().signUpManager(name, lastname, phoneNumber, password) == null){
+            if (userManager.signUpManager(name, lastname, phoneNumber, password) == null) {
                 logger.error("Failed to sign up manager.");
                 return;
             }
         }
 
 
-        logger.debug("New user("+role+") created: " + name + " " + lastname);
+        logger.debug("New user(" + role + ") created: " + name + " " + lastname);
         logger.print("Welcome " + name + " " + lastname, TextColor.YELLOW);
 
-        if(role == UserRole.CUSTOMER){
-            logger.debug("Opening "+role+" Menu...");
-            CustomerMenu customerMenu = new CustomerMenu();
-            customerMenu.enterMenu();
+        if (role == UserRole.CUSTOMER) {
+            logger.debug("Opening " + role + " Menu...");
+            MenuHandler.getInstance().loadMenu(MenuType.CUSTOMER_MENU);
         }
 
     }
 
     private void handleAboutUs() {
         logger.debug("Opening About Us Menu...");
-        AboutUsMenu aboutMenu = new AboutUsMenu();
-        aboutMenu.enterMenu();
+        MenuHandler.getInstance().loadMenu(MenuType.ABOUT_US_MENU);
         logger.debug("Returned to Main Menu.");
     }
 

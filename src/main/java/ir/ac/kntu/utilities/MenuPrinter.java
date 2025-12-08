@@ -29,14 +29,11 @@ public class MenuPrinter {
         
         for (int i = 0; i < items.size(); i++) {
             MenuItem item = items.get(i);
-            int index = i + 1;
+
+            String content = item.getId() + ". " + item.getColor() + item.getText() + border;
 
             
-            
-            String content = index + ". " + item.getColor() + item.getText() + border;
-
-            
-            int visibleLen = (index + ". ").length() + item.getText().length();
+            int visibleLen = (item.getId() + ". ").length() + item.getText().length();
 
             sb.append(addLine(content, visibleLen, border));
         }
