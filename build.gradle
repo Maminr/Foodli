@@ -1,12 +1,12 @@
 plugins {
     id 'java'
+    id 'org.jetbrains.kotlin.jvm'
 }
 
 group = 'ir.ac.kntu'
 version = '1.0-SNAPSHOT'
 
 java {
-    sourceCompatibility = '17'
 }
 
 repositories {
@@ -19,8 +19,12 @@ dependencies {
     testImplementation 'net.sourceforge.pmd:pmd-java:6.55.0'
     testImplementation 'com.puppycrawl.tools:checkstyle:10.12.1'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }
 
 test {
     useJUnitPlatform()
+}
+kotlin {
+    jvmToolchain(17)
 }

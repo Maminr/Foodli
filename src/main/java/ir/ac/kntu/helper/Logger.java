@@ -9,31 +9,31 @@ public class Logger {
     private static Logger instance;
     private boolean isDebugMode;
 
-    // Formatter (e.g., 14:30:05)
+    
     private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
-    // Private Constructor
+    
     private Logger(boolean isDebugMode) {
         this.isDebugMode = isDebugMode;
     }
 
-    // 1. Initialize in Main
+    
     public static void initialize(boolean isDebugMode) {
         if (instance == null) {
             instance = new Logger(isDebugMode);
         }
     }
 
-    // 2. Get Instance
+    
     public static Logger getInstance() {
         if (instance == null) {
-            instance = new Logger(true); // Default to debug if forgotten
+            instance = new Logger(true); 
             System.err.println("WARNING: Logger not initialized! Defaulting to Debug Mode.");
         }
         return instance;
     }
 
-    // --- STANDARD LOGGING (With Time & Tags) ---
+    
 
     public void info(String message) {
         logInternal(TextColor.CYAN, "INFO", message);
@@ -61,7 +61,7 @@ public class Logger {
         logInternal(color, "LOG", message);
     }
 
-    // --- RAW PRINTERS (No Time, No Tags) ---
+    
 
     /**
      * Prints a normal white message (like System.out.println).
@@ -77,9 +77,9 @@ public class Logger {
         System.out.println(color + message + TextColor.RESET);
     }
 
-    // --- INTERNAL HELPER ---
+    
 
-    // Format: [14:30:00] [TAG] :: Message
+    
     private void logInternal(TextColor color, String tag, String message) {
         String time = LocalTime.now().format(timeFormatter);
         System.out.println(

@@ -11,7 +11,7 @@ public class Manager extends User {
     @Override
     public void showMenu() {
         System.out.println("--- Manager MENU ---");
-        //System.out.println("1. Approve Restaurants");
-        //System.out.println("2. Ban Users");
+        
+        
     }
 }

@@ -5,7 +5,7 @@ public class StringUtils {
         if (text == null) {
             return false;
         }
-        int length = text.trim().length(); // .trim() removes spaces from start/end
+        int length = text.trim().length(); 
         return length >= min && length <= max;
     }
 }

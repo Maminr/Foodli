@@ -10,37 +10,12 @@ import java.util.List;
 
 public class AboutUsMenu extends Menu {
 
-    private static final List<MenuItem> ITEMS = new ArrayList<>();
-
-    static {
-        ITEMS.add(new MenuItem("Who we are", TextColor.CYAN));
-        ITEMS.add(new MenuItem("Contact Support", TextColor.PURPLE));
-        ITEMS.add(new MenuItem("Back", TextColor.RED)); // 'Back' usually implies Exit for sub-menus
-    }
 
     public AboutUsMenu() {
-        super(MenuPrinter.printMenu("ABOUT FOODLI", ITEMS));
-    }
-
-    @Override
-    protected boolean handleCommand(String command) {
-        switch (command) {
-            case "1":
-                printWhoWeAre();
-                break;
-            case "2":
-                printContactInfo();
-                break;
-            case "3":
-            case "exit":
-            case "back":
-                // returning TRUE here stops this menu's loop
-                // and goes back to FirstMenu
-                return true;
-            default:
-                Logger.getInstance().print("Invalid option!", TextColor.RED);
-        }
-        return false;
+        super("ABOUT FOODLI");
+        items.add(new MenuItem("1","Who we are", TextColor.CYAN,this::printWhoWeAre));
+        items.add(new MenuItem("2","Contact Support", TextColor.PURPLE,this::printContactInfo));
+//        items.add(new MenuItem("3","Back", TextColor.RED,this::handleViewRestaurants));
     }
 
     private void printWhoWeAre() {

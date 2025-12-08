@@ -4,7 +4,7 @@ import ir.ac.kntu.models.enums.UserRole;
 
 public class Customer extends User {
 
-    private int wallet; // Specific to Customer
+    private int wallet; 
 
     public Customer(String name, String lastName, String phoneNumber, String password) {
         super(name, lastName, phoneNumber, password, UserRole.CUSTOMER);

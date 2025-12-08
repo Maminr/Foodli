@@ -1,25 +1,17 @@
 package ir.ac.kntu;
 
-import ir.ac.kntu.handlers.FirstMenu;
-import ir.ac.kntu.helper.Logger; // Import Logger
+import ir.ac.kntu.handlers.MainMenu;
+import ir.ac.kntu.helper.Logger; 
 
 public class Main {
 
     public static void main(String[] args) {
-        // 1. INITIALIZE LOGGER
-        // Set to 'true' to see debug messages, 'false' to hide them.
-        boolean isDebug = true;
+        boolean isDebug = args.length > 1 && args[0].equals("--debug");
         Logger.initialize(isDebug);
-
-        // Test the logger immediately
-        Logger.getInstance().info("Application is starting...");
-
-
-        // 2. Create and Enter Menu
-        FirstMenu startMenu = new FirstMenu();
+        Logger logger = Logger.getInstance();
+        logger.info("Application is starting...");
+        MainMenu startMenu = new MainMenu();
         startMenu.enterMenu();
-
-        // 3. Exit Log
-        Logger.getInstance().info("Application finished. Goodbye!");
+        logger.info("Application finished. Goodbye!");
     }
 }

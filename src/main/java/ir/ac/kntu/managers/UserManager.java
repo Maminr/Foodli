@@ -13,7 +13,7 @@ public class UserManager {
 
     private long idCounter = 1;
 
-    // Singleton for generating users list
+    
     private UserManager() {
         users = new ArrayList<>();
         users.add(new Admin("Super", "Admin", "admin", "admin"));
