@@ -55,9 +55,9 @@ public class Restaurant {
         this.baseDeliveryCost = 5000.0; // Default base cost
         this.perZoneCost = 1000.0; // Default per-zone cost
     }
-    
-    public Restaurant(String name, Manager manager, String address, int zoneNumber, List<FoodType> foodTypes, 
-                     double baseDeliveryCost, double perZoneCost) {
+
+    public Restaurant(String name, Manager manager, String address, int zoneNumber, List<FoodType> foodTypes,
+                      double baseDeliveryCost, double perZoneCost) {
         this.name = name;
         this.manager = manager;
         this.address = address;
@@ -73,7 +73,7 @@ public class Restaurant {
     }
 
     public Restaurant(int id, String name, Manager manager, String address, int zoneNumber,
-                     List<FoodType> foodTypes, RestaurantStatus status) {
+                      List<FoodType> foodTypes, RestaurantStatus status) {
         this.id = id;
         this.name = name;
         this.manager = manager;
@@ -90,47 +90,117 @@ public class Restaurant {
     }
 
     // Getters and setters
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public int getId() {
+        return id;
+    }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public Manager getManager() { return manager; }
-    public void setManager(Manager manager) { this.manager = manager; }
+    public String getName() {
+        return name;
+    }
 
-    public String getAddress() { return address; }
-    public void setAddress(String address) { this.address = address; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public int getZoneNumber() { return zoneNumber; }
-    public void setZoneNumber(int zoneNumber) { this.zoneNumber = zoneNumber; }
+    public Manager getManager() {
+        return manager;
+    }
 
-    public List<FoodType> getFoodTypes() { return foodTypes; }
-    public void setFoodTypes(List<FoodType> foodTypes) { this.foodTypes = foodTypes; }
+    public void setManager(Manager manager) {
+        this.manager = manager;
+    }
 
-    public RestaurantStatus getStatus() { return status; }
-    public void setStatus(RestaurantStatus status) { this.status = status; }
+    public String getAddress() {
+        return address;
+    }
 
-    public String getRejectionReason() { return rejectionReason; }
-    public void setRejectionReason(String rejectionReason) { this.rejectionReason = rejectionReason; }
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
-    public double getRating() { return rating; }
-    public void setRating(double rating) { this.rating = rating; }
+    public int getZoneNumber() {
+        return zoneNumber;
+    }
 
-    public int getRatingCount() { return ratingCount; }
-    public void setRatingCount(int ratingCount) { this.ratingCount = ratingCount; }
+    public void setZoneNumber(int zoneNumber) {
+        this.zoneNumber = zoneNumber;
+    }
 
-    public double getWallet() { return wallet; }
-    public void setWallet(double wallet) { this.wallet = wallet; }
+    public List<FoodType> getFoodTypes() {
+        return foodTypes;
+    }
 
-    public List<Food> getMenu() { return menu; }
-    public void setMenu(List<Food> menu) { this.menu = menu; }
+    public void setFoodTypes(List<FoodType> foodTypes) {
+        this.foodTypes = foodTypes;
+    }
 
-    public double getBaseDeliveryCost() { return baseDeliveryCost; }
-    public void setBaseDeliveryCost(double baseDeliveryCost) { this.baseDeliveryCost = baseDeliveryCost; }
+    public RestaurantStatus getStatus() {
+        return status;
+    }
 
-    public double getPerZoneCost() { return perZoneCost; }
-    public void setPerZoneCost(double perZoneCost) { this.perZoneCost = perZoneCost; }
+    public void setStatus(RestaurantStatus status) {
+        this.status = status;
+    }
+
+    public String getRejectionReason() {
+        return rejectionReason;
+    }
+
+    public void setRejectionReason(String rejectionReason) {
+        this.rejectionReason = rejectionReason;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
+    public int getRatingCount() {
+        return ratingCount;
+    }
+
+    public void setRatingCount(int ratingCount) {
+        this.ratingCount = ratingCount;
+    }
+
+    public double getWallet() {
+        return wallet;
+    }
+
+    public void setWallet(double wallet) {
+        this.wallet = wallet;
+    }
+
+    public List<Food> getMenu() {
+        return menu;
+    }
+
+    public void setMenu(List<Food> menu) {
+        this.menu = menu;
+    }
+
+    public double getBaseDeliveryCost() {
+        return baseDeliveryCost;
+    }
+
+    public void setBaseDeliveryCost(double baseDeliveryCost) {
+        this.baseDeliveryCost = baseDeliveryCost;
+    }
+
+    public double getPerZoneCost() {
+        return perZoneCost;
+    }
+
+    public void setPerZoneCost(double perZoneCost) {
+        this.perZoneCost = perZoneCost;
+    }
 
     public void addFood(Food food) {
         menu.add(food);

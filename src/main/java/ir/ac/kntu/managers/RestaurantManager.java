@@ -59,18 +59,18 @@ public class RestaurantManager {
     }
 
     public Restaurant createRestaurant(String name, Manager manager, String address,
-                                     int zoneNumber, List<FoodType> foodTypes) {
+                                       int zoneNumber, List<FoodType> foodTypes) {
         Restaurant restaurant = new Restaurant(name, manager, address, zoneNumber, foodTypes);
         restaurant.setId(restaurants.size() + 1);
         restaurants.add(restaurant);
         return restaurant;
     }
-    
+
     public Restaurant createRestaurant(String name, Manager manager, String address,
-                                     int zoneNumber, List<FoodType> foodTypes,
-                                     double baseDeliveryCost, double perZoneCost) {
-        Restaurant restaurant = new Restaurant(name, manager, address, zoneNumber, foodTypes, 
-                                                baseDeliveryCost, perZoneCost);
+                                       int zoneNumber, List<FoodType> foodTypes,
+                                       double baseDeliveryCost, double perZoneCost) {
+        Restaurant restaurant = new Restaurant(name, manager, address, zoneNumber, foodTypes,
+                baseDeliveryCost, perZoneCost);
         restaurant.setId(restaurants.size() + 1);
         restaurants.add(restaurant);
         return restaurant;
@@ -92,9 +92,9 @@ public class RestaurantManager {
                 .sorted((r1, r2) -> {
                     // Priority: APPROVED (0) > PENDING_REVIEW (1) > REJECTED (2)
                     int priority1 = r1.getStatus() == RestaurantStatus.APPROVED ? 0 :
-                                   r1.getStatus() == RestaurantStatus.PENDING_REVIEW ? 1 : 2;
+                            r1.getStatus() == RestaurantStatus.PENDING_REVIEW ? 1 : 2;
                     int priority2 = r2.getStatus() == RestaurantStatus.APPROVED ? 0 :
-                                   r2.getStatus() == RestaurantStatus.PENDING_REVIEW ? 1 : 2;
+                            r2.getStatus() == RestaurantStatus.PENDING_REVIEW ? 1 : 2;
                     return Integer.compare(priority1, priority2);
                 })
                 .findFirst()
