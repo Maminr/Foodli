@@ -19,6 +19,9 @@ dependencies {
     testImplementation 'net.sourceforge.pmd:pmd-java:6.55.0'
     testImplementation 'com.puppycrawl.tools:checkstyle:10.12.1'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    
+    // JDBC SQLite driver for database persistence
+    implementation 'org.xerial:sqlite-jdbc:3.42.0.0'
 }
 
 test {

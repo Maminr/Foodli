@@ -1,9 +1,39 @@
 package ir.ac.kntu.managers;
 
-import ir.ac.kntu.models.Admin;
 import ir.ac.kntu.models.Customer;
 import ir.ac.kntu.models.Manager;
+import ir.ac.kntu.models.Support;
 import ir.ac.kntu.models.User;
+
+/*
+ * UserManager - User authentication and management
+ *
+ * BONUS FEATURES TODO:
+ *
+ * Unit Testing:
+ * TODO: Create comprehensive JUnit tests for user management
+ * TODO: Test authentication flows for all user types
+ * TODO: Test user registration and validation
+ * TODO: Test role-based access control
+ *
+ * Data Persistence:
+ * TODO: Implement secure user data storage with encryption
+ * TODO: Add user session management and JWT tokens
+ * TODO: Implement password reset and account recovery
+ * TODO: Add two-factor authentication support
+ *
+ * Security Enhancements:
+ * TODO: Implement password strength requirements and validation
+ * TODO: Add brute force protection and rate limiting
+ * TODO: Implement secure password hashing (bcrypt/PBKDF2)
+ * TODO: Add audit logging for security events
+ *
+ * Advanced User Features:
+ * TODO: Implement user profile management and customization
+ * TODO: Add social login integration (Google, Facebook)
+ * TODO: Implement user referral and rewards system
+ * TODO: Add user behavior analytics and personalization
+ */
 
 import java.util.ArrayList;
 
@@ -16,7 +46,12 @@ public class UserManager {
     
     private UserManager() {
         users = new ArrayList<>();
-        users.add(new Admin("Super", "Admin", "admin", "admin"));
+
+        // Create multiple support accounts
+        users.add(new Support("Support", "Team", "support", "support"));
+        users.add(new Support("Admin", "Support", "09123456789", "support123"));
+        users.add(new Support("Technical", "Support", "09129876543", "tech456"));
+        users.add(new Support("Customer", "Care", "09121234567", "care789"));
     }
 
     public static UserManager getInstance() {
@@ -74,5 +109,13 @@ public class UserManager {
         return null;
     }
 
-
+    public ArrayList<User> getUsersByRole(ir.ac.kntu.models.enums.UserRole role) {
+        ArrayList<User> usersByRole = new ArrayList<>();
+        for (User user : users) {
+            if (user.getRole() == role) {
+                usersByRole.add(user);
+            }
+        }
+        return usersByRole;
+    }
 }

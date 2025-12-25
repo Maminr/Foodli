@@ -38,7 +38,7 @@ public abstract class Menu {
             } else {
                 logger.print("Command is not valid, try again...");
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                 }
             }

@@ -14,6 +14,44 @@ import ir.ac.kntu.models.enums.UserRole;
 import ir.ac.kntu.utilities.PasswordUtils;
 import ir.ac.kntu.utilities.StringUtils;
 
+/*
+ * TODO: Implement bonus features as specified in Persian documentation
+ *
+ * Unit Testing:
+ * TODO: Create comprehensive JUnit test suite for MainMenu class
+ * TODO: Test user authentication flows (sign in/up)
+ * TODO: Test input validation for phone numbers and passwords
+ * TODO: Test menu navigation and error handling
+ *
+ * Version Control & Git:
+ * TODO: Implement conventional commit practices
+ * TODO: Add pre-commit hooks for code quality checks
+ * TODO: Maintain proper branching strategy (feature branches, PR reviews)
+ *
+ * Data Persistence:
+ * TODO: Implement JDBC connection to relational database
+ * TODO: Create database schema for users, restaurants, orders, etc.
+ * TODO: Add data migration scripts
+ * TODO: Implement backup and recovery mechanisms
+ *
+ * Text Search & Similarity:
+ * TODO: Implement text similarity algorithms (Levenshtein distance, Jaccard similarity)
+ * TODO: Add fuzzy search for restaurant and food names
+ * TODO: Implement search result ranking based on similarity scores
+ *
+ * HTML Reports:
+ * TODO: Create HTML report generator for restaurant managers
+ * TODO: Generate financial reports with charts (revenue, orders, ratings)
+ * TODO: Add interactive tables for order history and analytics
+ * TODO: Implement PDF export functionality
+ *
+ * System Enhancements:
+ * TODO: Add user session timeout and security measures
+ * TODO: Implement rate limiting for API calls
+ * TODO: Add comprehensive logging and audit trails
+ * TODO: Create admin panel for system monitoring
+ */
+
 public class MainMenu extends Menu {
     private final UserManager userManager = UserManager.getInstance();
     private final Logger logger = Logger.getInstance();
@@ -32,8 +70,18 @@ public class MainMenu extends Menu {
         logger.print("\n--- SIGN IN PAGE ---", TextColor.YELLOW);
         String phoneNumber = getPhoneNumber();
 
-        logger.print("Enter your password: ");
+        // If user typed 'Back', getPhoneNumber returns null and we've already gone back
+        if (phoneNumber == null) {
+            return;
+        }
+
+        logger.print("Enter your password (or type 'Back' to return): ");
         String password = inputManager.getLine();
+
+        if (password.equalsIgnoreCase("Back")) {
+            // In MainMenu, "back" just returns (no need to goBack since we're at root)
+            return;
+        }
 
         User loggedInUser = userManager.signInUser(phoneNumber, password);
 
@@ -45,9 +93,9 @@ public class MainMenu extends Menu {
             if (loggedInUser instanceof Customer) {
                 MenuHandler.getInstance().loadMenu(MenuType.CUSTOMER_MENU);
             } else if (loggedInUser instanceof Manager) {
-                logger.print("Manager menu coming soon...");
-            } else {
-                logger.print("Admin menu coming soon...");
+                MenuHandler.getInstance().loadMenu(MenuType.RESTAURANT_MANAGER_MENU);
+            } else if (loggedInUser instanceof ir.ac.kntu.models.Support) {
+                MenuHandler.getInstance().loadMenu(MenuType.SUPPORT_MENU);
             }
         }
     }
@@ -57,8 +105,13 @@ public class MainMenu extends Menu {
         logger.print("\n--- SIGN UP PAGE ---", TextColor.YELLOW);
 
         String name = getName();
+        if (name == null) return; // User typed 'Back'
+
         String lastname = getLastname();
+        if (lastname == null) return; // User typed 'Back'
+
         String phoneNumber = getPhoneNumber();
+        if (phoneNumber == null) return; // User typed 'Back'
 
         if (userManager.findUserByPhoneNumber(phoneNumber) != null) {
             logger.debug("User tried to login with " + phoneNumber + " phone number.");
@@ -67,16 +120,12 @@ public class MainMenu extends Menu {
         }
 
         String password = getPassword();
+        if (password == null) return; // User typed 'Back'
 
+        UserRole role = getUserRole();
+        if (role == null) return; // User typed 'Back'
 
-        //todo: get role from input
-        UserRole role = UserRole.CUSTOMER;
-
-
-        if (role == null) {
-            logger.error("No role selected. Sign up cancelled.");
-            return;
-        }
+        //role = UserRole.CUSTOMER;
 
         if (role == UserRole.CUSTOMER) {
             if (userManager.signUpCustomer(name, lastname, phoneNumber, password) == null) {
@@ -99,6 +148,31 @@ public class MainMenu extends Menu {
             MenuHandler.getInstance().loadMenu(MenuType.CUSTOMER_MENU);
         }
 
+        if (role == UserRole.RESTAURANT_MANAGER) {
+            logger.debug("Opening " + role + " Menu...");
+            MenuHandler.getInstance().loadMenu(MenuType.RESTAURANT_MANAGER_MENU);
+        }
+
+    }
+
+    private UserRole getUserRole() {
+        while (true) {
+            logger.print("Please select your role(enter 1 for User and 2 for Manager, or 'Back' to return): ", TextColor.CYAN);
+            String role = inputManager.getLine();
+
+            if (role.equalsIgnoreCase("Back")) {
+                MenuHandler.getInstance().goBack();
+                return null;
+            }
+
+            if (role.matches("^[12]$")) {
+                UserRole userRole = UserRole.values()[Integer.parseInt(role) - 1];
+                logger.debug("Role selected: " + userRole);
+                return userRole;
+            } else {
+                logger.error("Invalid role format!");
+            }
+        }
     }
 
     private void handleAboutUs() {
@@ -109,8 +183,13 @@ public class MainMenu extends Menu {
 
     private String getPhoneNumber() {
         while (true) {
-            logger.print("Enter your phone number: ");
+            logger.print("Enter your phone number (or type 'Back' to return): ");
             String phone = inputManager.getLine();
+
+            if (phone.equalsIgnoreCase("Back")) {
+                // In MainMenu, "back" just returns (no need to goBack since we're at root)
+                return null;
+            }
 
             if (phone.matches("^09\\d{9}$")) {
                 return phone;
@@ -123,14 +202,20 @@ public class MainMenu extends Menu {
 
     private String getPassword() {
         while (true) {
-            logger.print("Enter your password: ");
+            logger.print("Enter your password (or type 'Back' to return): ");
             String password = inputManager.getLine();
+
+            if (password.equalsIgnoreCase("Back")) {
+                MenuHandler.getInstance().goBack();
+                return null; // This won't be reached as goBack() will load previous menu
+            }
 
             if (PasswordUtils.isStrongPassword(password)) {
                 return password;
             } else {
                 logger.error("Weak password!");
-                logger.print("Password must have 8+ chars, 1 uppercase, 1 lowercase, and 1 number.", TextColor.RED);
+                logger.print("Password must have 8+ chars, 1 uppercase, 1 lowercase, 1 number, and 1 special character.", TextColor.RED);
+                logger.print("Special characters: !@#$%^&*()_+-=[]{}|;':\",./<>?", TextColor.YELLOW);
                 logger.print("Please send stronger password.");
             }
         }
@@ -138,8 +223,13 @@ public class MainMenu extends Menu {
 
     private String getName() {
         while (true) {
-            logger.print("Enter your name: ");
+            logger.print("Enter your name (or type 'Back' to return): ");
             String name = inputManager.getLine();
+
+            if (name.equalsIgnoreCase("Back")) {
+                MenuHandler.getInstance().goBack();
+                return null; // This won't be reached as goBack() will load previous menu
+            }
 
             if (StringUtils.hasCorrectLength(name, 3, 30)) {
                 return name;
@@ -152,8 +242,13 @@ public class MainMenu extends Menu {
 
     private String getLastname() {
         while (true) {
-            logger.print("Enter your lastname: ");
+            logger.print("Enter your lastname (or type 'Back' to return): ");
             String lastname = inputManager.getLine();
+
+            if (lastname.equalsIgnoreCase("Back")) {
+                MenuHandler.getInstance().goBack();
+                return null; // This won't be reached as goBack() will load previous menu
+            }
 
             if (StringUtils.hasCorrectLength(lastname, 3, 50)) {
                 return lastname;
