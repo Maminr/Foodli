@@ -141,7 +141,7 @@ public class FoodliTest {
         List<TextSimilarity.SearchResult> results = TextSimilarity.findBestMatches("pizza", candidates, 2);
 
         assertEquals(2, results.size());
-        assertTrue(results.get(0).text.contains("pizza"));
+        assertTrue(results.get(0).getText().contains("pizza"));
     }
 
     @Test

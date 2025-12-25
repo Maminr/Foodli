@@ -517,6 +517,8 @@ public class RestaurantManagerMenu extends Menu {
                 int sugarChoice = Integer.parseInt(inputManager.getLine());
                 food.setSugarStatus(sugarChoice == 1 ? SugarStatus.DIET : SugarStatus.REGULAR);
                 break;
+            default:
+                break;
         }
     }
 

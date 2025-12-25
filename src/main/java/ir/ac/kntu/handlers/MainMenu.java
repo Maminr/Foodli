@@ -105,13 +105,19 @@ public class MainMenu extends Menu {
         logger.print("\n--- SIGN UP PAGE ---", TextColor.YELLOW);
 
         String name = getName();
-        if (name == null) return; // User typed 'Back'
+        if (name == null) {
+            return; // User typed 'Back'
+        }
 
         String lastname = getLastname();
-        if (lastname == null) return; // User typed 'Back'
+        if (lastname == null) {
+            return; // User typed 'Back'
+        }
 
         String phoneNumber = getPhoneNumber();
-        if (phoneNumber == null) return; // User typed 'Back'
+        if (phoneNumber == null) {
+            return; // User typed 'Back'
+        }
 
         if (userManager.findUserByPhoneNumber(phoneNumber) != null) {
             logger.debug("User tried to login with " + phoneNumber + " phone number.");
@@ -120,10 +126,14 @@ public class MainMenu extends Menu {
         }
 
         String password = getPassword();
-        if (password == null) return; // User typed 'Back'
+        if (password == null) {
+            return; // User typed 'Back'
+        }
 
         UserRole role = getUserRole();
-        if (role == null) return; // User typed 'Back'
+        if (role == null) {
+            return; // User typed 'Back'
+        }
 
         //role = UserRole.CUSTOMER;
 

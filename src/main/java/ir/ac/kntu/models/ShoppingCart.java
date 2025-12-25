@@ -11,11 +11,21 @@ public class ShoppingCart {
         this.items = new ArrayList<>();
     }
 
-    public Restaurant getRestaurant() { return restaurant; }
-    public void setRestaurant(Restaurant restaurant) { this.restaurant = restaurant; }
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
 
-    public List<OrderItem> getItems() { return items; }
-    public void setItems(List<OrderItem> items) { this.items = items; }
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
+    public List<OrderItem> getItems() {
+        return items;
+    }
+
+    public void setItems(List<OrderItem> items) {
+        this.items = items;
+    }
 
     public void addItem(Food food, int quantity) {
         // If cart is empty or same restaurant, add item

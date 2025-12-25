@@ -39,47 +39,112 @@ public class Food {
     }
 
     // Getters and setters
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public int getId() {
+        return id;
+    }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public double getPrice() { return price; }
-    public void setPrice(double price) { this.price = price; }
+    public String getName() {
+        return name;
+    }
 
-    public boolean isAvailable() { return available; }
-    public void setAvailable(boolean available) { this.available = available; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public FoodCategory getCategory() { return category; }
-    public void setCategory(FoodCategory category) { this.category = category; }
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
+
+    public FoodCategory getCategory() {
+        return category;
+    }
+
+    public void setCategory(FoodCategory category) {
+        this.category = category;
+    }
 
     // Main dish methods
-    public String getIngredients() { return ingredients; }
-    public void setIngredients(String ingredients) { this.ingredients = ingredients; }
+    public String getIngredients() {
+        return ingredients;
+    }
 
-    public int getCookingTime() { return cookingTime; }
-    public void setCookingTime(int cookingTime) { this.cookingTime = cookingTime; }
+    public void setIngredients(String ingredients) {
+        this.ingredients = ingredients;
+    }
 
-    public ServingType getServingType() { return servingType; }
-    public void setServingType(ServingType servingType) { this.servingType = servingType; }
+    public int getCookingTime() {
+        return cookingTime;
+    }
+
+    public void setCookingTime(int cookingTime) {
+        this.cookingTime = cookingTime;
+    }
+
+    public ServingType getServingType() {
+        return servingType;
+    }
+
+    public void setServingType(ServingType servingType) {
+        this.servingType = servingType;
+    }
 
     // Appetizer methods
-    public int getPiecesPerServing() { return piecesPerServing; }
-    public void setPiecesPerServing(int piecesPerServing) { this.piecesPerServing = piecesPerServing; }
+    public int getPiecesPerServing() {
+        return piecesPerServing;
+    }
 
-    public PortionSize getPortionSize() { return portionSize; }
-    public void setPortionSize(PortionSize portionSize) { this.portionSize = portionSize; }
+    public void setPiecesPerServing(int piecesPerServing) {
+        this.piecesPerServing = piecesPerServing;
+    }
+
+    public PortionSize getPortionSize() {
+        return portionSize;
+    }
+
+    public void setPortionSize(PortionSize portionSize) {
+        this.portionSize = portionSize;
+    }
 
     // Beverage methods
-    public int getVolume() { return volume; }
-    public void setVolume(int volume) { this.volume = volume; }
+    public int getVolume() {
+        return volume;
+    }
 
-    public DrinkPackaging getPackaging() { return packaging; }
-    public void setPackaging(DrinkPackaging packaging) { this.packaging = packaging; }
+    public void setVolume(int volume) {
+        this.volume = volume;
+    }
 
-    public SugarStatus getSugarStatus() { return sugarStatus; }
-    public void setSugarStatus(SugarStatus sugarStatus) { this.sugarStatus = sugarStatus; }
+    public DrinkPackaging getPackaging() {
+        return packaging;
+    }
+
+    public void setPackaging(DrinkPackaging packaging) {
+        this.packaging = packaging;
+    }
+
+    public SugarStatus getSugarStatus() {
+        return sugarStatus;
+    }
+
+    public void setSugarStatus(SugarStatus sugarStatus) {
+        this.sugarStatus = sugarStatus;
+    }
 
     public String getDetails() {
         StringBuilder details = new StringBuilder();
@@ -90,18 +155,36 @@ public class Food {
 
         switch (category) {
             case MAIN_DISH:
-                if (ingredients != null) details.append("Ingredients: ").append(ingredients).append("\n");
-                if (cookingTime > 0) details.append("Cooking Time: ").append(cookingTime).append(" minutes\n");
-                if (servingType != null) details.append("Serving Type: ").append(servingType.getDisplayName()).append("\n");
+                if (ingredients != null) {
+                    details.append("Ingredients: ").append(ingredients).append("\n");
+                }
+                if (cookingTime > 0) {
+                    details.append("Cooking Time: ").append(cookingTime).append(" minutes\n");
+                }
+                if (servingType != null) {
+                    details.append("Serving Type: ").append(servingType.getDisplayName()).append("\n");
+                }
                 break;
             case APPETIZER:
-                if (piecesPerServing > 0) details.append("Pieces per Serving: ").append(piecesPerServing).append("\n");
-                if (portionSize != null) details.append("Portion Size: ").append(portionSize.getDisplayName()).append("\n");
+                if (piecesPerServing > 0) {
+                    details.append("Pieces per Serving: ").append(piecesPerServing).append("\n");
+                }
+                if (portionSize != null) {
+                    details.append("Portion Size: ").append(portionSize.getDisplayName()).append("\n");
+                }
                 break;
             case BEVERAGE:
-                if (volume > 0) details.append("Volume: ").append(volume).append(" ml\n");
-                if (packaging != null) details.append("Packaging: ").append(packaging.getDisplayName()).append("\n");
-                if (sugarStatus != null) details.append("Sugar Status: ").append(sugarStatus.getDisplayName()).append("\n");
+                if (volume > 0) {
+                    details.append("Volume: ").append(volume).append(" ml\n");
+                }
+                if (packaging != null) {
+                    details.append("Packaging: ").append(packaging.getDisplayName()).append("\n");
+                }
+                if (sugarStatus != null) {
+                    details.append("Sugar Status: ").append(sugarStatus.getDisplayName()).append("\n");
+                }
+                break;
+            default:
                 break;
         }
 

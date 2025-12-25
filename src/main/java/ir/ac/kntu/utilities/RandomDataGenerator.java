@@ -159,6 +159,8 @@ public class RandomDataGenerator {
                 food.setPackaging(DrinkPackaging.values()[random.nextInt(DrinkPackaging.values().length)]);
                 food.setSugarStatus(random.nextBoolean() ? SugarStatus.DIET : SugarStatus.REGULAR);
                 break;
+            default:
+                break;
         }
 
         restaurantManager.addFoodToRestaurant(restaurant, food);
@@ -174,7 +176,7 @@ public class RandomDataGenerator {
                 return random.nextInt(3) == 0 ? FoodCategory.APPETIZER : FoodCategory.MAIN_DISH;
             default:
                 return random.nextInt(5) == 0 ? FoodCategory.BEVERAGE :
-                       random.nextInt(4) == 0 ? FoodCategory.APPETIZER : FoodCategory.MAIN_DISH;
+                        random.nextInt(4) == 0 ? FoodCategory.APPETIZER : FoodCategory.MAIN_DISH;
         }
     }
 
@@ -218,7 +220,9 @@ public class RandomDataGenerator {
                 }
             }
 
-            if (orderItems.isEmpty()) continue;
+            if (orderItems.isEmpty()) {
+                continue;
+            }
 
             // Select random address
             Address deliveryAddress = customer.getAddresses().get(random.nextInt(customer.getAddresses().size()));
@@ -264,7 +268,7 @@ public class RandomDataGenerator {
         // Clear users (keep support accounts)
         UserManager userManager = UserManager.getInstance();
         userManager.getUsers().removeIf(user ->
-            !(user instanceof Support));
+                !(user instanceof Support));
 
         System.out.println("All test data cleared!");
     }

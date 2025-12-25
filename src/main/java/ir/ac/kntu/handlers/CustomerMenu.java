@@ -82,13 +82,12 @@ public class CustomerMenu extends Menu {
 
     public CustomerMenu() {
         super("Customer Menu");
-        items.add(new MenuItem("1","Restaurant Search & Selection", TextColor.GREEN,this::handleRestaurantSearch));
-        items.add(new MenuItem("2","Shopping Cart & Order", TextColor.CYAN,this::handleShoppingCart));
-        items.add(new MenuItem("3","Order Management", TextColor.PURPLE,this::handleOrderManagement));
-        items.add(new MenuItem("4","Account Settings", TextColor.YELLOW,this::handleAccountSettings));
-        items.add(new MenuItem("5","Logout", TextColor.RED,this::handleLogout));
+        items.add(new MenuItem("1", "Restaurant Search & Selection", TextColor.GREEN, this::handleRestaurantSearch));
+        items.add(new MenuItem("2", "Shopping Cart & Order", TextColor.CYAN, this::handleShoppingCart));
+        items.add(new MenuItem("3", "Order Management", TextColor.PURPLE, this::handleOrderManagement));
+        items.add(new MenuItem("4", "Account Settings", TextColor.YELLOW, this::handleAccountSettings));
+        items.add(new MenuItem("5", "Logout", TextColor.RED, this::handleLogout));
     }
-
 
 
     private void handleRestaurantSearch() {
@@ -170,7 +169,7 @@ public class CustomerMenu extends Menu {
 
             if (choice.matches("[1-5]")) {
                 FoodType[] foodTypes = {FoodType.FAST_FOOD, FoodType.IRANIAN, FoodType.SEAFOOD,
-                                       FoodType.BEVERAGE, FoodType.CAFE};
+                        FoodType.BEVERAGE, FoodType.CAFE};
                 FoodType selectedType = foodTypes[Integer.parseInt(choice) - 1];
 
                 // Filter restaurants by selected food type
@@ -182,7 +181,7 @@ public class CustomerMenu extends Menu {
                     logger.print("No restaurants found in " + selectedType.getDisplayName() + " category.", TextColor.YELLOW);
                 } else {
                     logger.print("Found " + filteredRestaurants.size() + " restaurant(s) in " +
-                               selectedType.getDisplayName() + " category:", TextColor.CYAN);
+                            selectedType.getDisplayName() + " category:", TextColor.CYAN);
                     displayRestaurantResults(filteredRestaurants);
                 }
 
@@ -247,16 +246,16 @@ public class CustomerMenu extends Menu {
 
         // Use pagination to display restaurants
         int selectedIndex = paginationUtility.displayPaginatedList(
-            mutableRestaurants,
-            (restaurant, index) -> {
-                double deliveryCost = restaurant.getDeliveryCost(currentCustomer.getAddresses().isEmpty() ?
-                        1 : currentCustomer.getAddresses().get(0).getZoneNumber());
-                logger.print(restaurant.getName());
-                logger.print("   Rating: " + String.format("%.1f", restaurant.getRating()) + " stars");
-                logger.print("   Delivery: " + deliveryCost + " Toman");
-                logger.print("   Types: " + restaurant.getFoodTypes().toString());
-                logger.print("");
-            }
+                mutableRestaurants,
+                (restaurant, index) -> {
+                    double deliveryCost = restaurant.getDeliveryCost(currentCustomer.getAddresses().isEmpty() ?
+                            1 : currentCustomer.getAddresses().get(0).getZoneNumber());
+                    logger.print(restaurant.getName());
+                    logger.print("   Rating: " + String.format("%.1f", restaurant.getRating()) + " stars");
+                    logger.print("   Delivery: " + deliveryCost + " Toman");
+                    logger.print("   Types: " + restaurant.getFoodTypes().toString());
+                    logger.print("");
+                }
         );
 
         if (selectedIndex >= 0 && selectedIndex < mutableRestaurants.size()) {
@@ -285,19 +284,19 @@ public class CustomerMenu extends Menu {
             List<Food> availableFoods = restaurant.getMenu().stream()
                     .filter(Food::isAvailable)
                     .collect(java.util.stream.Collectors.toList());
-            
+
             if (availableFoods.isEmpty()) {
                 logger.print("No items available at the moment.", TextColor.YELLOW);
                 logger.print("Press Enter to go back...");
                 inputManager.getLine();
                 return;
             }
-            
+
             // Display with sequential numbers (1, 2, 3...)
             for (int i = 0; i < availableFoods.size(); i++) {
                 Food food = availableFoods.get(i);
                 logger.print((i + 1) + ". " + food.getName() +
-                           " - " + food.getPrice() + " Toman (" + food.getCategory().getDisplayName() + ")");
+                        " - " + food.getPrice() + " Toman (" + food.getCategory().getDisplayName() + ")");
             }
 
             logger.print("");
@@ -429,6 +428,8 @@ public class CustomerMenu extends Menu {
                     break;
                 case "0":
                     return;
+                default:
+                    break;
             }
         }
 
@@ -550,7 +551,7 @@ public class CustomerMenu extends Menu {
         }
 
         OrderItem itemToModify;
-        
+
         // If only one item, skip selection step
         if (cart.getItems().size() == 1) {
             itemToModify = cart.getItems().get(0);
@@ -567,11 +568,11 @@ public class CustomerMenu extends Menu {
 
             try {
                 String input = inputManager.getLine().trim();
-                
+
                 if (input.equals("0")) {
                     return;
                 }
-                
+
                 int itemIndex = Integer.parseInt(input) - 1;
                 if (itemIndex >= 0 && itemIndex < cart.getItems().size()) {
                     itemToModify = cart.getItems().get(itemIndex);
@@ -590,18 +591,18 @@ public class CustomerMenu extends Menu {
 
         try {
             String quantityInput = inputManager.getLine().trim();
-            
+
             if (quantityInput.equalsIgnoreCase("back")) {
                 return;
             }
-            
+
             int newQuantity = Integer.parseInt(quantityInput);
-            
+
             if (newQuantity < 0) {
                 logger.error("Quantity cannot be negative!");
                 return;
             }
-            
+
             cartManager.changeQuantity(itemToModify, newQuantity);
 
             if (newQuantity == 0) {
@@ -633,11 +634,11 @@ public class CustomerMenu extends Menu {
 
         try {
             String input = inputManager.getLine().trim();
-            
+
             if (input.equals("0")) {
                 return;
             }
-            
+
             int itemIndex = Integer.parseInt(input) - 1;
             if (itemIndex >= 0 && itemIndex < cart.getItems().size()) {
                 OrderItem item = cart.getItems().get(itemIndex);
@@ -1048,7 +1049,7 @@ public class CustomerMenu extends Menu {
 
         List<Order> activeOrders = orderManager.getOrdersByCustomer(customer).stream()
                 .filter(o -> o.getStatus() != ir.ac.kntu.models.enums.OrderStatus.DELIVERED &&
-                           o.getStatus() != ir.ac.kntu.models.enums.OrderStatus.CANCELLED)
+                        o.getStatus() != ir.ac.kntu.models.enums.OrderStatus.CANCELLED)
                 .toList();
 
         if (activeOrders.isEmpty()) {
@@ -1060,15 +1061,15 @@ public class CustomerMenu extends Menu {
 
         // Use pagination to display orders and allow selection
         int selectedIndex = paginationUtility.displayPaginatedList(
-            activeOrders,
-            (order, index) -> {
-                logger.print("Order #" + order.getId() + " - " + order.getRestaurant().getName());
-                logger.print("   Status: " + order.getStatus().getDisplayName());
-                logger.print("   Total: " + order.getFinalAmount() + " Toman");
-                logger.print("   Time: " + order.getOrderTime().toLocalDate() + " " +
-                           order.getOrderTime().toLocalTime().toString().substring(0, 5));
-                logger.print("");
-            }
+                activeOrders,
+                (order, index) -> {
+                    logger.print("Order #" + order.getId() + " - " + order.getRestaurant().getName());
+                    logger.print("   Status: " + order.getStatus().getDisplayName());
+                    logger.print("   Total: " + order.getFinalAmount() + " Toman");
+                    logger.print("   Time: " + order.getOrderTime().toLocalDate() + " " +
+                            order.getOrderTime().toLocalTime().toString().substring(0, 5));
+                    logger.print("");
+                }
         );
 
         // If user selected an order, interact with it
@@ -1079,7 +1080,7 @@ public class CustomerMenu extends Menu {
 
     private void interactWithActiveOrder(Order order) {
         Logger logger = Logger.getInstance();
-        
+
         logger.print("\n--- ORDER #" + order.getId() + " ---", TextColor.CYAN);
         logger.print("Restaurant: " + order.getRestaurant().getName());
         logger.print("Status: " + order.getStatus().getDisplayName());
@@ -1110,7 +1111,7 @@ public class CustomerMenu extends Menu {
                 logger.print("\n" + order.getInvoice());
             }
         }
-        
+
         logger.print("Press Enter to continue...");
         inputManager.getLine();
     }
@@ -1123,7 +1124,7 @@ public class CustomerMenu extends Menu {
 
         List<Order> orderHistory = orderManager.getOrdersByCustomer(customer).stream()
                 .filter(o -> o.getStatus() == ir.ac.kntu.models.enums.OrderStatus.DELIVERED ||
-                           o.getStatus() == ir.ac.kntu.models.enums.OrderStatus.CANCELLED)
+                        o.getStatus() == ir.ac.kntu.models.enums.OrderStatus.CANCELLED)
                 .toList();
 
         if (orderHistory.isEmpty()) {
@@ -1135,24 +1136,24 @@ public class CustomerMenu extends Menu {
 
         // Use pagination to display order history and allow selection
         int selectedIndex = paginationUtility.displayPaginatedList(
-            orderHistory,
-            (order, index) -> {
-                logger.print("Order #" + order.getId() + " - " + order.getRestaurant().getName());
-                logger.print("   Status: " + order.getStatus().getDisplayName());
-                logger.print("   Total: " + order.getFinalAmount() + " Toman");
-                logger.print("   Date: " + order.getOrderTime().toLocalDate());
-                
-                // Show review status for delivered orders
-                if (order.getStatus() == ir.ac.kntu.models.enums.OrderStatus.DELIVERED) {
-                    if (order.getReviewRating() > 0) {
-                        logger.print("   Rating: " + order.getReviewRating() + "/5 stars");
-                        if (order.getReviewComment() != null) {
-                            logger.print("   Comment: " + order.getReviewComment());
+                orderHistory,
+                (order, index) -> {
+                    logger.print("Order #" + order.getId() + " - " + order.getRestaurant().getName());
+                    logger.print("   Status: " + order.getStatus().getDisplayName());
+                    logger.print("   Total: " + order.getFinalAmount() + " Toman");
+                    logger.print("   Date: " + order.getOrderTime().toLocalDate());
+
+                    // Show review status for delivered orders
+                    if (order.getStatus() == ir.ac.kntu.models.enums.OrderStatus.DELIVERED) {
+                        if (order.getReviewRating() > 0) {
+                            logger.print("   Rating: " + order.getReviewRating() + "/5 stars");
+                            if (order.getReviewComment() != null) {
+                                logger.print("   Comment: " + order.getReviewComment());
+                            }
                         }
                     }
+                    logger.print("");
                 }
-                logger.print("");
-            }
         );
 
         // If user selected an order, interact with it
@@ -1163,7 +1164,7 @@ public class CustomerMenu extends Menu {
 
     private void interactWithOrderHistory(Order order) {
         Logger logger = Logger.getInstance();
-        
+
         logger.print("\n--- ORDER #" + order.getId() + " ---", TextColor.CYAN);
         logger.print("Restaurant: " + order.getRestaurant().getName());
         logger.print("Status: " + order.getStatus().getDisplayName());
@@ -1191,7 +1192,7 @@ public class CustomerMenu extends Menu {
 
         String choice = inputManager.getLine();
         if (choice.equals("1") && order.getStatus() == ir.ac.kntu.models.enums.OrderStatus.DELIVERED &&
-            order.getReviewRating() == 0) {
+                order.getReviewRating() == 0) {
             leaveReview(order);
         } else if (choice.equals("2")) {
             logger.print("\n" + order.getInvoice());

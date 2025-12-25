@@ -55,7 +55,7 @@ public class OrderManager {
     }
 
     public Order createOrder(User customer, Restaurant restaurant, List<OrderItem> items,
-                           double deliveryCost, Address deliveryAddress) {
+                             double deliveryCost, Address deliveryAddress) {
         Order order = new Order(customer, restaurant, items, deliveryCost, deliveryAddress);
         order.setId(orders.size() + 1);
         orders.add(order);

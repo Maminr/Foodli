@@ -179,15 +179,15 @@ public class RestaurantManager {
 
         // Add restaurants that match by name
         for (TextSimilarity.SearchResult match : restaurantMatches) {
-            if (match.score > 0.3) { // Minimum similarity threshold
-                results.addAll(findRestaurantsByName(match.text));
+            if (match.getScore() > 0.3) { // Minimum similarity threshold
+                results.addAll(findRestaurantsByName(match.getText()));
             }
         }
 
         // Add restaurants that have matching foods
         for (TextSimilarity.SearchResult match : foodMatches) {
-            if (match.score > 0.3) { // Minimum similarity threshold
-                results.addAll(findRestaurantsByFoodName(match.text));
+            if (match.getScore() > 0.3) { // Minimum similarity threshold
+                results.addAll(findRestaurantsByFoodName(match.getText()));
             }
         }
 

@@ -38,7 +38,7 @@ public class Order {
     private int reviewRating;
 
     public Order(User customer, Restaurant restaurant, List<OrderItem> items,
-                double deliveryCost, Address deliveryAddress) {
+                 double deliveryCost, Address deliveryAddress) {
         this.customer = customer;
         this.restaurant = restaurant;
         this.items = items != null ? items : new ArrayList<>();
@@ -49,41 +49,85 @@ public class Order {
     }
 
     // Getters and setters
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public int getId() {
+        return id;
+    }
 
-    public User getCustomer() { return customer; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public Restaurant getRestaurant() { return restaurant; }
-    public void setRestaurant(Restaurant restaurant) { this.restaurant = restaurant; }
+    public User getCustomer() {
+        return customer;
+    }
 
-    public List<OrderItem> getItems() { return items; }
-    public void setItems(List<OrderItem> items) { this.items = items; }
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
+    public List<OrderItem> getItems() {
+        return items;
+    }
+
+    public void setItems(List<OrderItem> items) {
+        this.items = items;
+    }
 
     public double getItemsTotal() {
         return items.stream().mapToDouble(OrderItem::getTotalPrice).sum();
     }
 
-    public double getDeliveryCost() { return deliveryCost; }
-    public void setDeliveryCost(double deliveryCost) { this.deliveryCost = deliveryCost; }
+    public double getDeliveryCost() {
+        return deliveryCost;
+    }
+
+    public void setDeliveryCost(double deliveryCost) {
+        this.deliveryCost = deliveryCost;
+    }
 
     public double getFinalAmount() {
         return getItemsTotal() + deliveryCost;
     }
 
-    public Address getDeliveryAddress() { return deliveryAddress; }
-    public void setDeliveryAddress(Address deliveryAddress) { this.deliveryAddress = deliveryAddress; }
+    public Address getDeliveryAddress() {
+        return deliveryAddress;
+    }
 
-    public OrderStatus getStatus() { return status; }
-    public void setStatus(OrderStatus status) { this.status = status; }
+    public void setDeliveryAddress(Address deliveryAddress) {
+        this.deliveryAddress = deliveryAddress;
+    }
 
-    public LocalDateTime getOrderTime() { return orderTime; }
+    public OrderStatus getStatus() {
+        return status;
+    }
 
-    public String getReviewComment() { return reviewComment; }
-    public void setReviewComment(String reviewComment) { this.reviewComment = reviewComment; }
+    public void setStatus(OrderStatus status) {
+        this.status = status;
+    }
 
-    public int getReviewRating() { return reviewRating; }
-    public void setReviewRating(int reviewRating) { this.reviewRating = reviewRating; }
+    public LocalDateTime getOrderTime() {
+        return orderTime;
+    }
+
+    public String getReviewComment() {
+        return reviewComment;
+    }
+
+    public void setReviewComment(String reviewComment) {
+        this.reviewComment = reviewComment;
+    }
+
+    public int getReviewRating() {
+        return reviewRating;
+    }
+
+    public void setReviewRating(int reviewRating) {
+        this.reviewRating = reviewRating;
+    }
 
     public void addItem(OrderItem item) {
         items.add(item);
@@ -103,8 +147,8 @@ public class Order {
         invoice.append("Items:\n");
         for (OrderItem item : items) {
             invoice.append("- ").append(item.getFood().getName())
-                   .append(" x").append(item.getQuantity())
-                   .append(" = ").append(item.getTotalPrice()).append(" Toman\n");
+                    .append(" x").append(item.getQuantity())
+                    .append(" = ").append(item.getTotalPrice()).append(" Toman\n");
         }
 
         invoice.append("\nItems Total: ").append(getItemsTotal()).append(" Toman\n");

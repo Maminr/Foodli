@@ -74,8 +74,8 @@ public class HTMLReportGenerator {
         Map<String, Double> monthlyRevenue = restaurantOrders.stream()
                 .filter(o -> o.getStatus() != OrderStatus.CANCELLED)
                 .collect(Collectors.groupingBy(
-                    o -> o.getOrderTime().format(DateTimeFormatter.ofPattern("yyyy-MM")),
-                    Collectors.summingDouble(Order::getFinalAmount)
+                        o -> o.getOrderTime().format(DateTimeFormatter.ofPattern("yyyy-MM")),
+                        Collectors.summingDouble(Order::getFinalAmount)
                 ));
 
         StringBuilder html = new StringBuilder();
@@ -114,10 +114,10 @@ public class HTMLReportGenerator {
                     html.append("<td>").append(order.getId()).append("</td>\n");
                     html.append("<td>").append(order.getOrderTime().toLocalDate()).append("</td>\n");
                     html.append("<td class='status-").append(order.getStatus().name().toLowerCase()).append("'>")
-                        .append(order.getStatus().getDisplayName()).append("</td>\n");
+                            .append(order.getStatus().getDisplayName()).append("</td>\n");
                     html.append("<td>").append(String.format("%,.0f", order.getFinalAmount())).append("</td>\n");
                     html.append("<td>").append(order.getCustomer().getName()).append(" ")
-                        .append(order.getCustomer().getLastName()).append("</td>\n");
+                            .append(order.getCustomer().getLastName()).append("</td>\n");
                     html.append("</tr>\n");
                 });
 
@@ -137,16 +137,16 @@ public class HTMLReportGenerator {
                 .filter(o -> o.getStatus() != OrderStatus.CANCELLED)
                 .flatMap(o -> o.getItems().stream())
                 .collect(Collectors.groupingBy(
-                    item -> item.getFood().getName(),
-                    Collectors.summingLong(OrderItem::getQuantity)
+                        item -> item.getFood().getName(),
+                        Collectors.summingLong(OrderItem::getQuantity)
                 ));
 
         Map<String, Double> itemRevenue = restaurantOrders.stream()
                 .filter(o -> o.getStatus() != OrderStatus.CANCELLED)
                 .flatMap(o -> o.getItems().stream())
                 .collect(Collectors.groupingBy(
-                    item -> item.getFood().getName(),
-                    Collectors.summingDouble(item -> item.getTotalPrice())
+                        item -> item.getFood().getName(),
+                        Collectors.summingDouble(item -> item.getTotalPrice())
                 ));
 
         itemOrderCount.entrySet().stream()
@@ -220,7 +220,7 @@ public class HTMLReportGenerator {
         html.append("<div class='card'><h3>Active Orders</h3><p class='large'>").append(activeOrders).append("</p></div>\n");
         html.append("<div class='card'><h3>Completed Orders</h3><p class='large'>").append(totalOrders - activeOrders).append("</p></div>\n");
         html.append("<div class='card'><h3>Avg Order Value</h3><p class='large'>")
-            .append(String.format("%,.0f", totalOrders > 0 ? totalRevenue / totalOrders : 0)).append(" Toman</p></div>\n");
+                .append(String.format("%,.0f", totalOrders > 0 ? totalRevenue / totalOrders : 0)).append(" Toman</p></div>\n");
         html.append("</div>\n");
 
         // Restaurant Performance Table
@@ -256,157 +256,157 @@ public class HTMLReportGenerator {
 
     private static String getHTMLHeader(String title) {
         return """
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>""" + title + """
-                </title>
-                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-                <style>
-                    * {
-                        margin: 0;
-                        padding: 0;
-                        box-sizing: border-box;
-                    }
-
-                    body {
-                        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                        min-height: 100vh;
-                        padding: 20px;
-                    }
-
-                    .container {
-                        max-width: 1200px;
-                        margin: 0 auto;
-                        background: white;
-                        border-radius: 15px;
-                        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-                        padding: 30px;
-                    }
-
-                    h1 {
-                        color: #333;
-                        margin-bottom: 10px;
-                        text-align: center;
-                        font-size: 2.5em;
-                    }
-
-                    h2 {
-                        color: #444;
-                        margin: 30px 0 20px 0;
-                        border-bottom: 3px solid #667eea;
-                        padding-bottom: 10px;
-                    }
-
-                    .date {
-                        text-align: center;
-                        color: #666;
-                        margin-bottom: 30px;
-                        font-style: italic;
-                    }
-
-                    .summary-cards {
-                        display: grid;
-                        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-                        gap: 20px;
-                        margin-bottom: 40px;
-                    }
-
-                    .card {
-                        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                        color: white;
-                        padding: 25px;
-                        border-radius: 10px;
-                        text-align: center;
-                        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-                        transition: transform 0.3s ease;
-                    }
-
-                    .card:hover {
-                        transform: translateY(-5px);
-                    }
-
-                    .card h3 {
-                        margin-bottom: 15px;
-                        font-size: 0.9em;
-                        opacity: 0.9;
-                        text-transform: uppercase;
-                        letter-spacing: 1px;
-                    }
-
-                    .card .large {
-                        font-size: 2em;
-                        font-weight: bold;
-                    }
-
-                    .table-container {
-                        margin-bottom: 40px;
-                        overflow-x: auto;
-                    }
-
-                    table {
-                        width: 100%;
-                        border-collapse: collapse;
-                        background: white;
-                        border-radius: 8px;
-                        overflow: hidden;
-                        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-                    }
-
-                    th, td {
-                        padding: 12px 15px;
-                        text-align: left;
-                        border-bottom: 1px solid #ddd;
-                    }
-
-                    th {
-                        background: #667eea;
-                        color: white;
-                        font-weight: 600;
-                        text-transform: uppercase;
-                        font-size: 0.8em;
-                        letter-spacing: 0.5px;
-                    }
-
-                    tr:nth-child(even) {
-                        background: #f8f9fa;
-                    }
-
-                    tr:hover {
-                        background: #e3f2fd;
-                        transition: background 0.3s ease;
-                    }
-
-                    .status-delivered { color: #4caf50; font-weight: bold; }
-                    .status-preparing { color: #ff9800; font-weight: bold; }
-                    .status-sent { color: #2196f3; font-weight: bold; }
-                    .status-registered { color: #9c27b0; font-weight: bold; }
-                    .status-cancelled { color: #f44336; font-weight: bold; }
-
-                    .chart-container {
-                        margin: 40px 0;
-                        text-align: center;
-                    }
-
-                    @media (max-width: 768px) {
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>""" + title + """
+                    </title>
+                    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                    <style>
+                        * {
+                            margin: 0;
+                            padding: 0;
+                            box-sizing: border-box;
+                        }
+                
+                        body {
+                            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                            min-height: 100vh;
+                            padding: 20px;
+                        }
+                
                         .container {
-                            padding: 15px;
+                            max-width: 1200px;
+                            margin: 0 auto;
+                            background: white;
+                            border-radius: 15px;
+                            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+                            padding: 30px;
                         }
-
-                        .summary-cards {
-                            grid-template-columns: 1fr;
-                        }
-
+                
                         h1 {
-                            font-size: 2em;
+                            color: #333;
+                            margin-bottom: 10px;
+                            text-align: center;
+                            font-size: 2.5em;
                         }
-                    }
-                </style>
-            </head>
-            """;
+                
+                        h2 {
+                            color: #444;
+                            margin: 30px 0 20px 0;
+                            border-bottom: 3px solid #667eea;
+                            padding-bottom: 10px;
+                        }
+                
+                        .date {
+                            text-align: center;
+                            color: #666;
+                            margin-bottom: 30px;
+                            font-style: italic;
+                        }
+                
+                        .summary-cards {
+                            display: grid;
+                            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                            gap: 20px;
+                            margin-bottom: 40px;
+                        }
+                
+                        .card {
+                            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                            color: white;
+                            padding: 25px;
+                            border-radius: 10px;
+                            text-align: center;
+                            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                            transition: transform 0.3s ease;
+                        }
+                
+                        .card:hover {
+                            transform: translateY(-5px);
+                        }
+                
+                        .card h3 {
+                            margin-bottom: 15px;
+                            font-size: 0.9em;
+                            opacity: 0.9;
+                            text-transform: uppercase;
+                            letter-spacing: 1px;
+                        }
+                
+                        .card .large {
+                            font-size: 2em;
+                            font-weight: bold;
+                        }
+                
+                        .table-container {
+                            margin-bottom: 40px;
+                            overflow-x: auto;
+                        }
+                
+                        table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            background: white;
+                            border-radius: 8px;
+                            overflow: hidden;
+                            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+                        }
+                
+                        th, td {
+                            padding: 12px 15px;
+                            text-align: left;
+                            border-bottom: 1px solid #ddd;
+                        }
+                
+                        th {
+                            background: #667eea;
+                            color: white;
+                            font-weight: 600;
+                            text-transform: uppercase;
+                            font-size: 0.8em;
+                            letter-spacing: 0.5px;
+                        }
+                
+                        tr:nth-child(even) {
+                            background: #f8f9fa;
+                        }
+                
+                        tr:hover {
+                            background: #e3f2fd;
+                            transition: background 0.3s ease;
+                        }
+                
+                        .status-delivered { color: #4caf50; font-weight: bold; }
+                        .status-preparing { color: #ff9800; font-weight: bold; }
+                        .status-sent { color: #2196f3; font-weight: bold; }
+                        .status-registered { color: #9c27b0; font-weight: bold; }
+                        .status-cancelled { color: #f44336; font-weight: bold; }
+                
+                        .chart-container {
+                            margin: 40px 0;
+                            text-align: center;
+                        }
+                
+                        @media (max-width: 768px) {
+                            .container {
+                                padding: 15px;
+                            }
+                
+                            .summary-cards {
+                                grid-template-columns: 1fr;
+                            }
+                
+                            h1 {
+                                font-size: 2em;
+                            }
+                        }
+                    </style>
+                </head>
+                """;
     }
 
     private static String getChartScript(Map<String, Double> monthlyData) {
@@ -422,49 +422,49 @@ public class HTMLReportGenerator {
                 });
 
         return """
-            <script>
-                const ctx = document.getElementById('revenueChart').getContext('2d');
-                new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: [""" + labels + """
-                        ],
-                        datasets: [{
-                            label: 'Monthly Revenue (Toman)',
-                            data: [""" + data + """
-                            ],
-                            borderColor: '#667eea',
-                            backgroundColor: 'rgba(102, 126, 234, 0.1)',
-                            borderWidth: 3,
-                            fill: true,
-                            tension: 0.4
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                position: 'top',
-                            },
-                            title: {
-                                display: true,
-                                text: 'Monthly Revenue Trend'
-                            }
+                <script>
+                    const ctx = document.getElementById('revenueChart').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: [""" + labels + """
+                ],
+                datasets: [{
+                    label: 'Monthly Revenue (Toman)',
+                    data: [""" + data + """
+                                ],
+                                borderColor: '#667eea',
+                                backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                                borderWidth: 3,
+                                fill: true,
+                                tension: 0.4
+                            }]
                         },
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                ticks: {
-                                    callback: function(value) {
-                                        return value.toLocaleString() + ' T';
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Monthly Revenue Trend'
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    ticks: {
+                                        callback: function(value) {
+                                            return value.toLocaleString() + ' T';
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
-                });
-            </script>
-            """;
+                    });
+                </script>
+                """;
     }
 
     private static void writeToFile(String filename, String content) {

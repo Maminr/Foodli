@@ -16,6 +16,7 @@ public class TextSimilarity {
 
     /**
      * Calculate Levenshtein distance between two strings
+     *
      * @param str1 First string
      * @param str2 Second string
      * @return Edit distance between strings
@@ -23,14 +24,18 @@ public class TextSimilarity {
     public static int levenshteinDistance(String str1, String str2) {
         if (str1 == null || str2 == null) {
             return Math.max(str1 == null ? 0 : str1.length(),
-                          str2 == null ? 0 : str2.length());
+                    str2 == null ? 0 : str2.length());
         }
 
         int len1 = str1.length();
         int len2 = str2.length();
 
-        if (len1 == 0) return len2;
-        if (len2 == 0) return len1;
+        if (len1 == 0) {
+            return len2;
+        }
+        if (len2 == 0) {
+            return len1;
+        }
 
         int[][] matrix = new int[len1 + 1][len2 + 1];
 
@@ -48,9 +53,9 @@ public class TextSimilarity {
                 int cost = (str1.charAt(i - 1) == str2.charAt(j - 1)) ? 0 : 1;
 
                 matrix[i][j] = Math.min(
-                    Math.min(matrix[i - 1][j] + 1,      // deletion
-                           matrix[i][j - 1] + 1),      // insertion
-                    matrix[i - 1][j - 1] + cost);     // substitution
+                        Math.min(matrix[i - 1][j] + 1,      // deletion
+                                matrix[i][j - 1] + 1),      // insertion
+                        matrix[i - 1][j - 1] + cost);     // substitution
             }
         }
 
@@ -59,15 +64,20 @@ public class TextSimilarity {
 
     /**
      * Calculate similarity score based on Levenshtein distance
+     *
      * @param str1 First string
      * @param str2 Second string
      * @return Similarity score between 0.0 and 1.0
      */
     public static double levenshteinSimilarity(String str1, String str2) {
-        if (str1 == null || str2 == null) return 0.0;
+        if (str1 == null || str2 == null) {
+            return 0.0;
+        }
 
         int maxLength = Math.max(str1.length(), str2.length());
-        if (maxLength == 0) return 1.0;
+        if (maxLength == 0) {
+            return 1.0;
+        }
 
         int distance = levenshteinDistance(str1, str2);
         return 1.0 - (double) distance / maxLength;
@@ -75,18 +85,25 @@ public class TextSimilarity {
 
     /**
      * Calculate Jaccard similarity between two strings (treating them as sets of words)
+     *
      * @param str1 First string
      * @param str2 Second string
      * @return Jaccard similarity score between 0.0 and 1.0
      */
     public static double jaccardSimilarity(String str1, String str2) {
-        if (str1 == null || str2 == null) return 0.0;
+        if (str1 == null || str2 == null) {
+            return 0.0;
+        }
 
         Set<String> set1 = tokenizeAndNormalize(str1);
         Set<String> set2 = tokenizeAndNormalize(str2);
 
-        if (set1.isEmpty() && set2.isEmpty()) return 1.0;
-        if (set1.isEmpty() || set2.isEmpty()) return 0.0;
+        if (set1.isEmpty() && set2.isEmpty()) {
+            return 1.0;
+        }
+        if (set1.isEmpty() || set2.isEmpty()) {
+            return 0.0;
+        }
 
         Set<String> intersection = new HashSet<>(set1);
         intersection.retainAll(set2);
@@ -99,12 +116,15 @@ public class TextSimilarity {
 
     /**
      * Calculate overall similarity score combining multiple algorithms
-     * @param query Search query
+     *
+     * @param query  Search query
      * @param target Target string to compare
      * @return Combined similarity score
      */
     public static double combinedSimilarity(String query, String target) {
-        if (query == null || target == null) return 0.0;
+        if (query == null || target == null) {
+            return 0.0;
+        }
 
         // Normalize strings
         String normQuery = normalizeString(query);
@@ -130,7 +150,8 @@ public class TextSimilarity {
 
     /**
      * Find best matches for a query from a list of candidates
-     * @param query Search query
+     *
+     * @param query      Search query
      * @param candidates List of candidate strings
      * @param maxResults Maximum number of results to return
      * @return List of matches sorted by similarity score
@@ -146,7 +167,7 @@ public class TextSimilarity {
         }
 
         // Sort by score descending
-        results.sort((a, b) -> Double.compare(b.score, a.score));
+        results.sort((a, b) -> Double.compare(b.getScore(), a.getScore()));
 
         // Return top results
         return results.subList(0, Math.min(maxResults, results.size()));
@@ -154,8 +175,9 @@ public class TextSimilarity {
 
     /**
      * Generate autocomplete suggestions based on partial input
-     * @param partial Partial input string
-     * @param candidates List of possible completions
+     *
+     * @param partial        Partial input string
+     * @param candidates     List of possible completions
      * @param maxSuggestions Maximum number of suggestions
      * @return List of autocomplete suggestions
      */
@@ -196,12 +218,20 @@ public class TextSimilarity {
      * Search result with score
      */
     public static class SearchResult {
-        public final String text;
-        public final double score;
+        private final String text;
+        private final double score;
 
         public SearchResult(String text, double score) {
             this.text = text;
             this.score = score;
+        }
+
+        public String getText() {
+            return text;
+        }
+
+        public double getScore() {
+            return score;
         }
 
         @Override

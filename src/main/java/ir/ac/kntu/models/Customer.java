@@ -16,8 +16,13 @@ public class Customer extends User {
         this.addresses = new ArrayList<>();
     }
 
-    public double getWallet() { return wallet; }
-    public void setWallet(double wallet) { this.wallet = wallet; }
+    public double getWallet() {
+        return wallet;
+    }
+
+    public void setWallet(double wallet) {
+        this.wallet = wallet;
+    }
 
     public void addToWallet(double amount) {
         this.wallet += amount;
@@ -31,8 +36,13 @@ public class Customer extends User {
         return false;
     }
 
-    public List<Address> getAddresses() { return addresses; }
-    public void setAddresses(List<Address> addresses) { this.addresses = addresses; }
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
+    }
 
     public void addAddress(Address address) {
         address.setId(addresses.size() + 1);

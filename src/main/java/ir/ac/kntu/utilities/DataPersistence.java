@@ -78,7 +78,7 @@ public class DataPersistence {
         try {
             // First, save all current data to CSV files
             saveAllData();
-            
+
             // Create backup directory
             Files.createDirectories(Paths.get(backupDir));
 
@@ -137,19 +137,21 @@ public class DataPersistence {
             for (User user : UserManager.getInstance().getUsers()) {
                 String wallet = user instanceof Customer ? String.valueOf(((Customer) user).getWallet()) : "0";
                 writer.printf("%d,%s,%s,%s,%s,%s%n",
-                    user.getId(),
-                    escapeCSV(user.getName()),
-                    escapeCSV(user.getLastName()),
-                    user.getPhoneNumber(),
-                    user.getRole().toString(),
-                    wallet);
+                        user.getId(),
+                        escapeCSV(user.getName()),
+                        escapeCSV(user.getLastName()),
+                        user.getPhoneNumber(),
+                        user.getRole().toString(),
+                        wallet);
             }
         }
     }
 
     private static void loadUsers() throws IOException {
         File file = new File(DATA_DIR + "/users.csv");
-        if (!file.exists()) return;
+        if (!file.exists()) {
+            return;
+        }
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line = reader.readLine(); // Skip header
@@ -169,22 +171,24 @@ public class DataPersistence {
             for (Restaurant restaurant : RestaurantManager.getInstance().getAllRestaurants()) {
                 String foodTypes = restaurant.getFoodTypes().toString().replace("[", "").replace("]", "");
                 writer.printf("%d,%s,%s,%s,%d,%s,%.1f,%.0f,%s%n",
-                    restaurant.getId(),
-                    escapeCSV(restaurant.getName()),
-                    restaurant.getManager().getPhoneNumber(),
-                    escapeCSV(restaurant.getAddress()),
-                    restaurant.getZoneNumber(),
-                    restaurant.getStatus().toString(),
-                    restaurant.getRating(),
-                    restaurant.getWallet(),
-                    escapeCSV(foodTypes));
+                        restaurant.getId(),
+                        escapeCSV(restaurant.getName()),
+                        restaurant.getManager().getPhoneNumber(),
+                        escapeCSV(restaurant.getAddress()),
+                        restaurant.getZoneNumber(),
+                        restaurant.getStatus().toString(),
+                        restaurant.getRating(),
+                        restaurant.getWallet(),
+                        escapeCSV(foodTypes));
             }
         }
     }
 
     private static void loadRestaurants() throws IOException {
         File file = new File(DATA_DIR + "/restaurants.csv");
-        if (!file.exists()) return;
+        if (!file.exists()) {
+            return;
+        }
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line = reader.readLine(); // Skip header
@@ -202,21 +206,23 @@ public class DataPersistence {
             writer.println("ID,CustomerPhone,RestaurantName,Status,OrderTime,TotalAmount,DeliveryCost,FinalAmount");
             for (Order order : OrderManager.getInstance().getAllOrders()) {
                 writer.printf("%d,%s,%s,%s,%s,%.0f,%.0f,%.0f%n",
-                    order.getId(),
-                    order.getCustomer().getPhoneNumber(),
-                    escapeCSV(order.getRestaurant().getName()),
-                    order.getStatus().toString(),
-                    order.getOrderTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
-                    order.getItemsTotal(),
-                    order.getDeliveryCost(),
-                    order.getFinalAmount());
+                        order.getId(),
+                        order.getCustomer().getPhoneNumber(),
+                        escapeCSV(order.getRestaurant().getName()),
+                        order.getStatus().toString(),
+                        order.getOrderTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
+                        order.getItemsTotal(),
+                        order.getDeliveryCost(),
+                        order.getFinalAmount());
             }
         }
     }
 
     private static void loadOrders() throws IOException {
         File file = new File(DATA_DIR + "/orders.csv");
-        if (!file.exists()) return;
+        if (!file.exists()) {
+            return;
+        }
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line = reader.readLine(); // Skip header
@@ -236,7 +242,7 @@ public class DataPersistence {
         try {
             // First, save all current data to CSV files
             saveAllData();
-            
+
             String csvDir = DATA_DIR + "/export";
             Files.createDirectories(Paths.get(csvDir));
 
@@ -265,41 +271,43 @@ public class DataPersistence {
     private static void copyFile(String sourceName, String destPath) throws IOException {
         java.nio.file.Path sourcePath = Paths.get(DATA_DIR + "/" + sourceName);
         java.nio.file.Path destFilePath = Paths.get(destPath);
-        
+
         // Check if source file exists
         if (!Files.exists(sourcePath)) {
             throw new IOException("Source file does not exist: " + sourcePath);
         }
-        
+
         // Create parent directories if they don't exist
         Files.createDirectories(destFilePath.getParent());
-        
+
         // Copy file, replace if exists
         Files.copy(sourcePath, destFilePath, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
     }
-    
+
     /**
      * Copy file from backup directory to data directory
      */
     private static void copyFileFromBackup(String sourcePath, String destPath) throws IOException {
         java.nio.file.Path sourceFilePath = Paths.get(sourcePath);
         java.nio.file.Path destFilePath = Paths.get(destPath);
-        
+
         // Check if source file exists
         if (!Files.exists(sourceFilePath)) {
             System.out.println("Warning: Backup file not found, skipping: " + sourcePath);
             return;
         }
-        
+
         // Create parent directories if they don't exist
         Files.createDirectories(destFilePath.getParent());
-        
+
         // Copy file, replace if exists
         Files.copy(sourceFilePath, destFilePath, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
     }
 
     private static String escapeCSV(String value) {
-        if (value == null) return "";
+        if (value == null) {
+            return "";
+        }
         if (value.contains(",") || value.contains("\"") || value.contains("\n")) {
             return "\"" + value.replace("\"", "\"\"") + "\"";
         }
@@ -310,7 +318,7 @@ public class DataPersistence {
         // Simple CSV parser (doesn't handle all edge cases)
         return line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
     }
-    
+
     /**
      * List all available backups
      */
@@ -320,9 +328,9 @@ public class DataPersistence {
             java.nio.file.Path backupsDir = Paths.get(DATA_DIR + "/backups");
             if (Files.exists(backupsDir)) {
                 Files.list(backupsDir)
-                    .filter(Files::isDirectory)
-                    .map(path -> path.getFileName().toString())
-                    .forEach(backups::add);
+                        .filter(Files::isDirectory)
+                        .map(path -> path.getFileName().toString())
+                        .forEach(backups::add);
             }
         } catch (IOException e) {
             System.err.println("Error listing backups: " + e.getMessage());

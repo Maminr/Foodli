@@ -114,7 +114,7 @@ class TextSimilarityTest {
         
         // Check that results are sorted by score (descending)
         for (int i = 0; i < results.size() - 1; i++) {
-            assertTrue(results.get(i).score >= results.get(i + 1).score);
+            assertTrue(results.get(i).getScore() >= results.get(i + 1).getScore());
         }
     }
 

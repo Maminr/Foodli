@@ -13,9 +13,9 @@ public class AboutUsMenu extends Menu {
 
     public AboutUsMenu() {
         super("ABOUT FOODLI");
-        items.add(new MenuItem("1","Who we are", TextColor.CYAN,this::printWhoWeAre));
-        items.add(new MenuItem("2","Contact Support", TextColor.PURPLE,this::printContactInfo));
-        items.add(new MenuItem("3","Back", TextColor.RED, MenuItemAction.BACK));
+        items.add(new MenuItem("1", "Who we are", TextColor.CYAN, this::printWhoWeAre));
+        items.add(new MenuItem("2", "Contact Support", TextColor.PURPLE, this::printContactInfo));
+        items.add(new MenuItem("3", "Back", TextColor.RED, MenuItemAction.BACK));
     }
 
     private void printWhoWeAre() {

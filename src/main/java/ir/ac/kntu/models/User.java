@@ -20,14 +20,37 @@ public abstract class User {
 
     public abstract void showMenu();
 
-    public String getPhoneNumber() { return phoneNumber; }
-    public String getPassword() { return password; }
-    public String getFullName() { return name + " " + lastName; }
-    public UserRole getRole() { return role; }
-    public void setId(Long id) { this.id = id; }
-    public Long getId() { return id; }
-    public String getName() { return name; }
-    public String getLastName() { return lastName; }
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getFullName() {
+        return name + " " + lastName;
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
 
     @Override
     public String toString() {

@@ -8,7 +8,6 @@ import ir.ac.kntu.utilities.MenuPrinter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public abstract class Menu {
     private Logger logger = Logger.getInstance();
@@ -31,8 +30,7 @@ public abstract class Menu {
                 item.getRunnable().run();
                 if (item.getActionAfterExecution() == MenuItemAction.BACK) {
                     return;
-                }
-                else if (item.getActionAfterExecution() == MenuItemAction.EXIT) {
+                } else if (item.getActionAfterExecution() == MenuItemAction.EXIT) {
                     System.exit(0);
                 }
             } else {

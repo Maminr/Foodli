@@ -43,7 +43,7 @@ public class UserManager {
 
     private long idCounter = 1;
 
-    
+
     private UserManager() {
         users = new ArrayList<>();
 
@@ -67,7 +67,7 @@ public class UserManager {
 
     public User signUpCustomer(String name, String lastName, String phone, String password) {
         if (findUserByPhoneNumber(phone) != null) {
-            return null ;
+            return null;
         }
 
         Customer newCustomer = new Customer(name, lastName, phone, password);
@@ -89,7 +89,9 @@ public class UserManager {
     }
 
     public User signUpManager(String name, String lastName, String phone, String password) {
-        if (findUserByPhoneNumber(phone) != null) return null;
+        if (findUserByPhoneNumber(phone) != null) {
+            return null;
+        }
 
         Manager newManager = new Manager(name, lastName, phone, password);
         newManager.setId(idCounter++);

@@ -18,14 +18,29 @@ public class OrderItem {
     }
 
     // Getters and setters
-    public Food getFood() { return food; }
-    public void setFood(Food food) { this.food = food; }
+    public Food getFood() {
+        return food;
+    }
 
-    public int getQuantity() { return quantity; }
-    public void setQuantity(int quantity) { this.quantity = quantity; }
+    public void setFood(Food food) {
+        this.food = food;
+    }
 
-    public double getUnitPrice() { return unitPrice; }
-    public void setUnitPrice(double unitPrice) { this.unitPrice = unitPrice; }
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public double getUnitPrice() {
+        return unitPrice;
+    }
+
+    public void setUnitPrice(double unitPrice) {
+        this.unitPrice = unitPrice;
+    }
 
     public double getTotalPrice() {
         return unitPrice * quantity;

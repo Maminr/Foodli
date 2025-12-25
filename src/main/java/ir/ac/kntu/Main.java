@@ -2,7 +2,6 @@ package ir.ac.kntu;
 
 import ir.ac.kntu.handlers.MainMenu;
 import ir.ac.kntu.helper.Logger;
-import ir.ac.kntu.managers.UserManager;
 import ir.ac.kntu.models.enums.TextColor;
 
 public class Main {
