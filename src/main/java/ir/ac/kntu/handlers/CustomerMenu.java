@@ -1144,12 +1144,11 @@ public class CustomerMenu extends Menu {
                     logger.print("   Date: " + order.getOrderTime().toLocalDate());
 
                     // Show review status for delivered orders
-                    if (order.getStatus() == ir.ac.kntu.models.enums.OrderStatus.DELIVERED) {
-                        if (order.getReviewRating() > 0) {
-                            logger.print("   Rating: " + order.getReviewRating() + "/5 stars");
-                            if (order.getReviewComment() != null) {
-                                logger.print("   Comment: " + order.getReviewComment());
-                            }
+                    if (order.getStatus() == ir.ac.kntu.models.enums.OrderStatus.DELIVERED
+                            && order.getReviewRating() > 0) {
+                        logger.print("   Rating: " + order.getReviewRating() + "/5 stars");
+                        if (order.getReviewComment() != null) {
+                            logger.print("   Comment: " + order.getReviewComment());
                         }
                     }
                     logger.print("");

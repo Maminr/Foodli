@@ -142,11 +142,10 @@ public class MainMenu extends Menu {
                 logger.error("Failed to sign up customer.");
                 return;
             }
-        } else if (role == UserRole.RESTAURANT_MANAGER) {
-            if (userManager.signUpManager(name, lastname, phoneNumber, password) == null) {
-                logger.error("Failed to sign up manager.");
-                return;
-            }
+        } else if (role == UserRole.RESTAURANT_MANAGER
+                && userManager.signUpManager(name, lastname, phoneNumber, password) == null) {
+            logger.error("Failed to sign up manager.");
+            return;
         }
 
 

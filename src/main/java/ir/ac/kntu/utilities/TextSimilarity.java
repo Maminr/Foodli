@@ -142,8 +142,12 @@ public class TextSimilarity {
         double score = (levenshtein * 0.4) + (jaccard * 0.4);
 
         // Bonus for exact matches
-        if (containsQuery) score += 0.3;
-        if (startsWithQuery) score += 0.3;
+        if (containsQuery) {
+            score += 0.3;
+        }
+        if (startsWithQuery) {
+            score += 0.3;
+        }
 
         return Math.min(score, 1.0);
     }
