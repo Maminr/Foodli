@@ -26,7 +26,7 @@ class TextSimilarityTest {
     void testLevenshteinDistanceKnownExamples() {
         assertEquals(3, TextSimilarity.levenshteinDistance("kitten", "sitting"));
         assertEquals(1, TextSimilarity.levenshteinDistance("hello", "hallo"));
-        assertEquals(2, TextSimilarity.levenshteinDistance("abc", "xyz"));
+        assertEquals(3, TextSimilarity.levenshteinDistance("abc", "xyz"));
     }
 
     @Test

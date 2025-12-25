@@ -53,7 +53,7 @@ public class RestaurantManager {
 
     public static RestaurantManager getInstance() {
         if (instance == null) {
-            instance = RestaurantManager.instance = new RestaurantManager();
+            instance = new RestaurantManager();
         }
         return instance;
     }

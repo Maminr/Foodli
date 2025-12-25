@@ -37,7 +37,7 @@ public class CartManager {
 
     public static CartManager getInstance() {
         if (instance == null) {
-            instance = CartManager.instance = new CartManager();
+            instance = new CartManager();
         }
         return instance;
     }

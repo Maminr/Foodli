@@ -17,7 +17,7 @@ class PasswordUtilsTest {
         assertTrue(PasswordUtils.isStrongPassword("Password123!"));
         assertTrue(PasswordUtils.isStrongPassword("MyP@ssw0rd"));
         assertTrue(PasswordUtils.isStrongPassword("Test123#"));
-        assertTrue(PasswordUtils.isStrongPassword("Abc123$"));
+        assertTrue(PasswordUtils.isStrongPassword("Abc1234$"));
     }
 
     @Test

@@ -49,7 +49,7 @@ public class OrderManager {
 
     public static OrderManager getInstance() {
         if (instance == null) {
-            instance = OrderManager.instance = new OrderManager();
+            instance = new OrderManager();
         }
         return instance;
     }
