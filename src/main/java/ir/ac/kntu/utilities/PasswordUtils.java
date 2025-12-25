@@ -11,7 +11,6 @@ public class PasswordUtils {
         boolean hasDigit = false;
         boolean hasSpecial = false;
 
-        // Special characters: !@#$%^&*()_+-=[]{}|;':\",./<>?
         String specialChars = "!@#$%^&*()_+-=\\[\\]{}|;':\",./<>?";
 
         for (char c : password.toCharArray()) {

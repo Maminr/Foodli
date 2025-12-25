@@ -86,7 +86,7 @@ public class CustomerMenu extends Menu {
         items.add(new MenuItem("2", "Shopping Cart & Order", TextColor.CYAN, this::handleShoppingCart));
         items.add(new MenuItem("3", "Order Management", TextColor.PURPLE, this::handleOrderManagement));
         items.add(new MenuItem("4", "Account Settings", TextColor.YELLOW, this::handleAccountSettings));
-        items.add(new MenuItem("5", "Logout", TextColor.RED, this::handleLogout));
+        items.add(new MenuItem("0", "Logout", TextColor.RED, this::handleLogout));
     }
 
 
@@ -196,8 +196,6 @@ public class CustomerMenu extends Menu {
         Logger logger = Logger.getInstance();
         logger.print("\n--- ALL RESTAURANTS ---", TextColor.GREEN);
 
-        // ✅ IMPLEMENTED: Display all approved restaurants with sorting and selection
-
         List<Restaurant> restaurants = new ArrayList<>(restaurantManager.getApprovedRestaurants());
         if (restaurants.isEmpty()) {
             logger.print("No restaurants available.", TextColor.YELLOW);
@@ -220,10 +218,8 @@ public class CustomerMenu extends Menu {
             return;
         }
 
-        // Create a mutable copy to avoid UnsupportedOperationException when sorting
         List<Restaurant> mutableRestaurants = new ArrayList<>(restaurants);
 
-        // Sort by rating (descending) by default
         mutableRestaurants.sort(Comparator.comparing(Restaurant::getRating).reversed());
 
         logger.print("Sort options:", TextColor.CYAN);
@@ -279,11 +275,10 @@ public class CustomerMenu extends Menu {
                 return;
             }
 
-            // Group foods by category and display with sequential numbers
             logger.print("Available Items:", TextColor.CYAN);
             List<Food> availableFoods = restaurant.getMenu().stream()
                     .filter(Food::isAvailable)
-                    .collect(java.util.stream.Collectors.toList());
+                    .toList();
 
             if (availableFoods.isEmpty()) {
                 logger.print("No items available at the moment.", TextColor.YELLOW);
@@ -292,7 +287,6 @@ public class CustomerMenu extends Menu {
                 return;
             }
 
-            // Display with sequential numbers (1, 2, 3...)
             for (int i = 0; i < availableFoods.size(); i++) {
                 Food food = availableFoods.get(i);
                 logger.print((i + 1) + ". " + food.getName() +
@@ -341,7 +335,7 @@ public class CustomerMenu extends Menu {
     private void addToCart(Food food, Restaurant restaurant) {
         Logger logger = Logger.getInstance();
 
-        if (!cartManager.canAddToCart(restaurant)) {
+        if (cartManager.canAddToCart(restaurant)) {
             logger.print("Cannot add items from different restaurants!", TextColor.RED);
             logger.print("Your cart contains items from another restaurant.", TextColor.YELLOW);
             logger.print("Would you like to clear cart and add this item? (y/n): ");
@@ -534,7 +528,7 @@ public class CustomerMenu extends Menu {
                     return customer.getAddresses().get(index);
                 }
             } catch (NumberFormatException e) {
-                // Continue loop
+                // Ignored
             }
 
             logger.error("Invalid selection! Please try again.");
@@ -552,7 +546,7 @@ public class CustomerMenu extends Menu {
 
         OrderItem itemToModify;
 
-        // If only one item, skip selection step
+        // If only one item, skip selection step. Important
         if (cart.getItems().size() == 1) {
             itemToModify = cart.getItems().get(0);
             logger.print("\nModifying: " + itemToModify.getFood().getName() + " (current quantity: " + itemToModify.getQuantity() + ")");
@@ -586,7 +580,6 @@ public class CustomerMenu extends Menu {
             }
         }
 
-        // Ask for new quantity
         logger.print("\nEnter new quantity for " + itemToModify.getFood().getName() + " (0 to remove, or 'back' to cancel): ");
 
         try {
@@ -754,8 +747,7 @@ public class CustomerMenu extends Menu {
 
         logger.print("\n--- ADD NEW ADDRESS ---", TextColor.YELLOW);
 
-        // Get address description from user
-        logger.print("Address description (e.g., 'Tehran, Azadi St, Golha Alley'): ");
+        logger.print("Address description (e.g., 'Tehran, Mirzaye Shirazi St, 22nd Alley'): ");
         String description = inputManager.getLine();
 
         if (description.equalsIgnoreCase("back")) {
@@ -769,8 +761,7 @@ public class CustomerMenu extends Menu {
             return;
         }
 
-        // Get zone number (1-20) from user
-        logger.print("Zone number (1-20): ");
+        logger.print("Zone number (1-22): ");
         String zoneInput = inputManager.getLine();
 
         if (zoneInput.equalsIgnoreCase("back")) {
@@ -779,14 +770,13 @@ public class CustomerMenu extends Menu {
 
         try {
             int zoneNumber = Integer.parseInt(zoneInput);
-            if (zoneNumber >= 1 && zoneNumber <= 20) {
-                // Create and save address
+            if (zoneNumber >= 1 && zoneNumber <= 22) {
                 Address newAddress = new Address(description.trim(), zoneNumber);
                 customer.addAddress(newAddress);
 
                 logger.success("Address added successfully!");
             } else {
-                logger.error("Zone number must be between 1 and 20!");
+                logger.error("Zone number must be between 1 and 22!");
             }
         } catch (NumberFormatException e) {
             logger.error("Invalid zone number format!");
@@ -809,7 +799,6 @@ public class CustomerMenu extends Menu {
             return;
         }
 
-        // Display existing addresses with numbers
         logger.print("Select address to edit:");
         for (int i = 0; i < customer.getAddresses().size(); i++) {
             Address addr = customer.getAddresses().get(i);
@@ -827,7 +816,6 @@ public class CustomerMenu extends Menu {
             if (index >= 0 && index < customer.getAddresses().size()) {
                 Address addressToEdit = customer.getAddresses().get(index);
 
-                // Edit description
                 logger.print("Current description: " + addressToEdit.getDescription());
                 logger.print("New description (leave empty to keep current): ");
                 String newDescription = inputManager.getLine();
@@ -836,7 +824,6 @@ public class CustomerMenu extends Menu {
                     addressToEdit.setDescription(newDescription.trim());
                 }
 
-                // Edit zone
                 logger.print("Current zone: " + addressToEdit.getZoneNumber());
                 logger.print("New zone (1-20, leave empty to keep current): ");
                 String zoneInput = inputManager.getLine();
@@ -879,7 +866,7 @@ public class CustomerMenu extends Menu {
             return;
         }
 
-        // Display existing addresses with numbers
+
         logger.print("Select address to delete:");
         for (int i = 0; i < customer.getAddresses().size(); i++) {
             Address addr = customer.getAddresses().get(i);
@@ -897,7 +884,6 @@ public class CustomerMenu extends Menu {
             if (index >= 0 && index < customer.getAddresses().size()) {
                 Address addressToDelete = customer.getAddresses().get(index);
 
-                // Confirm deletion
                 logger.print("Are you sure you want to delete this address?", TextColor.RED);
                 logger.print(addressToDelete.getDescription());
                 logger.print("(y/n): ");
@@ -926,7 +912,7 @@ public class CustomerMenu extends Menu {
         while (true) {
             logger.print("\n--- WALLET MANAGEMENT ---", TextColor.YELLOW);
             logger.print("1. View Balance", TextColor.CYAN);
-            logger.print("2. Top-up Wallet", TextColor.CYAN);
+            logger.print("2. Charge Wallet", TextColor.CYAN);
             logger.print("0. Back to Account Settings", TextColor.RED);
             logger.print("Choose an option: ");
 
@@ -937,7 +923,7 @@ public class CustomerMenu extends Menu {
                     handleViewBalance();
                     break;
                 case "2":
-                    handleTopUpWallet();
+                    handleChargeWallet();
                     break;
                 case "0":
                     return;
@@ -962,14 +948,13 @@ public class CustomerMenu extends Menu {
         inputManager.getLine();
     }
 
-    private void handleTopUpWallet() {
+    private void handleChargeWallet() {
         Logger logger = Logger.getInstance();
         Customer customer = (Customer) SessionManager.getInstance().getCurrentUser();
 
-        logger.print("\n--- TOP-UP WALLET ---", TextColor.YELLOW);
+        logger.print("\n--- CHARGE WALLET ---", TextColor.YELLOW);
 
-        // Get top-up amount from user
-        logger.print("Enter amount to top-up (in Toman, or 'back' to cancel): ");
+        logger.print("Enter amount to charge (in Toman, or 'back' to cancel): ");
         String amountInput = inputManager.getLine();
 
         if (amountInput.equalsIgnoreCase("back")) {
@@ -979,8 +964,7 @@ public class CustomerMenu extends Menu {
         try {
             double amount = Double.parseDouble(amountInput);
             if (amount > 0) {
-                // TODO: Process payment (integration with payment gateway)
-                // For now, we'll simulate successful payment
+                // simulate successful payment
 
                 customer.addToWallet(amount);
                 logger.success("Wallet topped up successfully!");
@@ -1072,7 +1056,6 @@ public class CustomerMenu extends Menu {
                 }
         );
 
-        // If user selected an order, interact with it
         if (selectedIndex >= 0 && selectedIndex < activeOrders.size()) {
             interactWithActiveOrder(activeOrders.get(selectedIndex));
         }
@@ -1170,12 +1153,12 @@ public class CustomerMenu extends Menu {
         logger.print("Total: " + order.getFinalAmount() + " Toman");
         logger.print("Date: " + order.getOrderTime().toLocalDate());
         logger.print("");
-        logger.print("2. View Invoice", TextColor.CYAN);
+        logger.print("1. View Invoice", TextColor.CYAN);
 
         // Review functionality for delivered orders
         if (order.getStatus() == ir.ac.kntu.models.enums.OrderStatus.DELIVERED) {
             if (order.getReviewRating() == 0) {
-                logger.print("1. Leave Review", TextColor.GREEN);
+                logger.print("2. Leave Review", TextColor.GREEN);
             } else {
                 logger.print("Rating: " + order.getReviewRating() + "/5 stars");
                 if (order.getReviewComment() != null) {
@@ -1190,10 +1173,10 @@ public class CustomerMenu extends Menu {
         logger.print("Choose: ");
 
         String choice = inputManager.getLine();
-        if (choice.equals("1") && order.getStatus() == ir.ac.kntu.models.enums.OrderStatus.DELIVERED &&
+        if (choice.equals("2") && order.getStatus() == ir.ac.kntu.models.enums.OrderStatus.DELIVERED &&
                 order.getReviewRating() == 0) {
             leaveReview(order);
-        } else if (choice.equals("2")) {
+        } else if (choice.equals("1")) {
             logger.print("\n" + order.getInvoice());
             logger.print("Press Enter to continue...");
             inputManager.getLine();
@@ -1241,8 +1224,8 @@ public class CustomerMenu extends Menu {
 
         String confirm = inputManager.getLine();
         if (confirm.toLowerCase().startsWith("y")) {
-            // Check if we can add to cart (same restaurant or empty cart)
-            if (!cartManager.canAddToCart(previousOrder.getRestaurant())) {
+            // Check if we can add to cart (same restaurant or empty cart). Important
+            if (cartManager.canAddToCart(previousOrder.getRestaurant())) {
                 logger.print("Cannot reorder: different restaurant in cart.");
                 logger.print("Clear cart first? (y/n): ");
                 String clearCart = inputManager.getLine();
@@ -1253,7 +1236,6 @@ public class CustomerMenu extends Menu {
                 }
             }
 
-            // Add items to cart
             for (OrderItem item : previousOrder.getItems()) {
                 try {
                     cartManager.addToCart(previousOrder.getRestaurant(), item.getFood(), item.getQuantity());
@@ -1288,13 +1270,11 @@ public class CustomerMenu extends Menu {
             return;
         }
 
-        // Perform logout
         SessionManager.getInstance().logout();
 
         logger.success("Successfully logged out, " + currentUser.getName() + "!");
         logger.print("Returning to Main Menu...", TextColor.CYAN);
 
-        // Navigate back to main menu
         MenuHandler.getInstance().loadMenu(MenuType.MAIN_MENU);
     }
 }

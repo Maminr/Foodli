@@ -27,13 +27,13 @@ import java.util.List;
 
 public class Order {
     private int id;
-    private User customer;
+    private final User customer;
     private Restaurant restaurant;
     private List<OrderItem> items;
     private double deliveryCost;
     private Address deliveryAddress;
     private OrderStatus status;
-    private LocalDateTime orderTime;
+    private final LocalDateTime orderTime;
     private String reviewComment;
     private int reviewRating;
 

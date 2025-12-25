@@ -71,9 +71,7 @@ public class RestaurantManagerMenu extends Menu {
         Manager currentManager = (Manager) SessionManager.getInstance().getCurrentUser();
         currentRestaurant = restaurantManager.findRestaurantByManager(currentManager);
 
-        // Check restaurant status
         if (currentRestaurant == null) {
-            // First time login - redirect to registration
             handleRestaurantRegistration();
             return;
         }
@@ -86,7 +84,6 @@ public class RestaurantManagerMenu extends Menu {
             return;
         }
 
-        // Restaurant is approved - show main menu
         showMainMenu();
     }
 
@@ -97,30 +94,23 @@ public class RestaurantManagerMenu extends Menu {
         logger.print("\n--- RESTAURANT REGISTRATION ---", TextColor.GREEN);
         logger.print("Welcome! Please register your restaurant information.", TextColor.CYAN);
 
-        // Get restaurant name
         logger.print("Restaurant Name: ");
         String name = inputManager.getLine();
 
-        // Get restaurant types
         List<FoodType> foodTypes = selectFoodTypes();
 
-        // Get address
         logger.print("Restaurant Address: ");
         String address = inputManager.getLine();
 
-        // Get zone number
         int zoneNumber = getZoneNumber();
 
-        // Get delivery cost settings
         logger.print("\n--- DELIVERY COST SETTINGS ---", TextColor.CYAN);
         logger.print("Set your delivery pricing (or press Enter for defaults)", TextColor.YELLOW);
-        
+
         double baseDeliveryCost = getBaseDeliveryCost();
         double perZoneCost = getPerZoneCost();
 
-        // Create restaurant
-        currentRestaurant = restaurantManager.createRestaurant(name, currentManager, address, zoneNumber, foodTypes,
-                                                              baseDeliveryCost, perZoneCost);
+        currentRestaurant = restaurantManager.createRestaurant(name, currentManager, address, zoneNumber, foodTypes, baseDeliveryCost, perZoneCost);
 
         logger.success("Restaurant registration submitted successfully!");
         logger.print("Your restaurant is now pending approval from support team.", TextColor.YELLOW);
@@ -128,7 +118,6 @@ public class RestaurantManagerMenu extends Menu {
         logger.print("Press Enter to continue...");
         inputManager.getLine();
 
-        // Return to restaurant manager menu (will show pending status)
         enterMenu();
     }
 
@@ -161,7 +150,7 @@ public class RestaurantManagerMenu extends Menu {
                     break;
                 }
             } catch (NumberFormatException e) {
-                // Continue loop
+                // Ignored
             }
 
             logger.error("Invalid input! Please enter valid numbers.");
@@ -181,7 +170,7 @@ public class RestaurantManagerMenu extends Menu {
                     return zone;
                 }
             } catch (NumberFormatException e) {
-                // Continue loop
+                // Ignored
             }
             logger.error("Invalid zone number! Must be between 1-20.");
         }
@@ -189,15 +178,15 @@ public class RestaurantManagerMenu extends Menu {
 
     private double getBaseDeliveryCost() {
         Logger logger = Logger.getInstance();
-        
+
         while (true) {
             logger.print("Base Delivery Cost (default: 5000 Toman, or press Enter for default): ");
             String input = inputManager.getLine().trim();
-            
+
             if (input.isEmpty()) {
-                return 5000.0; // Default value
+                return 5000.0;
             }
-            
+
             try {
                 double cost = Double.parseDouble(input);
                 if (cost >= 0) {
@@ -213,15 +202,15 @@ public class RestaurantManagerMenu extends Menu {
 
     private double getPerZoneCost() {
         Logger logger = Logger.getInstance();
-        
+
         while (true) {
             logger.print("Additional Cost per Zone (default: 1000 Toman, or press Enter for default): ");
             String input = inputManager.getLine().trim();
-            
+
             if (input.isEmpty()) {
-                return 1000.0; // Default value
+                return 1000.0;
             }
-            
+
             try {
                 double cost = Double.parseDouble(input);
                 if (cost >= 0) {
@@ -237,26 +226,23 @@ public class RestaurantManagerMenu extends Menu {
 
     private void showPendingStatus() {
         Logger logger = Logger.getInstance();
-        
+
         while (true) {
-            // Refresh restaurant status from manager
             Manager currentManager = (Manager) SessionManager.getInstance().getCurrentUser();
             currentRestaurant = restaurantManager.findRestaurantByManager(currentManager);
-            
+
             logger.print("\n--- RESTAURANT STATUS ---", TextColor.YELLOW);
-            
-            // Check if status has changed
+
             if (currentRestaurant == null) {
                 logger.print("Restaurant not found!", TextColor.RED);
                 MenuHandler.getInstance().loadMenu(MenuType.MAIN_MENU);
                 return;
             }
-            
+
             if (currentRestaurant.getStatus() == RestaurantStatus.APPROVED) {
                 logger.success("Your restaurant has been approved!");
                 logger.print("Press Enter to continue...");
                 inputManager.getLine();
-                // Restaurant is now approved - show main menu
                 showMainMenu();
                 return;
             } else if (currentRestaurant.getStatus() == RestaurantStatus.REJECTED) {
@@ -269,7 +255,7 @@ public class RestaurantManagerMenu extends Menu {
                 showRejectedStatus();
                 return;
             }
-            
+
             // Still pending
             logger.print("Your restaurant is pending approval from support team.", TextColor.CYAN);
             logger.print("Please wait for approval or contact support.", TextColor.YELLOW);
@@ -277,14 +263,13 @@ public class RestaurantManagerMenu extends Menu {
             logger.print("1. Refresh status", TextColor.GREEN);
             logger.print("0. Logout", TextColor.RED);
             logger.print("Choose an option: ");
-            
+
             String choice = inputManager.getLine().trim();
-            
+
             if (choice.equals("0")) {
                 MenuHandler.getInstance().loadMenu(MenuType.MAIN_MENU);
                 return;
             } else if (choice.equals("1")) {
-                // Continue loop to refresh status
                 continue;
             } else {
                 logger.print("Invalid option! Please try again.", TextColor.RED);
@@ -403,7 +388,7 @@ public class RestaurantManagerMenu extends Menu {
             logger.print("Menu is empty. Add some food items first.", TextColor.YELLOW);
         } else {
             for (Food food : currentRestaurant.getMenu()) {
-                logger.print(food.getId() + ". " + food.toString());
+                logger.print(food.getId() + ". " + food);
                 logger.print("   " + food.getDetails().replace("\n", "\n   "));
                 logger.print("");
             }
@@ -417,23 +402,18 @@ public class RestaurantManagerMenu extends Menu {
         Logger logger = Logger.getInstance();
         logger.print("\n--- ADD FOOD ITEM ---", TextColor.GREEN);
 
-        // Get basic info
         logger.print("Food Name: ");
         String name = inputManager.getLine();
 
         logger.print("Price (Toman): ");
         double price = Double.parseDouble(inputManager.getLine());
 
-        // Select category
         FoodCategory category = selectFoodCategory();
 
-        // Create food item
         Food food = new Food(name, price, category);
 
-        // Set category-specific details
         setFoodDetails(food, category);
 
-        // Add to restaurant menu
         restaurantManager.addFoodToRestaurant(currentRestaurant, food);
 
         logger.success("Food item added successfully!");
@@ -458,7 +438,7 @@ public class RestaurantManagerMenu extends Menu {
                     return categories[choice];
                 }
             } catch (NumberFormatException e) {
-                // Continue
+                // Ignored
             }
             logger.error("Invalid choice! Try again.");
         }
@@ -533,7 +513,6 @@ public class RestaurantManagerMenu extends Menu {
             return;
         }
 
-        // Show menu items
         logger.print("Current menu items:");
         for (Food food : currentRestaurant.getMenu()) {
             logger.print(food.getId() + ". " + food.getName() + " - " + food.getPrice() + " Toman");
@@ -560,7 +539,6 @@ public class RestaurantManagerMenu extends Menu {
                 return;
             }
 
-            // Edit food details
             logger.print("Current name: " + food.getName());
             logger.print("New name (leave empty to keep current): ");
             String newName = inputManager.getLine();
@@ -603,7 +581,6 @@ public class RestaurantManagerMenu extends Menu {
             return;
         }
 
-        // Show menu items
         logger.print("Current menu items:");
         for (Food food : currentRestaurant.getMenu()) {
             logger.print(food.getId() + ". " + food.getName() + " - " + food.getPrice() + " Toman");
@@ -850,13 +827,12 @@ public class RestaurantManagerMenu extends Menu {
         logger.print("Available report formats:", TextColor.CYAN);
         logger.print("• HTML reports - Open in any web browser", TextColor.GREEN);
         logger.print("");
-        logger.print("📊 Available report types:", TextColor.YELLOW);
+        logger.print("Available report types:", TextColor.YELLOW);
         logger.print("• Financial reports with revenue charts", TextColor.CYAN);
         logger.print("• Order statistics and trends", TextColor.CYAN);
         logger.print("• Popular items analysis", TextColor.CYAN);
         logger.print("• Monthly performance dashboards", TextColor.CYAN);
         logger.print("");
-        logger.print("💡 Tip: HTML reports include interactive charts!", TextColor.GREEN);
 
         logger.print("Press Enter to continue...");
         inputManager.getLine();
@@ -872,8 +848,8 @@ public class RestaurantManagerMenu extends Menu {
             logger.print("Current Delivery Pricing:", TextColor.YELLOW);
             logger.print("  Base Cost: " + String.format("%.0f", currentRestaurant.getBaseDeliveryCost()) + " Toman");
             logger.print("  Per Zone Cost: " + String.format("%.0f", currentRestaurant.getPerZoneCost()) + " Toman");
-            logger.print("  Example: Delivery to zone " + (currentRestaurant.getZoneNumber() + 1) + 
-                        " = " + String.format("%.0f", currentRestaurant.getDeliveryCost(currentRestaurant.getZoneNumber() + 1)) + " Toman");
+//            logger.print("  Example: Delivery to zone " + (currentRestaurant.getZoneNumber() + 1) +
+//                    " = " + String.format("%.0f", currentRestaurant.getDeliveryCost(currentRestaurant.getZoneNumber() + 1)) + " Toman");
             logger.print("");
             logger.print("1. Edit Base Delivery Cost", TextColor.CYAN);
             logger.print("2. Edit Per Zone Cost", TextColor.CYAN);
@@ -908,10 +884,10 @@ public class RestaurantManagerMenu extends Menu {
     private void editBaseDeliveryCost() {
         Logger logger = Logger.getInstance();
         logger.print("\nCurrent Base Delivery Cost: " + String.format("%.0f", currentRestaurant.getBaseDeliveryCost()) + " Toman");
-        
+
         double newCost = getBaseDeliveryCost();
         currentRestaurant.setBaseDeliveryCost(newCost);
-        
+
         logger.success("Base delivery cost updated to " + String.format("%.0f", newCost) + " Toman");
         logger.print("Press Enter to continue...");
         inputManager.getLine();
@@ -920,10 +896,10 @@ public class RestaurantManagerMenu extends Menu {
     private void editPerZoneCost() {
         Logger logger = Logger.getInstance();
         logger.print("\nCurrent Per Zone Cost: " + String.format("%.0f", currentRestaurant.getPerZoneCost()) + " Toman");
-        
+
         double newCost = getPerZoneCost();
         currentRestaurant.setPerZoneCost(newCost);
-        
+
         logger.success("Per zone cost updated to " + String.format("%.0f", newCost) + " Toman");
         logger.print("Press Enter to continue...");
         inputManager.getLine();
@@ -933,7 +909,7 @@ public class RestaurantManagerMenu extends Menu {
         Logger logger = Logger.getInstance();
         logger.print("\nCurrent Address: " + currentRestaurant.getAddress());
         logger.print("Enter new address: ");
-        
+
         String newAddress = inputManager.getLine().trim();
         if (!newAddress.isEmpty()) {
             currentRestaurant.setAddress(newAddress);
@@ -941,7 +917,7 @@ public class RestaurantManagerMenu extends Menu {
         } else {
             logger.print("Address not changed.", TextColor.YELLOW);
         }
-        
+
         logger.print("Press Enter to continue...");
         inputManager.getLine();
     }
@@ -949,10 +925,10 @@ public class RestaurantManagerMenu extends Menu {
     private void editZoneNumber() {
         Logger logger = Logger.getInstance();
         logger.print("\nCurrent Zone Number: " + currentRestaurant.getZoneNumber());
-        
+
         int newZone = getZoneNumber();
         currentRestaurant.setZoneNumber(newZone);
-        
+
         logger.success("Zone number updated to " + newZone);
         logger.print("Press Enter to continue...");
         inputManager.getLine();

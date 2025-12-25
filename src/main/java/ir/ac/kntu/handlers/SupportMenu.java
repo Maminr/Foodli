@@ -174,16 +174,18 @@ public class SupportMenu extends Menu {
 
             String choice = inputManager.getLine();
 
-            if (choice.equals("1")) {
-                restaurantManager.approveRestaurant(restaurant);
-                logger.success("Restaurant approved successfully!");
-            } else if (choice.equals("2")) {
-                logger.print("Rejection reason: ");
-                String reason = inputManager.getLine();
-                restaurantManager.rejectRestaurant(restaurant, reason);
-                logger.print("Restaurant rejected.", TextColor.YELLOW);
-            } else if (choice.equals("3")) {
-                logger.print("Skipped.", TextColor.YELLOW);
+            switch (choice) {
+                case "1" -> {
+                    restaurantManager.approveRestaurant(restaurant);
+                    logger.success("Restaurant approved successfully!");
+                }
+                case "2" -> {
+                    logger.print("Rejection reason: ");
+                    String reason = inputManager.getLine();
+                    restaurantManager.rejectRestaurant(restaurant, reason);
+                    logger.print("Restaurant rejected.", TextColor.YELLOW);
+                }
+                case "3" -> logger.print("Skipped.", TextColor.YELLOW);
             }
         }
 
@@ -202,8 +204,8 @@ public class SupportMenu extends Menu {
         } else {
             for (Restaurant restaurant : approvedRestaurants) {
                 logger.print("• " + restaurant.getName() + " (Manager: " +
-                           restaurant.getManager().getName() + ", Rating: " +
-                           String.format("%.1f", restaurant.getRating()) + ")");
+                        restaurant.getManager().getName() + ", Rating: " +
+                        String.format("%.1f", restaurant.getRating()) + ")");
             }
         }
 
@@ -213,7 +215,7 @@ public class SupportMenu extends Menu {
 
     private void viewRejectedRestaurants() {
         Logger logger = Logger.getInstance();
-        // Note: We don't have a direct method for rejected restaurants, so we'll filter all
+
         List<Restaurant> allRestaurants = restaurantManager.getAllRestaurants();
         List<Restaurant> rejectedRestaurants = allRestaurants.stream()
                 .filter(r -> r.getStatus() == RestaurantStatus.REJECTED)
@@ -226,7 +228,7 @@ public class SupportMenu extends Menu {
         } else {
             for (Restaurant restaurant : rejectedRestaurants) {
                 logger.print("• " + restaurant.getName() + " (Manager: " +
-                           restaurant.getManager().getName() + ")");
+                        restaurant.getManager().getName() + ")");
                 if (restaurant.getRejectionReason() != null) {
                     logger.print("  Reason: " + restaurant.getRejectionReason());
                 }
@@ -267,7 +269,7 @@ public class SupportMenu extends Menu {
         logger.print("• Active: " + activeOrders);
         logger.print("• Completed: " + completedOrders);
 
-        // Calculate total revenue (simplified)
+        // Calculate total
         double totalRevenue = allOrders.stream()
                 .filter(o -> o.getStatus() != OrderStatus.CANCELLED)
                 .mapToDouble(Order::getFinalAmount)
@@ -325,32 +327,30 @@ public class SupportMenu extends Menu {
             return;
         }
 
-        // Use pagination to display users
+        // Use pagination to display users. Important
         paginationUtility.displayPaginatedView(
-            allUsers,
-            (user, index) -> {
-                logger.print("ID: " + user.getId());
-                logger.print("   Name: " + user.getName() + " " + user.getLastName());
-                logger.print("   Phone: " + user.getPhoneNumber());
-                logger.print("   Role: " + user.getRole().toString());
-                
-                // Show role-specific information
-                if (user instanceof Customer) {
-                    Customer customer = (Customer) user;
-                    logger.print("   Wallet: " + customer.getWallet() + " Toman");
-                    logger.print("   Addresses: " + customer.getAddresses().size());
-                } else if (user instanceof Manager) {
-                    Manager manager = (Manager) user;
-                    Restaurant restaurant = restaurantManager.findRestaurantByManager(manager);
-                    if (restaurant != null) {
-                        logger.print("   Restaurant: " + restaurant.getName());
-                        logger.print("   Status: " + restaurant.getStatus().toString());
-                    } else {
-                        logger.print("   Restaurant: Not registered");
+                allUsers,
+                (user, index) -> {
+                    logger.print("ID: " + user.getId());
+                    logger.print("   Name: " + user.getName() + " " + user.getLastName());
+                    logger.print("   Phone: " + user.getPhoneNumber());
+                    logger.print("   Role: " + user.getRole().toString());
+
+                    // Show role-specific information
+                    if (user instanceof Customer customer) {
+                        logger.print("   Wallet: " + customer.getWallet() + " Toman");
+                        logger.print("   Addresses: " + customer.getAddresses().size());
+                    } else if (user instanceof Manager manager) {
+                        Restaurant restaurant = restaurantManager.findRestaurantByManager(manager);
+                        if (restaurant != null) {
+                            logger.print("   Restaurant: " + restaurant.getName());
+                            logger.print("   Status: " + restaurant.getStatus().toString());
+                        } else {
+                            logger.print("   Restaurant: Not registered");
+                        }
                     }
+                    logger.print("");
                 }
-                logger.print("");
-            }
         );
     }
 
@@ -372,7 +372,6 @@ public class SupportMenu extends Menu {
             return;
         }
 
-        // Search users by name or phone number
         List<User> allUsers = userManager.getUsers();
         List<User> matchingUsers = new ArrayList<>();
 
@@ -396,29 +395,25 @@ public class SupportMenu extends Menu {
         logger.print("Found " + matchingUsers.size() + " user(s) matching: " + searchTerm, TextColor.GREEN);
         logger.print("");
 
-        // Use pagination to display search results
         paginationUtility.displayPaginatedView(
-            matchingUsers,
-            (user, index) -> {
-                logger.print("ID: " + user.getId());
-                logger.print("   Name: " + user.getName() + " " + user.getLastName());
-                logger.print("   Phone: " + user.getPhoneNumber());
-                logger.print("   Role: " + user.getRole().toString());
-                
-                // Show role-specific information
-                if (user instanceof Customer) {
-                    Customer customer = (Customer) user;
-                    logger.print("   Wallet: " + customer.getWallet() + " Toman");
-                } else if (user instanceof Manager) {
-                    Manager manager = (Manager) user;
-                    Restaurant restaurant = restaurantManager.findRestaurantByManager(manager);
-                    if (restaurant != null) {
-                        logger.print("   Restaurant: " + restaurant.getName());
-                        logger.print("   Status: " + restaurant.getStatus().toString());
+                matchingUsers,
+                (user, index) -> {
+                    logger.print("ID: " + user.getId());
+                    logger.print("   Name: " + user.getName() + " " + user.getLastName());
+                    logger.print("   Phone: " + user.getPhoneNumber());
+                    logger.print("   Role: " + user.getRole().toString());
+
+                    if (user instanceof Customer customer) {
+                        logger.print("   Wallet: " + customer.getWallet() + " Toman");
+                    } else if (user instanceof Manager manager) {
+                        Restaurant restaurant = restaurantManager.findRestaurantByManager(manager);
+                        if (restaurant != null) {
+                            logger.print("   Restaurant: " + restaurant.getName());
+                            logger.print("   Status: " + restaurant.getStatus().toString());
+                        }
                     }
+                    logger.print("");
                 }
-                logger.print("");
-            }
         );
     }
 
@@ -428,8 +423,7 @@ public class SupportMenu extends Menu {
         logger.print("\n--- USER STATISTICS ---", TextColor.CYAN);
 
         List<User> allUsers = userManager.getUsers();
-        
-        // Count users by role
+
         long totalUsers = allUsers.size();
         long customerCount = allUsers.stream()
                 .filter(u -> u instanceof Customer)
@@ -441,7 +435,6 @@ public class SupportMenu extends Menu {
                 .filter(u -> u instanceof Support)
                 .count();
 
-        // Calculate additional statistics
         double totalCustomerWallet = allUsers.stream()
                 .filter(u -> u instanceof Customer)
                 .mapToDouble(u -> ((Customer) u).getWallet())
@@ -470,8 +463,8 @@ public class SupportMenu extends Menu {
             logger.print("Customer Statistics:", TextColor.YELLOW);
             logger.print("  • Total Wallet Balance: " + String.format("%,.0f", totalCustomerWallet) + " Toman", TextColor.GREEN);
             logger.print("  • Customers with Addresses: " + customersWithAddresses + " / " + customerCount, TextColor.CYAN);
-            logger.print("  • Average Wallet Balance: " + 
-                       String.format("%,.0f", totalCustomerWallet / customerCount) + " Toman", TextColor.CYAN);
+            logger.print("  • Average Wallet Balance: " +
+                    String.format("%,.0f", totalCustomerWallet / customerCount) + " Toman", TextColor.CYAN);
             logger.print("");
         }
 
@@ -590,18 +583,18 @@ public class SupportMenu extends Menu {
 
     private void handleCreateBackup() {
         Logger logger = Logger.getInstance();
-        
+
         logger.print("\n--- CREATE BACKUP ---", TextColor.BLUE);
         logger.print("Enter backup name: ");
         String backupName = inputManager.getLine().trim();
-        
+
         if (backupName.isEmpty()) {
             logger.print("Backup name cannot be empty!", TextColor.RED);
             logger.print("Press Enter to continue...");
             inputManager.getLine();
             return;
         }
-        
+
         DataPersistence.createBackup(backupName);
         logger.print("Press Enter to continue...");
         inputManager.getLine();
@@ -609,19 +602,18 @@ public class SupportMenu extends Menu {
 
     private void handleRestoreBackup() {
         Logger logger = Logger.getInstance();
-        
+
         logger.print("\n--- RESTORE FROM BACKUP ---", TextColor.BLUE);
-        
-        // List available backups
+
         java.util.List<String> backups = DataPersistence.listBackups();
-        
+
         if (backups.isEmpty()) {
             logger.print("No backups found.", TextColor.YELLOW);
             logger.print("Press Enter to continue...");
             inputManager.getLine();
             return;
         }
-        
+
         logger.print("Available backups:", TextColor.CYAN);
         for (int i = 0; i < backups.size(); i++) {
             logger.print((i + 1) + ". " + backups.get(i));
@@ -629,28 +621,28 @@ public class SupportMenu extends Menu {
         logger.print("");
         logger.print("Enter backup name to restore (or 'back' to cancel): ");
         String restoreName = inputManager.getLine().trim();
-        
+
         if (restoreName.equalsIgnoreCase("back")) {
             return;
         }
-        
+
         if (!backups.contains(restoreName)) {
             logger.print("Backup not found: " + restoreName, TextColor.RED);
             logger.print("Press Enter to continue...");
             inputManager.getLine();
             return;
         }
-        
+
         logger.print("Are you sure you want to restore from backup '" + restoreName + "'?", TextColor.YELLOW);
         logger.print("This will replace all current data. (yes/no): ");
         String confirm = inputManager.getLine().trim();
-        
+
         if (confirm.equalsIgnoreCase("yes") || confirm.equalsIgnoreCase("y")) {
             DataPersistence.restoreFromBackup(restoreName);
         } else {
             logger.print("Restore cancelled.", TextColor.YELLOW);
         }
-        
+
         logger.print("Press Enter to continue...");
         inputManager.getLine();
     }

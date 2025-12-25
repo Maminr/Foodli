@@ -38,8 +38,8 @@ public class Restaurant {
     private int ratingCount;
     private double wallet;
     private List<Food> menu;
-    private double baseDeliveryCost; // Base delivery cost
-    private double perZoneCost; // Additional cost per zone difference
+    private double baseDeliveryCost;
+    private double perZoneCost;
 
     public Restaurant(String name, Manager manager, String address, int zoneNumber, List<FoodType> foodTypes) {
         this.name = name;
@@ -52,8 +52,8 @@ public class Restaurant {
         this.ratingCount = 0;
         this.wallet = 0.0;
         this.menu = new ArrayList<>();
-        this.baseDeliveryCost = 5000.0; // Default base cost
-        this.perZoneCost = 1000.0; // Default per-zone cost
+        this.baseDeliveryCost = 5000.0;
+        this.perZoneCost = 1000.0;
     }
 
     public Restaurant(String name, Manager manager, String address, int zoneNumber, List<FoodType> foodTypes,
@@ -85,8 +85,8 @@ public class Restaurant {
         this.ratingCount = 0;
         this.wallet = 0.0;
         this.menu = new ArrayList<>();
-        this.baseDeliveryCost = 5000.0; // Default base cost
-        this.perZoneCost = 1000.0; // Default per-zone cost
+        this.baseDeliveryCost = 5000.0;
+        this.perZoneCost = 1000.0;
     }
 
     // Getters and setters
@@ -216,7 +216,6 @@ public class Restaurant {
     }
 
     public double getDeliveryCost(int customerZone) {
-        // Delivery cost calculation based on zone difference using custom prices
         int zoneDifference = Math.abs(customerZone - zoneNumber);
         return baseDeliveryCost + (zoneDifference * perZoneCost);
     }

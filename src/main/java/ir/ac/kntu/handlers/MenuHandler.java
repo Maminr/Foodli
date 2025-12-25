@@ -35,7 +35,6 @@ public class MenuHandler {
         if (!menus.containsKey(menuType)) {
             throw new MenuNotFoundError("Menu " + menuType + " not found!");
         }
-        // If loading MAIN_MENU, clear the stack first (logout/reset scenario)
         if (menuType == MenuType.MAIN_MENU) {
             menuStack.clear();
         }
@@ -45,9 +44,8 @@ public class MenuHandler {
 
     public void goBack() {
         if (menuStack.size() > 1) {
-            menuStack.pop(); // Remove current menu from stack
-            MenuType previousMenu = menuStack.peek(); // Get previous menu (don't pop it)
-            // Enter the previous menu directly without pushing it again
+            menuStack.pop();
+            MenuType previousMenu = menuStack.peek();
             menus.get(previousMenu).enterMenu();
         }
     }

@@ -70,7 +70,6 @@ public class MainMenu extends Menu {
         logger.print("\n--- SIGN IN PAGE ---", TextColor.YELLOW);
         String phoneNumber = getPhoneNumber();
 
-        // If user typed 'Back', getPhoneNumber returns null and we've already gone back
         if (phoneNumber == null) {
             return;
         }
@@ -79,7 +78,6 @@ public class MainMenu extends Menu {
         String password = inputManager.getLine();
 
         if (password.equalsIgnoreCase("Back")) {
-            // In MainMenu, "back" just returns (no need to goBack since we're at root)
             return;
         }
 
@@ -216,7 +214,7 @@ public class MainMenu extends Menu {
 
             if (password.equalsIgnoreCase("Back")) {
                 MenuHandler.getInstance().goBack();
-                return null; // This won't be reached as goBack() will load previous menu
+                return null;
             }
 
             if (PasswordUtils.isStrongPassword(password)) {
@@ -237,7 +235,7 @@ public class MainMenu extends Menu {
 
             if (name.equalsIgnoreCase("Back")) {
                 MenuHandler.getInstance().goBack();
-                return null; // This won't be reached as goBack() will load previous menu
+                return null;
             }
 
             if (StringUtils.hasCorrectLength(name, 3, 30)) {
@@ -256,7 +254,7 @@ public class MainMenu extends Menu {
 
             if (lastname.equalsIgnoreCase("Back")) {
                 MenuHandler.getInstance().goBack();
-                return null; // This won't be reached as goBack() will load previous menu
+                return null;
             }
 
             if (StringUtils.hasCorrectLength(lastname, 3, 50)) {

@@ -47,7 +47,6 @@ public class UserManager {
     private UserManager() {
         users = new ArrayList<>();
 
-        // Create multiple support accounts
         users.add(new Support("Support", "Team", "support", "support"));
         users.add(new Support("Admin", "Support", "09123456789", "support123"));
         users.add(new Support("Technical", "Support", "09129876543", "tech456"));

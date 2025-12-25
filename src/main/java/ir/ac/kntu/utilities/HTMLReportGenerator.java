@@ -146,7 +146,7 @@ public class HTMLReportGenerator {
                 .flatMap(o -> o.getItems().stream())
                 .collect(Collectors.groupingBy(
                         item -> item.getFood().getName(),
-                        Collectors.summingDouble(item -> item.getTotalPrice())
+                        Collectors.summingDouble(OrderItem::getTotalPrice)
                 ));
 
         itemOrderCount.entrySet().stream()

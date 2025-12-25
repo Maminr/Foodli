@@ -29,7 +29,7 @@ import java.util.List;
 
 public class CartManager {
     private static CartManager instance;
-    private ShoppingCart currentCart;
+    private final ShoppingCart currentCart;
 
     private CartManager() {
         currentCart = new ShoppingCart();
@@ -69,7 +69,7 @@ public class CartManager {
     }
 
     public boolean canAddToCart(Restaurant restaurant) {
-        return currentCart.isEmpty() || currentCart.getRestaurant().equals(restaurant);
+        return !currentCart.isEmpty() && !currentCart.getRestaurant().equals(restaurant);
     }
 
     public Order checkout(Address deliveryAddress) {
@@ -80,29 +80,23 @@ public class CartManager {
         Customer customer = (Customer) SessionManager.getInstance().getCurrentUser();
         Restaurant restaurant = currentCart.getRestaurant();
 
-        // Calculate delivery cost
         double deliveryCost = restaurant.getDeliveryCost(deliveryAddress.getZoneNumber());
 
-        // Check wallet balance
         double totalAmount = currentCart.getTotal() + deliveryCost;
         if (customer.getWallet() < totalAmount) {
             throw new IllegalStateException("Insufficient wallet balance");
         }
 
-        // Deduct from wallet
         customer.setWallet(customer.getWallet() - totalAmount);
 
-        // Create order with a copy of cart items (to prevent clearing cart from affecting order)
         List<OrderItem> orderItems = new ArrayList<>();
         for (OrderItem cartItem : currentCart.getItems()) {
-            // Create a new OrderItem with the same data
             orderItems.add(new OrderItem(cartItem.getFood(), cartItem.getQuantity(), cartItem.getUnitPrice()));
         }
         
         Order order = OrderManager.getInstance().createOrder(
             customer, restaurant, orderItems, deliveryCost, deliveryAddress);
 
-        // Clear cart
         clearCart();
 
         return order;

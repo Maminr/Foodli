@@ -58,17 +58,14 @@ public class RestaurantManager {
         return instance;
     }
 
-    public Restaurant createRestaurant(String name, Manager manager, String address,
-                                       int zoneNumber, List<FoodType> foodTypes) {
+    public Restaurant createRestaurant(String name, Manager manager, String address, int zoneNumber, List<FoodType> foodTypes) {
         Restaurant restaurant = new Restaurant(name, manager, address, zoneNumber, foodTypes);
         restaurant.setId(restaurants.size() + 1);
         restaurants.add(restaurant);
         return restaurant;
     }
 
-    public Restaurant createRestaurant(String name, Manager manager, String address,
-                                       int zoneNumber, List<FoodType> foodTypes,
-                                       double baseDeliveryCost, double perZoneCost) {
+    public Restaurant createRestaurant(String name, Manager manager, String address, int zoneNumber, List<FoodType> foodTypes, double baseDeliveryCost, double perZoneCost) {
         Restaurant restaurant = new Restaurant(name, manager, address, zoneNumber, foodTypes,
                 baseDeliveryCost, perZoneCost);
         restaurant.setId(restaurants.size() + 1);
@@ -84,20 +81,14 @@ public class RestaurantManager {
     }
 
     public Restaurant findRestaurantByManager(Manager manager) {
-        // Prioritize restaurants by status: Approved > Pending > Rejected
-        // This ensures that if a manager has multiple restaurants (e.g., one rejected and one approved),
-        // we return the most relevant one (approved if available, otherwise pending, otherwise rejected)
         return restaurants.stream()
-                .filter(r -> r.getManager().equals(manager))
-                .sorted((r1, r2) -> {
-                    // Priority: APPROVED (0) > PENDING_REVIEW (1) > REJECTED (2)
+                .filter(r -> r.getManager().equals(manager)).min((r1, r2) -> {
                     int priority1 = r1.getStatus() == RestaurantStatus.APPROVED ? 0 :
                             r1.getStatus() == RestaurantStatus.PENDING_REVIEW ? 1 : 2;
                     int priority2 = r2.getStatus() == RestaurantStatus.APPROVED ? 0 :
                             r2.getStatus() == RestaurantStatus.PENDING_REVIEW ? 1 : 2;
                     return Integer.compare(priority1, priority2);
                 })
-                .findFirst()
                 .orElse(null);
     }
 
@@ -177,25 +168,21 @@ public class RestaurantManager {
 
         List<Restaurant> results = new ArrayList<>();
 
-        // Add restaurants that match by name
         for (TextSimilarity.SearchResult match : restaurantMatches) {
-            if (match.getScore() > 0.3) { // Minimum similarity threshold
+            if (match.getScore() > 0.3) {
                 results.addAll(findRestaurantsByName(match.getText()));
             }
         }
 
-        // Add restaurants that have matching foods
         for (TextSimilarity.SearchResult match : foodMatches) {
-            if (match.getScore() > 0.3) { // Minimum similarity threshold
+            if (match.getScore() > 0.3) {
                 results.addAll(findRestaurantsByFoodName(match.getText()));
             }
         }
 
-        // Remove duplicates and sort by relevance (approved restaurants first)
         return results.stream()
                 .distinct()
                 .sorted((r1, r2) -> {
-                    // Prioritize restaurants with higher ratings
                     return Double.compare(r2.getRating(), r1.getRating());
                 })
                 .collect(Collectors.toCollection(ArrayList::new));
@@ -205,16 +192,13 @@ public class RestaurantManager {
      * Get autocomplete suggestions for search
      */
     public List<String> getSearchSuggestions(String partial) {
-        List<String> suggestions = new ArrayList<>();
 
-        // Restaurant name suggestions
         List<String> restaurantNames = getApprovedRestaurants().stream()
                 .map(Restaurant::getName)
                 .collect(Collectors.toList());
 
-        suggestions.addAll(TextSimilarity.getAutocompleteSuggestions(partial, restaurantNames, 5));
+        List<String> suggestions = new ArrayList<>(TextSimilarity.getAutocompleteSuggestions(partial, restaurantNames, 5));
 
-        // Food name suggestions
         List<String> foodNames = getApprovedRestaurants().stream()
                 .flatMap(r -> r.getMenu().stream())
                 .filter(Food::isAvailable)
@@ -223,7 +207,6 @@ public class RestaurantManager {
 
         suggestions.addAll(TextSimilarity.getAutocompleteSuggestions(partial, foodNames, 5));
 
-        // Remove duplicates and limit
         return suggestions.stream()
                 .distinct()
                 .limit(8)

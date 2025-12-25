@@ -12,7 +12,6 @@ public class Main {
         Logger logger = Logger.getInstance();
         logger.info("Application is starting...");
 
-        // Print support account information
         printSupportCredentials();
 
         MainMenu startMenu = new MainMenu();
@@ -36,7 +35,6 @@ public class Main {
         logger.print("=".repeat(50), TextColor.BLUE);
         logger.print("Press Enter to continue...", TextColor.CYAN);
 
-        // Wait for user to read
         try {
             System.in.read();
         } catch (Exception e) {

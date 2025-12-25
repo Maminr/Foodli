@@ -67,7 +67,7 @@ public class Customer extends User {
         System.out.println("2. Shopping Cart & Order");
         System.out.println("3. Order Management");
         System.out.println("4. Account Settings");
-        System.out.println("5. Logout");
+        System.out.println("0. Logout");
     }
 
     @Override

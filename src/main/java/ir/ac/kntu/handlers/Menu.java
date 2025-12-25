@@ -38,6 +38,7 @@ public abstract class Menu {
                 try {
                     Thread.sleep(500);
                 } catch (InterruptedException e) {
+                    // Ignored
                 }
             }
         }

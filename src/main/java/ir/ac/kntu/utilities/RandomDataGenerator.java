@@ -29,13 +29,8 @@ public class RandomDataGenerator {
         System.out.println("Generating random test data...");
         System.out.println("Customers: " + customerCount + ", Restaurants: " + restaurantCount + ", Orders: " + orderCount);
 
-        // Generate customers
         generateCustomers(customerCount);
-
-        // Generate restaurants and their managers
         generateRestaurants(restaurantCount);
-
-        // Generate orders
         generateOrders(orderCount);
 
         System.out.println("Random data generation completed!");
@@ -49,7 +44,6 @@ public class RandomDataGenerator {
             String lastName = LAST_NAMES[random.nextInt(LAST_NAMES.length)];
             String phoneNumber = "0912" + String.format("%07d", random.nextInt(10000000));
 
-            // Ensure unique phone number
             while (userManager.findUserByPhoneNumber(phoneNumber) != null) {
                 phoneNumber = "0912" + String.format("%07d", random.nextInt(10000000));
             }
@@ -58,15 +52,12 @@ public class RandomDataGenerator {
             Customer customer = (Customer) userManager.signUpCustomer(firstName, lastName, phoneNumber, password);
 
             if (customer != null) {
-                // Add random wallet balance
-                double walletAmount = random.nextDouble() * 500000; // Up to 500,000 Toman
+                double walletAmount = random.nextDouble() * 500000;
                 customer.setWallet(walletAmount);
-
-                // Add random addresses (1-3 addresses per customer)
                 int addressCount = random.nextInt(3) + 1;
                 for (int j = 0; j < addressCount; j++) {
                     String addressDesc = ADDRESSES[random.nextInt(ADDRESSES.length)];
-                    int zone = random.nextInt(20) + 1; // Zone 1-20
+                    int zone = random.nextInt(22) + 1; // Zone 1-22
                     Address address = new Address(addressDesc, zone);
                     customer.addAddress(address);
                 }
@@ -79,12 +70,10 @@ public class RandomDataGenerator {
         UserManager userManager = UserManager.getInstance();
 
         for (int i = 0; i < count; i++) {
-            // Create restaurant manager
             String firstName = FIRST_NAMES[random.nextInt(FIRST_NAMES.length)];
             String lastName = LAST_NAMES[random.nextInt(LAST_NAMES.length)];
             String phoneNumber = "0913" + String.format("%07d", random.nextInt(10000000));
 
-            // Ensure unique phone number
             while (userManager.findUserByPhoneNumber(phoneNumber) != null) {
                 phoneNumber = "0913" + String.format("%07d", random.nextInt(10000000));
             }
@@ -93,12 +82,10 @@ public class RandomDataGenerator {
             Manager manager = (Manager) userManager.signUpManager(firstName, lastName, phoneNumber, password);
 
             if (manager != null) {
-                // Create restaurant
                 String restaurantName = RESTAURANT_NAMES[random.nextInt(RESTAURANT_NAMES.length)] + " " + (i + 1);
                 String address = ADDRESSES[random.nextInt(ADDRESSES.length)];
                 int zoneNumber = random.nextInt(20) + 1;
 
-                // Random food types (1-3 types per restaurant)
                 List<FoodType> foodTypes = new ArrayList<>();
                 int typeCount = random.nextInt(3) + 1;
                 FoodType[] allTypes = FoodType.values();
@@ -112,20 +99,16 @@ public class RandomDataGenerator {
 
                 Restaurant restaurant = restaurantManager.createRestaurant(restaurantName, manager, address, zoneNumber, foodTypes);
 
-                // Approve the restaurant automatically for testing
                 restaurantManager.approveRestaurant(restaurant);
 
-                // Add random wallet balance
-                double walletAmount = random.nextDouble() * 1000000; // Up to 1,000,000 Toman
+                double walletAmount = random.nextDouble() * 1000000;
                 restaurant.setWallet(walletAmount);
 
-                // Add random rating
-                double rating = 3.0 + random.nextDouble() * 2.0; // Rating 3.0-5.0
-                int ratingCount = random.nextInt(100) + 10; // 10-110 ratings
+                double rating = 3.0 + random.nextDouble() * 2.0;
+                int ratingCount = random.nextInt(100) + 10;
                 restaurant.setRating(rating);
                 restaurant.setRatingCount(ratingCount);
 
-                // Generate menu items (3-8 items per restaurant)
                 int menuSize = random.nextInt(6) + 3;
                 for (int j = 0; j < menuSize; j++) {
                     generateRandomFood(restaurant, foodTypes.get(random.nextInt(foodTypes.size())));
@@ -138,24 +121,23 @@ public class RandomDataGenerator {
         RestaurantManager restaurantManager = RestaurantManager.getInstance();
 
         String foodName = FOOD_NAMES[random.nextInt(FOOD_NAMES.length)];
-        double price = 20000 + random.nextDouble() * 80000; // Price 20k-100k Toman
+        double price = 20000 + random.nextDouble() * 80000;
 
         Food food = new Food(foodName, price, getRandomFoodCategory(foodType));
         food.setAvailable(random.nextBoolean());
 
-        // Set category-specific attributes
         switch (food.getCategory()) {
             case MAIN_DISH:
                 food.setIngredients("Fresh ingredients, traditional spices");
-                food.setCookingTime(15 + random.nextInt(30)); // 15-45 minutes
+                food.setCookingTime(15 + random.nextInt(30));
                 food.setServingType(random.nextBoolean() ? ServingType.PLATED : ServingType.SANDWICH);
                 break;
             case APPETIZER:
-                food.setPiecesPerServing(2 + random.nextInt(6)); // 2-8 pieces
+                food.setPiecesPerServing(2 + random.nextInt(6));
                 food.setPortionSize(PortionSize.values()[random.nextInt(PortionSize.values().length)]);
                 break;
             case BEVERAGE:
-                food.setVolume(200 + random.nextInt(400)); // 200-600 ml
+                food.setVolume(200 + random.nextInt(400));
                 food.setPackaging(DrinkPackaging.values()[random.nextInt(DrinkPackaging.values().length)]);
                 food.setSugarStatus(random.nextBoolean() ? SugarStatus.DIET : SugarStatus.REGULAR);
                 break;
@@ -167,17 +149,13 @@ public class RandomDataGenerator {
     }
 
     private static FoodCategory getRandomFoodCategory(FoodType restaurantType) {
-        // Map restaurant types to food categories
-        switch (restaurantType) {
-            case CAFE:
-            case BEVERAGE:
-                return random.nextBoolean() ? FoodCategory.BEVERAGE : FoodCategory.APPETIZER;
-            case FAST_FOOD:
-                return random.nextInt(3) == 0 ? FoodCategory.APPETIZER : FoodCategory.MAIN_DISH;
-            default:
-                return random.nextInt(5) == 0 ? FoodCategory.BEVERAGE :
-                        random.nextInt(4) == 0 ? FoodCategory.APPETIZER : FoodCategory.MAIN_DISH;
-        }
+
+        return switch (restaurantType) {
+            case CAFE, BEVERAGE -> random.nextBoolean() ? FoodCategory.BEVERAGE : FoodCategory.APPETIZER;
+            case FAST_FOOD -> random.nextInt(3) == 0 ? FoodCategory.APPETIZER : FoodCategory.MAIN_DISH;
+            default -> random.nextInt(5) == 0 ? FoodCategory.BEVERAGE :
+                    random.nextInt(4) == 0 ? FoodCategory.APPETIZER : FoodCategory.MAIN_DISH;
+        };
     }
 
     private static void generateOrders(int count) {
@@ -201,10 +179,9 @@ public class RandomDataGenerator {
             Restaurant restaurant = restaurants.get(random.nextInt(restaurants.size()));
 
             if (restaurant.getMenu().isEmpty() || customer.getAddresses().isEmpty()) {
-                continue; // Skip if no menu items or addresses
+                continue;
             }
 
-            // Generate random order items (1-4 items)
             List<OrderItem> orderItems = new ArrayList<>();
             int itemCount = random.nextInt(4) + 1;
 
@@ -215,7 +192,7 @@ public class RandomDataGenerator {
 
                 if (!availableFoods.isEmpty()) {
                     Food food = availableFoods.get(random.nextInt(availableFoods.size()));
-                    int quantity = random.nextInt(3) + 1; // 1-3 quantity
+                    int quantity = random.nextInt(3) + 1;
                     orderItems.add(new OrderItem(food, quantity));
                 }
             }
@@ -224,16 +201,12 @@ public class RandomDataGenerator {
                 continue;
             }
 
-            // Select random address
             Address deliveryAddress = customer.getAddresses().get(random.nextInt(customer.getAddresses().size()));
 
-            // Calculate delivery cost
             double deliveryCost = restaurant.getDeliveryCost(deliveryAddress.getZoneNumber());
 
-            // Create order
             Order order = orderManager.createOrder(customer, restaurant, orderItems, deliveryCost, deliveryAddress);
 
-            // Randomly set order status and add reviews for completed orders
             int statusRandom = random.nextInt(10);
             if (statusRandom < 3) {
                 orderManager.updateOrderStatus(order, OrderStatus.CANCELLED);
@@ -243,7 +216,6 @@ public class RandomDataGenerator {
                     orderManager.updateOrderStatus(order, OrderStatus.SENT);
                     if (random.nextBoolean()) {
                         orderManager.updateOrderStatus(order, OrderStatus.DELIVERED);
-                        // Add random review
                         if (random.nextBoolean()) {
                             int rating = random.nextInt(5) + 1; // 1-5 stars
                             String comment = "Good experience with the food!";
@@ -253,19 +225,16 @@ public class RandomDataGenerator {
                     }
                 }
             }
-            // Leave some as REGISTERED status
         }
     }
 
     public static void clearAllData() {
         System.out.println("Clearing all generated test data...");
 
-        // Clear all data from managers
         RestaurantManager.getInstance().getAllRestaurants().clear();
         OrderManager.getInstance().getAllOrders().clear();
         CartManager.getInstance().clearCart();
 
-        // Clear users (keep support accounts)
         UserManager userManager = UserManager.getInstance();
         userManager.getUsers().removeIf(user ->
                 !(user instanceof Support));
@@ -286,7 +255,6 @@ public class RandomDataGenerator {
         System.out.println("Approved Restaurants: " + restaurantManager.getApprovedRestaurants().size());
         System.out.println("Total Orders: " + orderManager.getAllOrders().size());
 
-        // Calculate total revenue
         double totalRevenue = orderManager.getAllOrders().stream()
                 .filter(o -> o.getStatus() != OrderStatus.CANCELLED)
                 .mapToDouble(Order::getFinalAmount)

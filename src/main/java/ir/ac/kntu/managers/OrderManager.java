@@ -99,7 +99,6 @@ public class OrderManager {
         OrderStatus oldStatus = order.getStatus();
         order.setStatus(newStatus);
 
-        // Handle financial transactions
         if (newStatus == OrderStatus.CANCELLED && oldStatus == OrderStatus.REGISTERED) {
             // Refund customer
             Customer customer = (Customer) order.getCustomer();
@@ -112,7 +111,6 @@ public class OrderManager {
             order.setReviewRating(rating);
             order.setReviewComment(comment);
 
-            // Update restaurant rating
             order.getRestaurant().addRating(rating);
         }
     }

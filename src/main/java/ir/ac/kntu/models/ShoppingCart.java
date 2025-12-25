@@ -28,13 +28,10 @@ public class ShoppingCart {
     }
 
     public void addItem(Food food, int quantity) {
-        // If cart is empty or same restaurant, add item
         if (restaurant == null) {
-            // This shouldn't happen - restaurant should be set first
             throw new IllegalStateException("Restaurant not set for cart");
         }
 
-        // Check if food already exists in cart
         for (OrderItem item : items) {
             if (item.getFood().getId() == food.getId()) {
                 item.setQuantity(item.getQuantity() + quantity);
@@ -42,7 +39,6 @@ public class ShoppingCart {
             }
         }
 
-        // Add new item
         items.add(new OrderItem(food, quantity));
     }
 

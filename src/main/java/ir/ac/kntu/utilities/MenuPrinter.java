@@ -27,9 +27,7 @@ public class MenuPrinter {
         sb.append(border).append("╠").append("═".repeat(WIDTH - 2)).append("╣\n");
 
 
-        for (int i = 0; i < items.size(); i++) {
-            MenuItem item = items.get(i);
-
+        for (MenuItem item : items) {
             String content = item.getId() + ". " + item.getColor() + item.getText() + border;
 
 
