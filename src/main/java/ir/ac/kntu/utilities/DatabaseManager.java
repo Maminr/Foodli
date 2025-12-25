@@ -109,8 +109,9 @@ public class DatabaseManager {
                 return getDefaultSchema();
             }
 
-            java.util.Scanner scanner = new java.util.Scanner(inputStream).useDelimiter("\\A");
-            return scanner.hasNext() ? scanner.next() : "";
+            try (java.util.Scanner scanner = new java.util.Scanner(inputStream).useDelimiter("\\A")) {
+                return scanner.hasNext() ? scanner.next() : "";
+            }
         } catch (Exception e) {
             logger.debug("Could not read schema file, using default: " + e.getMessage());
             return getDefaultSchema();
