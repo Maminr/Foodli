@@ -8,15 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-/*
- * RandomDataGenerator - Utility class for generating test data
- *
- * BONUS FEATURES TODO:
- * TODO: Implement seeded random generation for reproducible test data
- * TODO: Add data validation to ensure generated data meets business rules
- * TODO: Implement performance optimization for large data generation
- * TODO: Add export functionality to JSON/CSV formats
- */
 public class RandomDataGenerator {
     private static final Random random = new Random();
     private static final String[] FIRST_NAMES = {"Ali", "Reza", "Mohammad", "Ahmad", "Hossein", "Mehdi", "Saeed", "Hamed", "Amir", "Kaveh"};

@@ -5,10 +5,10 @@ import ir.ac.kntu.helper.Logger;
 import java.sql.*;
 
 /**
- * DatabaseManager - Manages JDBC database connections
- * <p>
- * Uses SQLite for simplicity and portability
- * Can be easily switched to other databases (PostgreSQL, MySQL) by changing connection string
+  DatabaseManager - Manages JDBC database connections
+  <p>
+  Uses SQLite for simplicity and portability
+  Can be easily switched to other databases (PostgreSQL, MySQL) by changing connection string
  */
 public class DatabaseManager {
 

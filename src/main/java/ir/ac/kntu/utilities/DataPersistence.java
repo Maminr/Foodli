@@ -10,19 +10,18 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /*
- * DataPersistence - CSV-based data persistence utility
+ * DataPersistence
  *
  * BONUS FEATURES IMPLEMENTATION:
- * - Data persistence without full database
  * - Backup and recovery mechanisms
  * - CSV format for data portability and analysis
  */
+
 public class DataPersistence {
 
     private static final String DATA_DIR = "data";
 
     static {
-        // Create data directory
         try {
             Files.createDirectories(Paths.get(DATA_DIR));
         } catch (IOException e) {
@@ -30,18 +29,12 @@ public class DataPersistence {
         }
     }
 
-    /**
-     * Save all system data to CSV files
-     */
     public static void saveAllData() {
         System.out.println("Saving data to CSV files...");
 
         try {
-            // Save users
             saveUsers();
-            // Save restaurants
             saveRestaurants();
-            // Save orders
             saveOrders();
 
             System.out.println("Data saved successfully!");
@@ -50,18 +43,12 @@ public class DataPersistence {
         }
     }
 
-    /**
-     * Load all system data from CSV files
-     */
     public static void loadAllData() {
         System.out.println("Loading data from CSV files...");
 
         try {
-            // Load users
             loadUsers();
-            // Load restaurants
             loadRestaurants();
-            // Load orders
             loadOrders();
 
             System.out.println("Data loaded successfully!");
@@ -70,19 +57,13 @@ public class DataPersistence {
         }
     }
 
-    /**
-     * Create backup of current data
-     */
     public static void createBackup(String backupName) {
         String backupDir = DATA_DIR + "/backups/" + backupName;
         try {
-            // First, save all current data to CSV files
             saveAllData();
 
-            // Create backup directory
             Files.createDirectories(Paths.get(backupDir));
 
-            // Copy all CSV data files to backup directory
             copyFile("users.csv", backupDir + "/users.csv");
             copyFile("restaurants.csv", backupDir + "/restaurants.csv");
             copyFile("orders.csv", backupDir + "/orders.csv");
@@ -98,14 +79,10 @@ public class DataPersistence {
         }
     }
 
-    /**
-     * Restore from backup
-     */
     public static void restoreFromBackup(String backupName) {
         String backupDir = DATA_DIR + "/backups/" + backupName;
 
         try {
-            // Check if backup directory exists
             java.nio.file.Path backupPath = Paths.get(backupDir);
             if (!Files.exists(backupPath)) {
                 System.err.println("Backup not found: " + backupName);
@@ -113,12 +90,10 @@ public class DataPersistence {
                 return;
             }
 
-            // Copy backup CSV files to main data directory
             copyFileFromBackup(backupDir + "/users.csv", DATA_DIR + "/users.csv");
             copyFileFromBackup(backupDir + "/restaurants.csv", DATA_DIR + "/restaurants.csv");
             copyFileFromBackup(backupDir + "/orders.csv", DATA_DIR + "/orders.csv");
 
-            // Reload data
             loadAllData();
 
             System.out.println("Restored from backup successfully: " + backupName);
@@ -154,11 +129,10 @@ public class DataPersistence {
         }
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String line = reader.readLine(); // Skip header
+            String line = reader.readLine();
             while ((line = reader.readLine()) != null) {
                 String[] parts = parseCSVLine(line);
                 if (parts.length >= 6) {
-                    // Basic user loading - in a real system this would be more sophisticated
                     System.out.println("Loaded user: " + parts[1] + " " + parts[2]);
                 }
             }
@@ -191,7 +165,7 @@ public class DataPersistence {
         }
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String line = reader.readLine(); // Skip header
+            String line = reader.readLine();
             while ((line = reader.readLine()) != null) {
                 String[] parts = parseCSVLine(line);
                 if (parts.length >= 9) {
@@ -225,7 +199,7 @@ public class DataPersistence {
         }
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String line = reader.readLine(); // Skip header
+            String line = reader.readLine();
             while ((line = reader.readLine()) != null) {
                 String[] parts = parseCSVLine(line);
                 if (parts.length >= 8) {
@@ -235,18 +209,13 @@ public class DataPersistence {
         }
     }
 
-    /**
-     * Export data to CSV format (same as saveAllData but in separate directory)
-     */
     public static void exportToCSV() {
         try {
-            // First, save all current data to CSV files
             saveAllData();
 
             String csvDir = DATA_DIR + "/export";
             Files.createDirectories(Paths.get(csvDir));
 
-            // Copy data files to export directory with timestamp
             String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
             String exportDir = csvDir + "/export_" + timestamp;
             Files.createDirectories(Paths.get(exportDir));
@@ -265,42 +234,30 @@ public class DataPersistence {
         }
     }
 
-    /**
-     * Copy file from data directory to destination
-     */
     private static void copyFile(String sourceName, String destPath) throws IOException {
         java.nio.file.Path sourcePath = Paths.get(DATA_DIR + "/" + sourceName);
         java.nio.file.Path destFilePath = Paths.get(destPath);
 
-        // Check if source file exists
         if (!Files.exists(sourcePath)) {
             throw new IOException("Source file does not exist: " + sourcePath);
         }
 
-        // Create parent directories if they don't exist
         Files.createDirectories(destFilePath.getParent());
 
-        // Copy file, replace if exists
         Files.copy(sourcePath, destFilePath, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
     }
 
-    /**
-     * Copy file from backup directory to data directory
-     */
     private static void copyFileFromBackup(String sourcePath, String destPath) throws IOException {
         java.nio.file.Path sourceFilePath = Paths.get(sourcePath);
         java.nio.file.Path destFilePath = Paths.get(destPath);
 
-        // Check if source file exists
         if (!Files.exists(sourceFilePath)) {
             System.out.println("Warning: Backup file not found, skipping: " + sourcePath);
             return;
         }
 
-        // Create parent directories if they don't exist
         Files.createDirectories(destFilePath.getParent());
 
-        // Copy file, replace if exists
         Files.copy(sourceFilePath, destFilePath, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
     }
 
@@ -315,13 +272,9 @@ public class DataPersistence {
     }
 
     private static String[] parseCSVLine(String line) {
-        // Simple CSV parser (doesn't handle all edge cases)
         return line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
     }
 
-    /**
-     * List all available backups
-     */
     public static java.util.List<String> listBackups() {
         java.util.List<String> backups = new java.util.ArrayList<>();
         try {

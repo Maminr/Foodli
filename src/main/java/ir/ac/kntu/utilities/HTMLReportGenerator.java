@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
  * - Customer behavior analysis
  * - Performance dashboards
  */
+
 public class HTMLReportGenerator {
 
     private static final String REPORTS_DIR = "reports";
@@ -70,7 +71,7 @@ public class HTMLReportGenerator {
 
         double avgOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
 
-        // Monthly breakdown (last 6 months)
+        // (last 6 months)
         Map<String, Double> monthlyRevenue = restaurantOrders.stream()
                 .filter(o -> o.getStatus() != OrderStatus.CANCELLED)
                 .collect(Collectors.groupingBy(
@@ -169,7 +170,7 @@ public class HTMLReportGenerator {
 
         html.append("</div>\n");
 
-        // JavaScript for charts
+        // JS charts
         html.append(getChartScript(monthlyRevenue));
 
         html.append("</body>\n</html>");
@@ -184,7 +185,6 @@ public class HTMLReportGenerator {
         List<Restaurant> allRestaurants = restaurantManager.getAllRestaurants();
         List<Order> allOrders = orderManager.getAllOrders();
 
-        // Calculate system statistics
         long totalRestaurants = allRestaurants.size();
         long approvedRestaurants = restaurantManager.getApprovedRestaurants().size();
         long pendingRestaurants = restaurantManager.getPendingRestaurants().size();
@@ -415,7 +415,7 @@ public class HTMLReportGenerator {
 
         monthlyData.entrySet().stream()
                 .sorted(Map.Entry.comparingByKey())
-                .limit(6) // Last 6 months
+                .limit(6) // 6 months
                 .forEach(entry -> {
                     labels.append("'").append(entry.getKey()).append("',");
                     data.append(entry.getValue()).append(",");
