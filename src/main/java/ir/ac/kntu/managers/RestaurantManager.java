@@ -11,41 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/*
- * RestaurantManager - Business logic for restaurant operations
- *
- * BONUS FEATURES TODO:
- *
- * Unit Testing:
- * TODO: Create comprehensive JUnit test suite for RestaurantManager
- * TODO: Test restaurant CRUD operations
- * TODO: Test search and filtering functionality
- * TODO: Test approval workflow and status management
- * TODO: Test food menu management operations
- *
- * Data Persistence:
- * TODO: Implement JDBC-based restaurant data persistence
- * TODO: Create database schema for restaurants and menus
- * TODO: Add caching layer for frequently accessed restaurant data
- * TODO: Implement data validation and integrity constraints
- *
- * Search Optimization:
- * TODO: Implement text similarity algorithms for restaurant/food search
- * TODO: Add full-text search indexing for better performance
- * TODO: Implement location-based search with geospatial queries
- * TODO: Add recommendation engine based on user preferences
- *
- * Advanced Features:
- * TODO: Implement restaurant capacity management and reservation system
- * TODO: Add dynamic pricing based on demand and time
- * TODO: Implement restaurant rating prediction algorithms
- * TODO: Add integration with external review platforms
- * TODO: Implement automated menu translation for international customers
- */
-
 public class RestaurantManager {
     private static RestaurantManager instance;
-    private List<Restaurant> restaurants;
+    private final List<Restaurant> restaurants;
 
     private RestaurantManager() {
         restaurants = new ArrayList<>();
@@ -73,12 +41,12 @@ public class RestaurantManager {
         return restaurant;
     }
 
-    public Restaurant findRestaurantById(int id) {
-        return restaurants.stream()
-                .filter(r -> r.getId() == id)
-                .findFirst()
-                .orElse(null);
-    }
+//    public Restaurant findRestaurantById(int id) {
+//        return restaurants.stream()
+//                .filter(r -> r.getId() == id)
+//                .findFirst()
+//                .orElse(null);
+//    }
 
     public Restaurant findRestaurantByManager(Manager manager) {
         return restaurants.stream()
@@ -98,11 +66,11 @@ public class RestaurantManager {
                 .collect(Collectors.toList());
     }
 
-    public List<Restaurant> findRestaurantsByFoodType(FoodType foodType) {
-        return restaurants.stream()
-                .filter(r -> r.getFoodTypes().contains(foodType))
-                .collect(Collectors.toList());
-    }
+//    public List<Restaurant> findRestaurantsByFoodType(FoodType foodType) {
+//        return restaurants.stream()
+//                .filter(r -> r.getFoodTypes().contains(foodType))
+//                .collect(Collectors.toList());
+//    }
 
     public List<Restaurant> findRestaurantsByFoodName(String foodName) {
         return restaurants.stream()
@@ -182,34 +150,29 @@ public class RestaurantManager {
 
         return results.stream()
                 .distinct()
-                .sorted((r1, r2) -> {
-                    return Double.compare(r2.getRating(), r1.getRating());
-                })
+                .sorted((r1, r2) -> Double.compare(r2.getRating(), r1.getRating()))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
-    /**
-     * Get autocomplete suggestions for search
-     */
-    public List<String> getSearchSuggestions(String partial) {
-
-        List<String> restaurantNames = getApprovedRestaurants().stream()
-                .map(Restaurant::getName)
-                .collect(Collectors.toList());
-
-        List<String> suggestions = new ArrayList<>(TextSimilarity.getAutocompleteSuggestions(partial, restaurantNames, 5));
-
-        List<String> foodNames = getApprovedRestaurants().stream()
-                .flatMap(r -> r.getMenu().stream())
-                .filter(Food::isAvailable)
-                .map(Food::getName)
-                .collect(Collectors.toList());
-
-        suggestions.addAll(TextSimilarity.getAutocompleteSuggestions(partial, foodNames, 5));
-
-        return suggestions.stream()
-                .distinct()
-                .limit(8)
-                .collect(Collectors.toList());
-    }
+//    public List<String> getSearchSuggestions(String partial) {
+//
+//        List<String> restaurantNames = getApprovedRestaurants().stream()
+//                .map(Restaurant::getName)
+//                .collect(Collectors.toList());
+//
+//        List<String> suggestions = new ArrayList<>(TextSimilarity.getAutocompleteSuggestions(partial, restaurantNames, 5));
+//
+//        List<String> foodNames = getApprovedRestaurants().stream()
+//                .flatMap(r -> r.getMenu().stream())
+//                .filter(Food::isAvailable)
+//                .map(Food::getName)
+//                .collect(Collectors.toList());
+//
+//        suggestions.addAll(TextSimilarity.getAutocompleteSuggestions(partial, foodNames, 5));
+//
+//        return suggestions.stream()
+//                .distinct()
+//                .limit(8)
+//                .collect(Collectors.toList());
+//    }
 }

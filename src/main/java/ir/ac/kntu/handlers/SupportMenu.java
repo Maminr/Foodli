@@ -13,50 +13,6 @@ import ir.ac.kntu.managers.UserManager;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
- * SupportMenu - Administrative interface for system support
- *
- * BONUS FEATURES TODO:
- *
- * Unit Testing:
- * TODO: Create JUnit tests for restaurant approval workflow
- * TODO: Test user management operations
- * TODO: Test system statistics calculations
- * TODO: Test input validation and error handling
- *
- * Data Persistence:
- * TODO: Implement audit trail for all support actions
- * TODO: Add database logging for approval/rejection decisions
- * TODO: Implement backup and recovery for system data
- * TODO: Add export functionality for system reports
- *
- * HTML Reports & Analytics:
- * TODO: Generate comprehensive system analytics HTML reports
- * TODO: Create interactive dashboards for platform performance
- * TODO: Add user growth charts and restaurant distribution maps
- * TODO: Implement real-time system monitoring displays
- * TODO: Add automated report generation and email delivery
- *
- * Advanced Administrative Features:
- * TODO: Implement bulk restaurant approval/rejection
- * TODO: Add user behavior analytics and fraud detection
- * TODO: Implement automated restaurant verification processes
- * TODO: Add customer support ticket system integration
- * TODO: Implement A/B testing framework for UI improvements
- *
- * CORE FEATURES IMPLEMENTED (Per Persian Spec):
- * ✅ Restaurant approval/rejection with reason tracking
- * ✅ System statistics and analytics
- * ✅ User management and oversight
- *
- * BONUS/ENHANCEMENT FEATURES (Beyond Spec):
- * TODO: Implement restaurant location verification system
- * TODO: Add automated duplicate restaurant detection
- * TODO: Implement appeal system for rejected restaurants
- * TODO: Add multi-language support for international expansion
- * TODO: Implement API rate limiting and abuse prevention
- */
-
 public class SupportMenu extends Menu {
 
     private final InputManager inputManager = InputManager.getInstance();

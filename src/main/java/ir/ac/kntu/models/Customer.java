@@ -8,7 +8,7 @@ import java.util.List;
 public class Customer extends User {
 
     private double wallet;
-    private List<Address> addresses;
+    private final List<Address> addresses;
 
     public Customer(String name, String lastName, String phoneNumber, String password) {
         super(name, lastName, phoneNumber, password, UserRole.CUSTOMER);
@@ -28,21 +28,21 @@ public class Customer extends User {
         this.wallet += amount;
     }
 
-    public boolean deductFromWallet(double amount) {
-        if (wallet >= amount) {
-            wallet -= amount;
-            return true;
-        }
-        return false;
-    }
+//    public boolean deductFromWallet(double amount) {
+//        if (wallet >= amount) {
+//            wallet -= amount;
+//            return true;
+//        }
+//        return false;
+//    }
 
     public List<Address> getAddresses() {
         return addresses;
     }
 
-    public void setAddresses(List<Address> addresses) {
-        this.addresses = addresses;
-    }
+//    public void setAddresses(List<Address> addresses) {
+//        this.addresses = addresses;
+//    }
 
     public void addAddress(Address address) {
         address.setId(addresses.size() + 1);

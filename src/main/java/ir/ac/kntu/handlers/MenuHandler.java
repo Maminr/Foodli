@@ -10,8 +10,8 @@ import java.util.Stack;
 public class MenuHandler {
 
     private static MenuHandler instance;
-    private Map<MenuType, Menu> menus;
-    private Stack<MenuType> menuStack;
+    private final Map<MenuType, Menu> menus;
+    private final Stack<MenuType> menuStack;
 
     private MenuHandler() {
         menus = new HashMap<>();
@@ -50,7 +50,7 @@ public class MenuHandler {
         }
     }
 
-    public boolean canGoBack() {
-        return menuStack.size() > 1;
-    }
+//    public boolean canGoBack() {
+//        return menuStack.size() > 1;
+//    }
 }

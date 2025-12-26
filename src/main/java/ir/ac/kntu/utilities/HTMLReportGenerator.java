@@ -17,17 +17,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-/*
- * HTMLReportGenerator - Creates comprehensive HTML reports for restaurant managers
- *
- * BONUS FEATURES IMPLEMENTATION:
- * - Financial reports with interactive tables
- * - Revenue analytics with charts
- * - Order statistics and trends
- * - Customer behavior analysis
- * - Performance dashboards
- */
-
 public class HTMLReportGenerator {
 
     private static final String REPORTS_DIR = "reports";
@@ -96,13 +85,13 @@ public class HTMLReportGenerator {
 
         // Monthly Revenue Chart
         html.append("<div class='chart-container'>\n");
-        html.append("<h2>📊 Monthly Revenue Trend</h2>\n");
+        html.append("<h2>Monthly Revenue Trend</h2>\n");
         html.append("<canvas id='revenueChart' width='800' height='300'></canvas>\n");
         html.append("</div>\n");
 
         // Recent Orders Table
         html.append("<div class='table-container'>\n");
-        html.append("<h2>📋 Recent Orders</h2>\n");
+        html.append("<h2>Recent Orders</h2>\n");
         html.append("<table>\n");
         html.append("<thead><tr><th>Order ID</th><th>Date</th><th>Status</th><th>Amount</th><th>Customer</th></tr></thead>\n");
         html.append("<tbody>\n");
@@ -203,7 +192,7 @@ public class HTMLReportGenerator {
         html.append(getHTMLHeader("Foodli System Analytics Report"));
         html.append("<body>\n");
         html.append("<div class='container'>\n");
-        html.append("<h1>📊 Foodli System Analytics Report</h1>\n");
+        html.append("<h1>Foodli System Analytics Report</h1>\n");
         html.append("<p class='date'>Generated on: ").append(LocalDate.now()).append("</p>\n");
 
         // System Overview Cards

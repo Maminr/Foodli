@@ -4,29 +4,6 @@ import ir.ac.kntu.models.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
- * CartManager - Shopping cart management and checkout processing
- *
- * BONUS FEATURES TODO:
- *
- * Unit Testing:
- * TODO: Create JUnit tests for cart operations
- * TODO: Test single restaurant validation rules
- * TODO: Test checkout process and payment validation
- * TODO: Test cart persistence across sessions
- *
- * Data Persistence:
- * TODO: Implement cart state persistence for user sessions
- * TODO: Add cart expiration and cleanup mechanisms
- * TODO: Implement cart synchronization across devices
- *
- * Advanced Features:
- * TODO: Implement cart sharing for group orders
- * TODO: Add smart suggestions based on cart contents
- * TODO: Implement cart abandonment recovery system
- * TODO: Add integration with loyalty programs and discounts
- */
-
 public class CartManager {
     private static CartManager instance;
     private final ShoppingCart currentCart;

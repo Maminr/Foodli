@@ -31,7 +31,7 @@ public class AboutUsMenu extends Menu {
 
     private void printContactInfo() {
         Logger.getInstance().print("----------------------------------------", TextColor.PURPLE);
-        Logger.getInstance().print("Email: support@foodli.i3r");
+        Logger.getInstance().print("Email: support@foodli.ir");
         Logger.getInstance().print("Phone: +98 21 8888 8888");
         Logger.getInstance().print("Address: KNTU University, Tehran");
         Logger.getInstance().print("----------------------------------------", TextColor.PURPLE);

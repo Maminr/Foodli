@@ -6,32 +6,13 @@ import ir.ac.kntu.models.enums.RestaurantStatus;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
- * Restaurant Model - Core restaurant entity
- *
- * BONUS FEATURES TODO:
- *
- * Data Persistence:
- * TODO: Implement JPA/Hibernate annotations for database mapping
- * TODO: Add validation constraints for data integrity
- * TODO: Implement lazy loading for menu items and orders
- * TODO: Add indexing for search performance
- *
- * Advanced Features:
- * TODO: Add restaurant image and gallery management
- * TODO: Implement working hours and holiday scheduling
- * TODO: Add delivery zones and radius configuration
- * TODO: Implement capacity management for peak hours
- * TODO: Add integration with external rating systems
- */
-
 public class Restaurant {
     private int id;
     private String name;
-    private Manager manager;
+    private final Manager manager;
     private String address;
     private int zoneNumber;
-    private List<FoodType> foodTypes;
+    private final List<FoodType> foodTypes;
     private RestaurantStatus status;
     private String rejectionReason;
     private double rating;
@@ -110,9 +91,9 @@ public class Restaurant {
         return manager;
     }
 
-    public void setManager(Manager manager) {
-        this.manager = manager;
-    }
+//    public void setManager(Manager manager) {
+//        this.manager = manager;
+//    }
 
     public String getAddress() {
         return address;
@@ -134,9 +115,9 @@ public class Restaurant {
         return foodTypes;
     }
 
-    public void setFoodTypes(List<FoodType> foodTypes) {
-        this.foodTypes = foodTypes;
-    }
+//    public void setFoodTypes(List<FoodType> foodTypes) {
+//        this.foodTypes = foodTypes;
+//    }
 
     public RestaurantStatus getStatus() {
         return status;
@@ -162,9 +143,9 @@ public class Restaurant {
         this.rating = rating;
     }
 
-    public int getRatingCount() {
-        return ratingCount;
-    }
+//    public int getRatingCount() {
+//        return ratingCount;
+//    }
 
     public void setRatingCount(int ratingCount) {
         this.ratingCount = ratingCount;

@@ -9,52 +9,6 @@ import ir.ac.kntu.utilities.HTMLReportGenerator;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
- * RestaurantManagerMenu - Complete restaurant management interface
- *
- * BONUS FEATURES TODO:
- *
- * Unit Testing:
- * TODO: Create JUnit tests for restaurant registration workflow
- * TODO: Test menu management operations (add/edit/delete foods)
- * TODO: Test order processing and status updates
- * TODO: Test financial calculations and wallet operations
- * TODO: Test input validation and error handling
- *
- * Data Persistence:
- * TODO: Implement restaurant data persistence (menu, orders, finances)
- * TODO: Add database storage for food inventory and pricing
- * TODO: Implement backup system for restaurant data
- * TODO: Add data export functionality for financial reports
- *
- * HTML Reports & Analytics:
- * TODO: Generate comprehensive HTML financial reports for managers
- * TODO: Create interactive charts for revenue trends and order analytics
- * TODO: Add customer demographic analysis and popular dishes charts
- * TODO: Implement monthly/yearly performance dashboards
- *
- * Advanced Features:
- * TODO: Implement real-time order notifications for restaurant managers
- * TODO: Add inventory management system for ingredients
- * TODO: Implement automated order acceptance based on capacity
- * TODO: Add customer feedback analysis and response system
- * TODO: Implement delivery time optimization algorithms
- *
- * CORE FEATURES IMPLEMENTED (Per Persian Spec):
- * ✅ Restaurant registration with approval workflow
- * ✅ Menu management (add/edit/delete foods with categories and attributes)
- * ✅ Order processing (view new orders, accept/reject, mark as sent)
- * ✅ Wallet management and financial tracking
- *
- * BONUS/ENHANCEMENT FEATURES (Beyond Spec):
- * TODO: Implement restaurant working hours management
- * TODO: Add delivery zone configuration and pricing
- * TODO: Implement bulk order discounts and promotions
- * TODO: Add customer loyalty program management
- * TODO: Implement staff management for larger restaurants
- * TODO: Add integration with delivery partners
- */
-
 public class RestaurantManagerMenu extends Menu {
 
     private final InputManager inputManager = InputManager.getInstance();
@@ -163,16 +117,16 @@ public class RestaurantManagerMenu extends Menu {
         Logger logger = Logger.getInstance();
 
         while (true) {
-            logger.print("Zone Number (1-20): ");
+            logger.print("Zone Number (1-22): ");
             try {
                 int zone = Integer.parseInt(inputManager.getLine());
-                if (zone >= 1 && zone <= 20) {
+                if (zone >= 1 && zone <= 22) {
                     return zone;
                 }
             } catch (NumberFormatException e) {
                 // Ignored
             }
-            logger.error("Invalid zone number! Must be between 1-20.");
+            logger.error("Invalid zone number! Must be between 1-22.");
         }
     }
 

@@ -22,9 +22,9 @@ public class SessionManager {
         this.currentUser = null;
     }
 
-    public boolean isLoggedIn() {
-        return currentUser != null;
-    }
+//    public boolean isLoggedIn() {
+//        return currentUser != null;
+//    }
 
     public User getCurrentUser() {
         return currentUser;

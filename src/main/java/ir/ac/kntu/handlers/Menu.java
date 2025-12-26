@@ -10,10 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Menu {
-    private Logger logger = Logger.getInstance();
-    private InputManager inputManager = InputManager.getInstance();
-    private String title;
-    protected String menuText;
+    private final Logger logger = Logger.getInstance();
+    private final InputManager inputManager = InputManager.getInstance();
+    private final String title;
     protected final List<MenuItem> items = new ArrayList<>();
 
     public Menu(String title) {

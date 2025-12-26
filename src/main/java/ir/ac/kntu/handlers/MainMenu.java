@@ -14,44 +14,6 @@ import ir.ac.kntu.models.enums.UserRole;
 import ir.ac.kntu.utilities.PasswordUtils;
 import ir.ac.kntu.utilities.StringUtils;
 
-/*
- * TODO: Implement bonus features as specified in Persian documentation
- *
- * Unit Testing:
- * TODO: Create comprehensive JUnit test suite for MainMenu class
- * TODO: Test user authentication flows (sign in/up)
- * TODO: Test input validation for phone numbers and passwords
- * TODO: Test menu navigation and error handling
- *
- * Version Control & Git:
- * TODO: Implement conventional commit practices
- * TODO: Add pre-commit hooks for code quality checks
- * TODO: Maintain proper branching strategy (feature branches, PR reviews)
- *
- * Data Persistence:
- * TODO: Implement JDBC connection to relational database
- * TODO: Create database schema for users, restaurants, orders, etc.
- * TODO: Add data migration scripts
- * TODO: Implement backup and recovery mechanisms
- *
- * Text Search & Similarity:
- * TODO: Implement text similarity algorithms (Levenshtein distance, Jaccard similarity)
- * TODO: Add fuzzy search for restaurant and food names
- * TODO: Implement search result ranking based on similarity scores
- *
- * HTML Reports:
- * TODO: Create HTML report generator for restaurant managers
- * TODO: Generate financial reports with charts (revenue, orders, ratings)
- * TODO: Add interactive tables for order history and analytics
- * TODO: Implement PDF export functionality
- *
- * System Enhancements:
- * TODO: Add user session timeout and security measures
- * TODO: Implement rate limiting for API calls
- * TODO: Add comprehensive logging and audit trails
- * TODO: Create admin panel for system monitoring
- */
-
 public class MainMenu extends Menu {
     private final UserManager userManager = UserManager.getInstance();
     private final Logger logger = Logger.getInstance();

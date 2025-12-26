@@ -24,54 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Comparator;
 
-/*
- * CustomerMenu - Complete customer interaction interface
- *
- * BONUS FEATURES TODO:
- *
- * Unit Testing:
- * TODO: Create JUnit tests for all customer menu interactions
- * TODO: Test restaurant search and filtering functionality
- * TODO: Test shopping cart operations and checkout process
- * TODO: Test address and wallet management
- * TODO: Test order tracking and review system
- *
- * Data Persistence:
- * TODO: Implement customer data persistence (addresses, wallet balance)
- * TODO: Add order history persistence with proper indexing
- * TODO: Implement shopping cart state saving across sessions
- * TODO: Add customer preferences and favorite restaurants storage
- *
- * Text Search Enhancement:
- * TODO: Implement advanced text similarity for restaurant/food search
- * TODO: Add autocomplete functionality for search terms
- * TODO: Implement search history and suggestions
- * TODO: Add voice search capability (future enhancement)
- *
- * HTML Reports:
- * TODO: Generate customer order history reports in HTML
- * TODO: Create spending analytics charts and tables
- * TODO: Add order tracking timeline visualization
- * TODO: Implement export functionality for receipts
- *
- * Performance & UX:
- * TODO: Implement pagination for large result sets
- * TODO: Add loading indicators for long operations
- * TODO: Implement push notifications for order status updates
- * TODO: Add offline mode for viewing order history
- *
- * CORE FEATURES IMPLEMENTED (Per Persian Spec):
- * ✅ Restaurant search and selection (text search, category filtering, rating display, sorting)
- * ✅ Shopping cart and order placement (single restaurant limit, address selection, payment)
- * ✅ Order management (active orders, history, reviews for delivered orders)
- * ✅ Account settings (address CRUD, wallet management)
- *
- * BONUS/ENHANCEMENT FEATURES (Beyond Spec):
- * TODO: Add restaurant working hours display
- * TODO: Implement delivery time estimation
- * TODO: Add customer support chat integration
- */
-
 public class CustomerMenu extends Menu {
 
     private final InputManager inputManager = InputManager.getInstance();
@@ -825,16 +777,16 @@ public class CustomerMenu extends Menu {
                 }
 
                 logger.print("Current zone: " + addressToEdit.getZoneNumber());
-                logger.print("New zone (1-20, leave empty to keep current): ");
+                logger.print("New zone (1-22, leave empty to keep current): ");
                 String zoneInput = inputManager.getLine();
 
                 if (!zoneInput.trim().isEmpty()) {
                     try {
                         int newZone = Integer.parseInt(zoneInput);
-                        if (newZone >= 1 && newZone <= 20) {
+                        if (newZone >= 1 && newZone <= 22) {
                             addressToEdit.setZoneNumber(newZone);
                         } else {
-                            logger.error("Zone number must be between 1 and 20!");
+                            logger.error("Zone number must be between 1 and 22!");
                         }
                     } catch (NumberFormatException e) {
                         logger.error("Invalid zone number format!");

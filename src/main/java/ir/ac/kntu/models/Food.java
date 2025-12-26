@@ -7,7 +7,7 @@ public class Food {
     private String name;
     private double price;
     private boolean available;
-    private FoodCategory category;
+    private final FoodCategory category;
 
     // Main dish specific fields
     private String ingredients;
@@ -75,72 +75,72 @@ public class Food {
         return category;
     }
 
-    public void setCategory(FoodCategory category) {
-        this.category = category;
-    }
+//    public void setCategory(FoodCategory category) {
+//        this.category = category;
+//    }
 
     // Main dish methods
-    public String getIngredients() {
-        return ingredients;
-    }
+//    public String getIngredients() {
+//        return ingredients;
+//    }
 
     public void setIngredients(String ingredients) {
         this.ingredients = ingredients;
     }
 
-    public int getCookingTime() {
-        return cookingTime;
-    }
+//    public int getCookingTime() {
+//        return cookingTime;
+//    }
 
     public void setCookingTime(int cookingTime) {
         this.cookingTime = cookingTime;
     }
 
-    public ServingType getServingType() {
-        return servingType;
-    }
+//    public ServingType getServingType() {
+//        return servingType;
+//    }
 
     public void setServingType(ServingType servingType) {
         this.servingType = servingType;
     }
 
     // Appetizer methods
-    public int getPiecesPerServing() {
-        return piecesPerServing;
-    }
+//    public int getPiecesPerServing() {
+//        return piecesPerServing;
+//    }
 
     public void setPiecesPerServing(int piecesPerServing) {
         this.piecesPerServing = piecesPerServing;
     }
 
-    public PortionSize getPortionSize() {
-        return portionSize;
-    }
+//    public PortionSize getPortionSize() {
+//        return portionSize;
+//    }
 
     public void setPortionSize(PortionSize portionSize) {
         this.portionSize = portionSize;
     }
 
     // Beverage methods
-    public int getVolume() {
-        return volume;
-    }
+//    public int getVolume() {
+//        return volume;
+//    }
 
     public void setVolume(int volume) {
         this.volume = volume;
     }
 
-    public DrinkPackaging getPackaging() {
-        return packaging;
-    }
+//    public DrinkPackaging getPackaging() {
+//        return packaging;
+//    }
 
     public void setPackaging(DrinkPackaging packaging) {
         this.packaging = packaging;
     }
 
-    public SugarStatus getSugarStatus() {
-        return sugarStatus;
-    }
+//    public SugarStatus getSugarStatus() {
+//        return sugarStatus;
+//    }
 
     public void setSugarStatus(SugarStatus sugarStatus) {
         this.sugarStatus = sugarStatus;

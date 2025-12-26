@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter;
 
 public class Logger {
     private static Logger instance;
-    private boolean isDebugMode;
+    private final boolean isDebugMode;
 
     
     private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
@@ -53,33 +53,18 @@ public class Logger {
         }
     }
 
-    /**
-     * Custom Log: Prints with Time, but you choose the color.
-     * Usage: Logger.getInstance().customLog("My Message", TextColor.PURPLE);
-     */
-    public void customLog(String message, TextColor color) {
-        logInternal(color, "LOG", message);
-    }
+//    public void customLog(String message, TextColor color) {
+//        logInternal(color, "LOG", message);
+//    }
 
-    
-
-    /**
-     * Prints a normal white message (like System.out.println).
-     */
     public void print(String message) {
         System.out.println(message);
     }
 
-    /**
-     * Prints a raw message in a specific color.
-     */
     public void print(String message, TextColor color) {
         System.out.println(color + message + TextColor.RESET);
     }
 
-    
-
-    
     private void logInternal(TextColor color, String tag, String message) {
         String time = LocalTime.now().format(timeFormatter);
         System.out.println(

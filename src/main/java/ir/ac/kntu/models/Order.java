@@ -6,32 +6,13 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
- * Order Model - Complete order lifecycle management
- *
- * BONUS FEATURES TODO:
- *
- * Data Persistence:
- * TODO: Implement complex database relationships and constraints
- * TODO: Add order versioning for modification tracking
- * TODO: Implement order status change auditing
- * TODO: Add geospatial indexing for delivery optimization
- *
- * Advanced Features:
- * TODO: Implement order modification and cancellation policies
- * TODO: Add delivery tracking with real-time GPS updates
- * TODO: Implement order bundling for multi-restaurant orders
- * TODO: Add integration with payment gateways and refunds
- * TODO: Implement automated order routing algorithms
- */
-
 public class Order {
     private int id;
     private final User customer;
     private Restaurant restaurant;
     private List<OrderItem> items;
-    private double deliveryCost;
-    private Address deliveryAddress;
+    private final double deliveryCost;
+    private final Address deliveryAddress;
     private OrderStatus status;
     private final LocalDateTime orderTime;
     private String reviewComment;
@@ -85,21 +66,21 @@ public class Order {
         return deliveryCost;
     }
 
-    public void setDeliveryCost(double deliveryCost) {
-        this.deliveryCost = deliveryCost;
-    }
+//    public void setDeliveryCost(double deliveryCost) {
+//        this.deliveryCost = deliveryCost;
+//    }
 
     public double getFinalAmount() {
         return getItemsTotal() + deliveryCost;
     }
 
-    public Address getDeliveryAddress() {
-        return deliveryAddress;
-    }
+//    public Address getDeliveryAddress() {
+//        return deliveryAddress;
+//    }
 
-    public void setDeliveryAddress(Address deliveryAddress) {
-        this.deliveryAddress = deliveryAddress;
-    }
+//    public void setDeliveryAddress(Address deliveryAddress) {
+//        this.deliveryAddress = deliveryAddress;
+//    }
 
     public OrderStatus getStatus() {
         return status;
@@ -129,13 +110,13 @@ public class Order {
         this.reviewRating = reviewRating;
     }
 
-    public void addItem(OrderItem item) {
-        items.add(item);
-    }
+//    public void addItem(OrderItem item) {
+//        items.add(item);
+//    }
 
-    public void removeItem(OrderItem item) {
-        items.remove(item);
-    }
+//    public void removeItem(OrderItem item) {
+//        items.remove(item);
+//    }
 
     public String getInvoice() {
         StringBuilder invoice = new StringBuilder();
