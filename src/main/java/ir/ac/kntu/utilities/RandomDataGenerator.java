@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Random;
 
 public class RandomDataGenerator {
-    private static final Random random = new Random();
+    private static final Random RANDOM = new Random();
     private static final String[] FIRST_NAMES = {"Ali", "Reza", "Mohammad", "Ahmad", "Hossein", "Mehdi", "Saeed", "Hamed", "Amir", "Kaveh"};
     private static final String[] LAST_NAMES = {"Ahmadi", "Hosseini", "Karimi", "Rahmani", "Hashemi", "Ebrahimi", "Moradi", "Mohammadi", "Rostami", "Fazeli"};
     private static final String[] RESTAURANT_NAMES = {"Delicious Pizza", "Iranian Kebab", "Fast Burger", "Seafood Palace", "Cafe Delight", "Persian Grill", "Healthy Bowl", "Sweet Sweets", "Coffee Corner", "Grill Master"};
@@ -31,24 +31,24 @@ public class RandomDataGenerator {
         UserManager userManager = UserManager.getInstance();
 
         for (int i = 0; i < count; i++) {
-            String firstName = FIRST_NAMES[random.nextInt(FIRST_NAMES.length)];
-            String lastName = LAST_NAMES[random.nextInt(LAST_NAMES.length)];
-            String phoneNumber = "0912" + String.format("%07d", random.nextInt(10000000));
+            String firstName = FIRST_NAMES[RANDOM.nextInt(FIRST_NAMES.length)];
+            String lastName = LAST_NAMES[RANDOM.nextInt(LAST_NAMES.length)];
+            String phoneNumber = "0912" + String.format("%07d", RANDOM.nextInt(10_000_000));
 
             while (userManager.findUserByPhoneNumber(phoneNumber) != null) {
-                phoneNumber = "0912" + String.format("%07d", random.nextInt(10000000));
+                phoneNumber = "0912" + String.format("%07d", RANDOM.nextInt(10_000_000));
             }
 
-            String password = "Pass" + random.nextInt(1000) + "!";
+            String password = "Pass" + RANDOM.nextInt(1000) + "!";
             Customer customer = (Customer) userManager.signUpCustomer(firstName, lastName, phoneNumber, password);
 
             if (customer != null) {
-                double walletAmount = random.nextDouble() * 500000;
+                double walletAmount = RANDOM.nextDouble() * 500_000;
                 customer.setWallet(walletAmount);
-                int addressCount = random.nextInt(3) + 1;
+                int addressCount = RANDOM.nextInt(3) + 1;
                 for (int j = 0; j < addressCount; j++) {
-                    String addressDesc = ADDRESSES[random.nextInt(ADDRESSES.length)];
-                    int zone = random.nextInt(22) + 1; // Zone 1-22
+                    String addressDesc = ADDRESSES[RANDOM.nextInt(ADDRESSES.length)];
+                    int zone = RANDOM.nextInt(22) + 1; // Zone 1-22
                     Address address = new Address(addressDesc, zone);
                     customer.addAddress(address);
                 }
@@ -61,29 +61,29 @@ public class RandomDataGenerator {
         UserManager userManager = UserManager.getInstance();
 
         for (int i = 0; i < count; i++) {
-            String firstName = FIRST_NAMES[random.nextInt(FIRST_NAMES.length)];
-            String lastName = LAST_NAMES[random.nextInt(LAST_NAMES.length)];
-            String phoneNumber = "0913" + String.format("%07d", random.nextInt(10000000));
+            String firstName = FIRST_NAMES[RANDOM.nextInt(FIRST_NAMES.length)];
+            String lastName = LAST_NAMES[RANDOM.nextInt(LAST_NAMES.length)];
+            String phoneNumber = "0913" + String.format("%07d", RANDOM.nextInt(10_000_000));
 
             while (userManager.findUserByPhoneNumber(phoneNumber) != null) {
-                phoneNumber = "0913" + String.format("%07d", random.nextInt(10000000));
+                phoneNumber = "0913" + String.format("%07d", RANDOM.nextInt(10_000_000));
             }
 
-            String password = "Manager" + random.nextInt(1000) + "!";
+            String password = "Manager" + RANDOM.nextInt(1000) + "!";
             Manager manager = (Manager) userManager.signUpManager(firstName, lastName, phoneNumber, password);
 
             if (manager != null) {
-                String restaurantName = RESTAURANT_NAMES[random.nextInt(RESTAURANT_NAMES.length)] + " " + (i + 1);
-                String address = ADDRESSES[random.nextInt(ADDRESSES.length)];
-                int zoneNumber = random.nextInt(20) + 1;
+                String restaurantName = RESTAURANT_NAMES[RANDOM.nextInt(RESTAURANT_NAMES.length)] + " " + (i + 1);
+                String address = ADDRESSES[RANDOM.nextInt(ADDRESSES.length)];
+                int zoneNumber = RANDOM.nextInt(20) + 1;
 
                 List<FoodType> foodTypes = new ArrayList<>();
-                int typeCount = random.nextInt(3) + 1;
+                int typeCount = RANDOM.nextInt(3) + 1;
                 FoodType[] allTypes = FoodType.values();
                 for (int j = 0; j < typeCount; j++) {
                     FoodType type;
                     do {
-                        type = allTypes[random.nextInt(allTypes.length)];
+                        type = allTypes[RANDOM.nextInt(allTypes.length)];
                     } while (foodTypes.contains(type));
                     foodTypes.add(type);
                 }
@@ -92,17 +92,17 @@ public class RandomDataGenerator {
 
                 restaurantManager.approveRestaurant(restaurant);
 
-                double walletAmount = random.nextDouble() * 1000000;
+                double walletAmount = RANDOM.nextDouble() * 1_000_000;
                 restaurant.setWallet(walletAmount);
 
-                double rating = 3.0 + random.nextDouble() * 2.0;
-                int ratingCount = random.nextInt(100) + 10;
+                double rating = 3.0 + RANDOM.nextDouble() * 2.0;
+                int ratingCount = RANDOM.nextInt(100) + 10;
                 restaurant.setRating(rating);
                 restaurant.setRatingCount(ratingCount);
 
-                int menuSize = random.nextInt(6) + 3;
+                int menuSize = RANDOM.nextInt(6) + 3;
                 for (int j = 0; j < menuSize; j++) {
-                    generateRandomFood(restaurant, foodTypes.get(random.nextInt(foodTypes.size())));
+                    generateRandomFood(restaurant, foodTypes.get(RANDOM.nextInt(foodTypes.size())));
                 }
             }
         }
@@ -111,26 +111,26 @@ public class RandomDataGenerator {
     private static void generateRandomFood(Restaurant restaurant, FoodType foodType) {
         RestaurantManager restaurantManager = RestaurantManager.getInstance();
 
-        String foodName = FOOD_NAMES[random.nextInt(FOOD_NAMES.length)];
-        double price = 20000 + random.nextDouble() * 80000;
+        String foodName = FOOD_NAMES[RANDOM.nextInt(FOOD_NAMES.length)];
+        double price = 20_000 + RANDOM.nextDouble() * 80_000;
 
         Food food = new Food(foodName, price, getRandomFoodCategory(foodType));
-        food.setAvailable(random.nextBoolean());
+        food.setAvailable(RANDOM.nextBoolean());
 
         switch (food.getCategory()) {
             case MAIN_DISH:
                 food.setIngredients("Fresh ingredients, traditional spices");
-                food.setCookingTime(15 + random.nextInt(30));
-                food.setServingType(random.nextBoolean() ? ServingType.PLATED : ServingType.SANDWICH);
+                food.setCookingTime(15 + RANDOM.nextInt(30));
+                food.setServingType(RANDOM.nextBoolean() ? ServingType.PLATED : ServingType.SANDWICH);
                 break;
             case APPETIZER:
-                food.setPiecesPerServing(2 + random.nextInt(6));
-                food.setPortionSize(PortionSize.values()[random.nextInt(PortionSize.values().length)]);
+                food.setPiecesPerServing(2 + RANDOM.nextInt(6));
+                food.setPortionSize(PortionSize.values()[RANDOM.nextInt(PortionSize.values().length)]);
                 break;
             case BEVERAGE:
-                food.setVolume(200 + random.nextInt(400));
-                food.setPackaging(DrinkPackaging.values()[random.nextInt(DrinkPackaging.values().length)]);
-                food.setSugarStatus(random.nextBoolean() ? SugarStatus.DIET : SugarStatus.REGULAR);
+                food.setVolume(200 + RANDOM.nextInt(400));
+                food.setPackaging(DrinkPackaging.values()[RANDOM.nextInt(DrinkPackaging.values().length)]);
+                food.setSugarStatus(RANDOM.nextBoolean() ? SugarStatus.DIET : SugarStatus.REGULAR);
                 break;
             default:
                 break;
@@ -142,10 +142,10 @@ public class RandomDataGenerator {
     private static FoodCategory getRandomFoodCategory(FoodType restaurantType) {
 
         return switch (restaurantType) {
-            case CAFE, BEVERAGE -> random.nextBoolean() ? FoodCategory.BEVERAGE : FoodCategory.APPETIZER;
-            case FAST_FOOD -> random.nextInt(3) == 0 ? FoodCategory.APPETIZER : FoodCategory.MAIN_DISH;
-            default -> random.nextInt(5) == 0 ? FoodCategory.BEVERAGE :
-                    random.nextInt(4) == 0 ? FoodCategory.APPETIZER : FoodCategory.MAIN_DISH;
+            case CAFE, BEVERAGE -> RANDOM.nextBoolean() ? FoodCategory.BEVERAGE : FoodCategory.APPETIZER;
+            case FAST_FOOD -> RANDOM.nextInt(3) == 0 ? FoodCategory.APPETIZER : FoodCategory.MAIN_DISH;
+            default -> RANDOM.nextInt(5) == 0 ? FoodCategory.BEVERAGE :
+                    RANDOM.nextInt(4) == 0 ? FoodCategory.APPETIZER : FoodCategory.MAIN_DISH;
         };
     }
 
@@ -166,15 +166,15 @@ public class RandomDataGenerator {
         }
 
         for (int i = 0; i < count; i++) {
-            Customer customer = customers.get(random.nextInt(customers.size()));
-            Restaurant restaurant = restaurants.get(random.nextInt(restaurants.size()));
+            Customer customer = customers.get(RANDOM.nextInt(customers.size()));
+            Restaurant restaurant = restaurants.get(RANDOM.nextInt(restaurants.size()));
 
             if (restaurant.getMenu().isEmpty() || customer.getAddresses().isEmpty()) {
                 continue;
             }
 
             List<OrderItem> orderItems = new ArrayList<>();
-            int itemCount = random.nextInt(4) + 1;
+            int itemCount = RANDOM.nextInt(4) + 1;
 
             for (int j = 0; j < itemCount; j++) {
                 List<Food> availableFoods = restaurant.getMenu().stream()
@@ -182,8 +182,8 @@ public class RandomDataGenerator {
                         .toList();
 
                 if (!availableFoods.isEmpty()) {
-                    Food food = availableFoods.get(random.nextInt(availableFoods.size()));
-                    int quantity = random.nextInt(3) + 1;
+                    Food food = availableFoods.get(RANDOM.nextInt(availableFoods.size()));
+                    int quantity = RANDOM.nextInt(3) + 1;
                     orderItems.add(new OrderItem(food, quantity));
                 }
             }
@@ -192,23 +192,23 @@ public class RandomDataGenerator {
                 continue;
             }
 
-            Address deliveryAddress = customer.getAddresses().get(random.nextInt(customer.getAddresses().size()));
+            Address deliveryAddress = customer.getAddresses().get(RANDOM.nextInt(customer.getAddresses().size()));
 
             double deliveryCost = restaurant.getDeliveryCost(deliveryAddress.getZoneNumber());
 
             Order order = orderManager.createOrder(customer, restaurant, orderItems, deliveryCost, deliveryAddress);
 
-            int statusRandom = random.nextInt(10);
+            int statusRandom = RANDOM.nextInt(10);
             if (statusRandom < 3) {
                 orderManager.updateOrderStatus(order, OrderStatus.CANCELLED);
             } else if (statusRandom < 7) {
                 orderManager.updateOrderStatus(order, OrderStatus.PREPARING);
-                if (random.nextBoolean()) {
+                if (RANDOM.nextBoolean()) {
                     orderManager.updateOrderStatus(order, OrderStatus.SENT);
-                    if (random.nextBoolean()) {
+                    if (RANDOM.nextBoolean()) {
                         orderManager.updateOrderStatus(order, OrderStatus.DELIVERED);
-                        if (random.nextBoolean()) {
-                            int rating = random.nextInt(5) + 1; // 1-5 stars
+                        if (RANDOM.nextBoolean()) {
+                            int rating = RANDOM.nextInt(5) + 1; // 1-5 stars
                             String comment = "Good experience with the food!";
                             orderManager.addOrderReview(order, rating, comment);
                             restaurant.addRating(rating);

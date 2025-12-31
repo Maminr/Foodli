@@ -15,6 +15,13 @@ import java.util.List;
 
 public class SupportMenu extends Menu {
 
+    // Common UI strings to avoid duplicate literals
+    private static final String PRESS_ENTER_CONTINUE = "Press Enter to continue...";
+    private static final String INVALID_OPTION = "Invalid option! Please try again.";
+    private static final String CHOOSE_OPTION = "Choose an option: ";
+    private static final String BACK_OPTION = "0. Back";
+    private static final String TOMAN_SUFFIX = " Toman";
+
     private final InputManager inputManager = InputManager.getInstance();
     private final RestaurantManager restaurantManager = RestaurantManager.getInstance();
     private final OrderManager orderManager = OrderManager.getInstance();
@@ -38,7 +45,7 @@ public class SupportMenu extends Menu {
             logger.print("5. Generate Reports", TextColor.CYAN);
             logger.print("6. Data Persistence", TextColor.CYAN);
             logger.print("0. Logout", TextColor.RED);
-            logger.print("Choose an option: ");
+            logger.print(CHOOSE_OPTION);
 
             String choice = inputManager.getLine();
 
@@ -65,7 +72,7 @@ public class SupportMenu extends Menu {
                     MenuHandler.getInstance().loadMenu(MenuType.MAIN_MENU);
                     return;
                 default:
-                    logger.print("Invalid option! Please try again.", TextColor.RED);
+                    logger.print(INVALID_OPTION, TextColor.RED);
                     break;
             }
         }
@@ -79,8 +86,8 @@ public class SupportMenu extends Menu {
             logger.print("1. View Pending Restaurants", TextColor.CYAN);
             logger.print("2. View Approved Restaurants", TextColor.CYAN);
             logger.print("3. View Rejected Restaurants", TextColor.CYAN);
-            logger.print("0. Back", TextColor.RED);
-            logger.print("Choose an option: ");
+            logger.print(BACK_OPTION, TextColor.RED);
+            logger.print(CHOOSE_OPTION);
 
             String choice = inputManager.getLine();
 
@@ -97,7 +104,7 @@ public class SupportMenu extends Menu {
                 case "0":
                     return;
                 default:
-                    logger.print("Invalid option! Please try again.", TextColor.RED);
+                    logger.print(INVALID_OPTION, TextColor.RED);
                     break;
             }
         }
@@ -109,7 +116,7 @@ public class SupportMenu extends Menu {
 
         if (pendingRestaurants.isEmpty()) {
             logger.print("No pending restaurants.", TextColor.YELLOW);
-            logger.print("Press Enter to continue...");
+            logger.print(PRESS_ENTER_CONTINUE);
             inputManager.getLine();
             return;
         }
@@ -142,10 +149,11 @@ public class SupportMenu extends Menu {
                     logger.print("Restaurant rejected.", TextColor.YELLOW);
                 }
                 case "3" -> logger.print("Skipped.", TextColor.YELLOW);
+                default -> logger.print(INVALID_OPTION, TextColor.RED);
             }
         }
 
-        logger.print("Press Enter to continue...");
+        logger.print(PRESS_ENTER_CONTINUE);
         inputManager.getLine();
     }
 
@@ -165,7 +173,7 @@ public class SupportMenu extends Menu {
             }
         }
 
-        logger.print("Press Enter to continue...");
+        logger.print(PRESS_ENTER_CONTINUE);
         inputManager.getLine();
     }
 
@@ -191,7 +199,7 @@ public class SupportMenu extends Menu {
             }
         }
 
-        logger.print("Press Enter to continue...");
+        logger.print(PRESS_ENTER_CONTINUE);
         inputManager.getLine();
     }
 
@@ -233,7 +241,7 @@ public class SupportMenu extends Menu {
 
         logger.print("• Total Revenue: " + totalRevenue + " Toman", TextColor.GREEN);
 
-        logger.print("Press Enter to continue...");
+        logger.print(PRESS_ENTER_CONTINUE);
         inputManager.getLine();
     }
 
@@ -245,8 +253,8 @@ public class SupportMenu extends Menu {
             logger.print("1. View All Users", TextColor.CYAN);
             logger.print("2. Search Users", TextColor.CYAN);
             logger.print("3. User Statistics", TextColor.CYAN);
-            logger.print("0. Back", TextColor.RED);
-            logger.print("Choose an option: ");
+            logger.print(BACK_OPTION, TextColor.RED);
+            logger.print(CHOOSE_OPTION);
 
             String choice = inputManager.getLine();
 
@@ -263,7 +271,7 @@ public class SupportMenu extends Menu {
                 case "0":
                     return;
                 default:
-                    logger.print("Invalid option! Please try again.", TextColor.RED);
+                    logger.print(INVALID_OPTION, TextColor.RED);
                     break;
             }
         }
@@ -278,7 +286,7 @@ public class SupportMenu extends Menu {
 
         if (allUsers.isEmpty()) {
             logger.print("No users found in the system.", TextColor.YELLOW);
-            logger.print("Press Enter to continue...");
+            logger.print(PRESS_ENTER_CONTINUE);
             inputManager.getLine();
             return;
         }
@@ -323,7 +331,7 @@ public class SupportMenu extends Menu {
 
         if (searchTerm.isEmpty()) {
             logger.print("Search term cannot be empty!", TextColor.RED);
-            logger.print("Press Enter to continue...");
+            logger.print(PRESS_ENTER_CONTINUE);
             inputManager.getLine();
             return;
         }
@@ -343,7 +351,7 @@ public class SupportMenu extends Menu {
 
         if (matchingUsers.isEmpty()) {
             logger.print("No users found matching: " + searchTerm, TextColor.YELLOW);
-            logger.print("Press Enter to continue...");
+            logger.print(PRESS_ENTER_CONTINUE);
             inputManager.getLine();
             return;
         }
@@ -431,7 +439,7 @@ public class SupportMenu extends Menu {
             logger.print("");
         }
 
-        logger.print("Press Enter to continue...");
+        logger.print(PRESS_ENTER_CONTINUE);
         inputManager.getLine();
     }
 
@@ -460,7 +468,7 @@ public class SupportMenu extends Menu {
             logger.error("Invalid number format!");
         }
 
-        logger.print("Press Enter to continue...");
+        logger.print(PRESS_ENTER_CONTINUE);
         inputManager.getLine();
     }
 
@@ -473,7 +481,7 @@ public class SupportMenu extends Menu {
 
         if (filename.trim().isEmpty()) {
             logger.error("Filename cannot be empty!");
-            logger.print("Press Enter to continue...");
+            logger.print(PRESS_ENTER_CONTINUE);
             inputManager.getLine();
             return;
         }
@@ -487,7 +495,7 @@ public class SupportMenu extends Menu {
             logger.error("Failed to generate report: " + e.getMessage());
         }
 
-        logger.print("Press Enter to continue...");
+        logger.print(PRESS_ENTER_CONTINUE);
         inputManager.getLine();
     }
 
@@ -501,25 +509,25 @@ public class SupportMenu extends Menu {
             logger.print("3. Export Data to CSV", TextColor.CYAN);
             logger.print("4. Create Backup", TextColor.CYAN);
             logger.print("5. Restore from Backup", TextColor.CYAN);
-            logger.print("0. Back", TextColor.RED);
-            logger.print("Choose an option: ");
+            logger.print(BACK_OPTION, TextColor.RED);
+            logger.print(CHOOSE_OPTION);
 
             String choice = inputManager.getLine();
 
             switch (choice) {
                 case "1":
                     DataPersistence.saveAllData();
-                    logger.print("Press Enter to continue...");
+                    logger.print(PRESS_ENTER_CONTINUE);
                     inputManager.getLine();
                     break;
                 case "2":
                     DataPersistence.loadAllData();
-                    logger.print("Press Enter to continue...");
+                    logger.print(PRESS_ENTER_CONTINUE);
                     inputManager.getLine();
                     break;
                 case "3":
                     DataPersistence.exportToCSV();
-                    logger.print("Press Enter to continue...");
+                    logger.print(PRESS_ENTER_CONTINUE);
                     inputManager.getLine();
                     break;
                 case "4":
@@ -531,7 +539,7 @@ public class SupportMenu extends Menu {
                 case "0":
                     return;
                 default:
-                    logger.print("Invalid option! Please try again.", TextColor.RED);
+                    logger.print(INVALID_OPTION, TextColor.RED);
                     break;
             }
         }
@@ -546,13 +554,13 @@ public class SupportMenu extends Menu {
 
         if (backupName.isEmpty()) {
             logger.print("Backup name cannot be empty!", TextColor.RED);
-            logger.print("Press Enter to continue...");
+            logger.print(PRESS_ENTER_CONTINUE);
             inputManager.getLine();
             return;
         }
 
         DataPersistence.createBackup(backupName);
-        logger.print("Press Enter to continue...");
+        logger.print(PRESS_ENTER_CONTINUE);
         inputManager.getLine();
     }
 
@@ -565,7 +573,7 @@ public class SupportMenu extends Menu {
 
         if (backups.isEmpty()) {
             logger.print("No backups found.", TextColor.YELLOW);
-            logger.print("Press Enter to continue...");
+            logger.print(PRESS_ENTER_CONTINUE);
             inputManager.getLine();
             return;
         }
@@ -584,7 +592,7 @@ public class SupportMenu extends Menu {
 
         if (!backups.contains(restoreName)) {
             logger.print("Backup not found: " + restoreName, TextColor.RED);
-            logger.print("Press Enter to continue...");
+            logger.print(PRESS_ENTER_CONTINUE);
             inputManager.getLine();
             return;
         }
@@ -599,7 +607,7 @@ public class SupportMenu extends Menu {
             logger.print("Restore cancelled.", TextColor.YELLOW);
         }
 
-        logger.print("Press Enter to continue...");
+        logger.print(PRESS_ENTER_CONTINUE);
         inputManager.getLine();
     }
 }

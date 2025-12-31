@@ -37,8 +37,8 @@ public class Main {
 
         try {
             System.in.read();
-        } catch (Exception e) {
-            // Ignore
+        } catch (java.io.IOException e) {
+            // Ignore input errors
         }
     }
 }

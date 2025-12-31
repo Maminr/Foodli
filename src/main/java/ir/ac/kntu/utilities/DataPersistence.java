@@ -1,5 +1,6 @@
 package ir.ac.kntu.utilities;
 
+import ir.ac.kntu.helper.Logger;
 import ir.ac.kntu.managers.*;
 import ir.ac.kntu.models.*;
 
@@ -18,6 +19,7 @@ import java.time.format.DateTimeFormatter;
  */
 
 public class DataPersistence {
+    private static final Logger logger = Logger.getInstance();
 
     private static final String DATA_DIR = "data";
 
@@ -38,8 +40,8 @@ public class DataPersistence {
             saveOrders();
 
             System.out.println("Data saved successfully!");
-        } catch (Exception e) {
-            System.err.println("Error saving data: " + e.getMessage());
+        } catch (IOException e) {
+            logger.error("Error saving data: " + e.getMessage());
         }
     }
 
@@ -52,8 +54,8 @@ public class DataPersistence {
             loadOrders();
 
             System.out.println("Data loaded successfully!");
-        } catch (Exception e) {
-            System.err.println("Error loading data: " + e.getMessage());
+        } catch (IOException e) {
+            logger.error("Error loading data: " + e.getMessage());
         }
     }
 
@@ -71,11 +73,9 @@ public class DataPersistence {
             System.out.println("Backup created successfully: " + backupName);
             System.out.println("Backup location: " + backupDir);
         } catch (IOException e) {
-            System.err.println("Error creating backup: " + e.getMessage());
-            e.printStackTrace();
+            logger.error("Error creating backup: " + e.getMessage());
         } catch (Exception e) {
-            System.err.println("Error saving data before backup: " + e.getMessage());
-            e.printStackTrace();
+            logger.error("Error saving data before backup: " + e.getMessage());
         }
     }
 
@@ -98,11 +98,9 @@ public class DataPersistence {
 
             System.out.println("Restored from backup successfully: " + backupName);
         } catch (IOException e) {
-            System.err.println("Error restoring backup: " + e.getMessage());
-            e.printStackTrace();
+            logger.error("Error restoring backup: " + e.getMessage());
         } catch (Exception e) {
-            System.err.println("Error loading data from backup: " + e.getMessage());
-            e.printStackTrace();
+            logger.error("Error loading data from backup: " + e.getMessage());
         }
     }
 
@@ -226,11 +224,9 @@ public class DataPersistence {
 
             System.out.println("Data exported successfully to: " + exportDir);
         } catch (IOException e) {
-            System.err.println("Error exporting data: " + e.getMessage());
-            e.printStackTrace();
+            logger.error("Error exporting data: " + e.getMessage());
         } catch (Exception e) {
-            System.err.println("Error saving data before export: " + e.getMessage());
-            e.printStackTrace();
+            logger.error("Error saving data before export: " + e.getMessage());
         }
     }
 

@@ -13,10 +13,18 @@ public abstract class Menu {
     private final Logger logger = Logger.getInstance();
     private final InputManager inputManager = InputManager.getInstance();
     private final String title;
-    protected final List<MenuItem> items = new ArrayList<>();
+    private final List<MenuItem> items = new ArrayList<>();
 
     public Menu(String title) {
         this.title = title;
+    }
+
+    protected List<MenuItem> getItems() {
+        return items;
+    }
+
+    protected void addItem(MenuItem item) {
+        items.add(item);
     }
 
     public void enterMenu() {

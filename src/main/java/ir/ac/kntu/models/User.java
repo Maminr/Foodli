@@ -3,12 +3,12 @@ package ir.ac.kntu.models;
 import ir.ac.kntu.models.enums.UserRole;
 
 public abstract class User {
-    protected Long id;
-    protected String name;
-    protected String lastName;
-    protected String phoneNumber;
-    protected String password;
-    protected UserRole role;
+    private Long id;
+    private String name;
+    private String lastName;
+    private String phoneNumber;
+    private String password;
+    private UserRole role;
 
     public User(String name, String lastName, String phoneNumber, String password, UserRole role) {
         this.name = name;
@@ -44,8 +44,28 @@ public abstract class User {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getLastName() {
         return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
     }
 
     @Override

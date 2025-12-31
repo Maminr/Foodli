@@ -66,24 +66,24 @@ public class DatabaseManager {
             if (schema != null && !schema.trim().isEmpty()) {
                 // Execute schema creation
                 String[] statements = schema.split(";");
-                Statement stmt = connection.createStatement();
 
-                for (String statement : statements) {
-                    String trimmed = statement.trim();
-                    if (!trimmed.isEmpty() && !trimmed.startsWith("--")) {
-                        try {
-                            stmt.execute(trimmed);
-                        } catch (SQLException e) {
-                            // Ignore "table already exists" errors
-                            if (!e.getMessage().contains("already exists")) {
-                                logger.debug("Schema execution warning: " + e.getMessage());
+                try (Statement stmt = connection.createStatement()) {
+                    for (String statement : statements) {
+                        String trimmed = statement.trim();
+                        if (!trimmed.isEmpty() && !trimmed.startsWith("--")) {
+                            try {
+                                stmt.execute(trimmed);
+                            } catch (SQLException e) {
+                                // Ignore "table already exists" errors
+                                if (!e.getMessage().contains("already exists")) {
+                                    logger.debug("Schema execution warning: " + e.getMessage());
+                                }
                             }
                         }
                     }
                 }
 
                 connection.commit();
-                stmt.close();
                 logger.debug("Database schema initialized successfully.");
             }
         } catch (SQLException e) {
@@ -150,6 +150,8 @@ public class DatabaseManager {
         }
     }
 
+    // TODO: Implement JDBC CRUD operations for future use
+    /*
     /**
      * Execute a query and return ResultSet
      */

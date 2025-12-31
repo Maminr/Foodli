@@ -33,8 +33,11 @@ public class Customer extends User {
     }
 
     public void addAddress(Address address) {
-        address.setId(addresses.size() + 1);
-        addresses.add(address);
+        if (address != null) {
+            address.setId(addresses.size() + 1);
+            addresses.add(address);
+        }
+        // Silently ignore null addresses
     }
 
     public void removeAddress(Address address) {

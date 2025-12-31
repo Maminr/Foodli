@@ -101,8 +101,7 @@ public class PaginationUtility {
                     int endIndex = Math.min(startIndex + pageSize, items.size());
 
                     if (itemNumber >= 1 && itemNumber <= (endIndex - startIndex)) {
-                        int selectedIndex = startIndex + itemNumber - 1;
-                        return selectedIndex;
+                        return startIndex + itemNumber - 1;
                     } else {
                         logger.print("Invalid item number! Please enter a number between 1 and " + (endIndex - startIndex), TextColor.RED);
                     }

@@ -21,10 +21,10 @@ public class MainMenu extends Menu {
 
     public MainMenu() {
         super("Main Menu");
-        items.add(new MenuItem("1", "Sign In", TextColor.GREEN, this::handleSignIn));
-        items.add(new MenuItem("2", "Sign Up", TextColor.BLUE, this::handleSignUp));
-        items.add(new MenuItem("3", "About Us", TextColor.YELLOW, this::handleAboutUs));
-        items.add(new MenuItem("0", "Exit", TextColor.RED, MenuItemAction.EXIT));
+        addItem(new MenuItem("1", "Sign In", TextColor.GREEN, this::handleSignIn));
+        addItem(new MenuItem("2", "Sign Up", TextColor.BLUE, this::handleSignUp));
+        addItem(new MenuItem("3", "About Us", TextColor.YELLOW, this::handleAboutUs));
+        addItem(new MenuItem("0", "Exit", TextColor.RED, MenuItemAction.EXIT));
     }
 
     private void handleSignIn() {

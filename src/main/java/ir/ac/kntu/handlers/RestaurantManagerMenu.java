@@ -11,6 +11,15 @@ import java.util.List;
 
 public class RestaurantManagerMenu extends Menu {
 
+    // Common UI strings to avoid duplicate literals
+    private static final String PRESS_ENTER_CONTINUE = "Press Enter to continue...";
+    private static final String INVALID_OPTION = "Invalid option! Please try again.";
+    private static final String CHOOSE_OPTION = "Choose an option: ";
+    private static final String BACK_OPTION = "0. Back";
+    private static final String CHOOSE_COMMAND = "Choose: ";
+    private static final String TOMAN_SUFFIX = " Toman";
+    private static final String PERCENT_SUFFIX = "%";
+
     private final InputManager inputManager = InputManager.getInstance();
     private final RestaurantManager restaurantManager = RestaurantManager.getInstance();
     private final OrderManager orderManager = OrderManager.getInstance();
@@ -69,7 +78,7 @@ public class RestaurantManagerMenu extends Menu {
         logger.success("Restaurant registration submitted successfully!");
         logger.print("Your restaurant is now pending approval from support team.", TextColor.YELLOW);
         logger.print("You will be notified once it's approved.", TextColor.CYAN);
-        logger.print("Press Enter to continue...");
+        logger.print(PRESS_ENTER_CONTINUE);
         inputManager.getLine();
 
         enterMenu();
@@ -195,7 +204,7 @@ public class RestaurantManagerMenu extends Menu {
 
             if (currentRestaurant.getStatus() == RestaurantStatus.APPROVED) {
                 logger.success("Your restaurant has been approved!");
-                logger.print("Press Enter to continue...");
+                logger.print(PRESS_ENTER_CONTINUE);
                 inputManager.getLine();
                 showMainMenu();
                 return;
@@ -204,7 +213,7 @@ public class RestaurantManagerMenu extends Menu {
                 if (currentRestaurant.getRejectionReason() != null) {
                     logger.print("Reason: " + currentRestaurant.getRejectionReason(), TextColor.YELLOW);
                 }
-                logger.print("Press Enter to continue...");
+                logger.print(PRESS_ENTER_CONTINUE);
                 inputManager.getLine();
                 showRejectedStatus();
                 return;
@@ -216,7 +225,7 @@ public class RestaurantManagerMenu extends Menu {
             logger.print("");
             logger.print("1. Refresh status", TextColor.GREEN);
             logger.print("0. Logout", TextColor.RED);
-            logger.print("Choose an option: ");
+            logger.print(CHOOSE_OPTION);
 
             String choice = inputManager.getLine().trim();
 
@@ -260,7 +269,7 @@ public class RestaurantManagerMenu extends Menu {
             logger.print("\n--- RESTAURANT MANAGEMENT ---", TextColor.GREEN);
             logger.print("Restaurant: " + currentRestaurant.getName(), TextColor.CYAN);
             logger.print("Rating: " + String.format("%.1f", currentRestaurant.getRating()), TextColor.YELLOW);
-            logger.print("Wallet: " + currentRestaurant.getWallet() + " Toman", TextColor.GREEN);
+            logger.print("Wallet: " + currentRestaurant.getWallet() + TOMAN_SUFFIX, TextColor.GREEN);
             logger.print("");
             logger.print("1. Manage Menu", TextColor.CYAN);
             logger.print("2. Process Orders", TextColor.CYAN);
@@ -268,7 +277,7 @@ public class RestaurantManagerMenu extends Menu {
             logger.print("4. Generate Reports", TextColor.CYAN);
             logger.print("5. Restaurant Settings", TextColor.CYAN);
             logger.print("0. Logout", TextColor.RED);
-            logger.print("Choose an option: ");
+            logger.print(CHOOSE_OPTION);
 
             String choice = inputManager.getLine();
 
@@ -292,7 +301,7 @@ public class RestaurantManagerMenu extends Menu {
                     MenuHandler.getInstance().loadMenu(MenuType.MAIN_MENU);
                     return;
                 default:
-                    logger.print("Invalid option! Please try again.", TextColor.RED);
+                    logger.print(INVALID_OPTION, TextColor.RED);
                     break;
             }
         }
@@ -307,8 +316,8 @@ public class RestaurantManagerMenu extends Menu {
             logger.print("2. Add Food Item", TextColor.CYAN);
             logger.print("3. Edit Food Item", TextColor.CYAN);
             logger.print("4. Remove Food Item", TextColor.CYAN);
-            logger.print("0. Back", TextColor.RED);
-            logger.print("Choose an option: ");
+            logger.print(BACK_OPTION, TextColor.RED);
+            logger.print(CHOOSE_OPTION);
 
             String choice = inputManager.getLine();
 
@@ -328,7 +337,7 @@ public class RestaurantManagerMenu extends Menu {
                 case "0":
                     return;
                 default:
-                    logger.print("Invalid option! Please try again.", TextColor.RED);
+                    logger.print(INVALID_OPTION, TextColor.RED);
                     break;
             }
         }
@@ -348,7 +357,7 @@ public class RestaurantManagerMenu extends Menu {
             }
         }
 
-        logger.print("Press Enter to continue...");
+        logger.print(PRESS_ENTER_CONTINUE);
         inputManager.getLine();
     }
 
@@ -371,7 +380,7 @@ public class RestaurantManagerMenu extends Menu {
         restaurantManager.addFoodToRestaurant(currentRestaurant, food);
 
         logger.success("Food item added successfully!");
-        logger.print("Press Enter to continue...");
+        logger.print(PRESS_ENTER_CONTINUE);
         inputManager.getLine();
     }
 
@@ -384,7 +393,7 @@ public class RestaurantManagerMenu extends Menu {
             for (int i = 0; i < categories.length; i++) {
                 logger.print((i + 1) + ". " + categories[i].getDisplayName());
             }
-            logger.print("Choose: ");
+            logger.print(CHOOSE_COMMAND);
 
             try {
                 int choice = Integer.parseInt(inputManager.getLine()) - 1;
@@ -412,7 +421,7 @@ public class RestaurantManagerMenu extends Menu {
                 logger.print("Serving Type:", TextColor.CYAN);
                 logger.print("1. Plated");
                 logger.print("2. Sandwich");
-                logger.print("Choose: ");
+                logger.print(CHOOSE_COMMAND);
                 int servingChoice = Integer.parseInt(inputManager.getLine());
                 food.setServingType(servingChoice == 1 ? ServingType.PLATED : ServingType.SANDWICH);
                 break;
@@ -425,7 +434,7 @@ public class RestaurantManagerMenu extends Menu {
                 logger.print("1. Small");
                 logger.print("2. Medium");
                 logger.print("3. Large");
-                logger.print("Choose: ");
+                logger.print(CHOOSE_COMMAND);
                 int portionChoice = Integer.parseInt(inputManager.getLine());
                 PortionSize[] portions = PortionSize.values();
                 food.setPortionSize(portions[portionChoice - 1]);
@@ -439,7 +448,7 @@ public class RestaurantManagerMenu extends Menu {
                 logger.print("1. Can");
                 logger.print("2. Bottle");
                 logger.print("3. Cup");
-                logger.print("Choose: ");
+                logger.print(CHOOSE_COMMAND);
                 int packagingChoice = Integer.parseInt(inputManager.getLine());
                 DrinkPackaging[] packagings = DrinkPackaging.values();
                 food.setPackaging(packagings[packagingChoice - 1]);
@@ -447,7 +456,7 @@ public class RestaurantManagerMenu extends Menu {
                 logger.print("Sugar status:", TextColor.CYAN);
                 logger.print("1. Diet");
                 logger.print("2. Regular");
-                logger.print("Choose: ");
+                logger.print(CHOOSE_COMMAND);
                 int sugarChoice = Integer.parseInt(inputManager.getLine());
                 food.setSugarStatus(sugarChoice == 1 ? SugarStatus.DIET : SugarStatus.REGULAR);
                 break;
@@ -462,7 +471,7 @@ public class RestaurantManagerMenu extends Menu {
 
         if (currentRestaurant.getMenu().isEmpty()) {
             logger.print("Menu is empty.", TextColor.YELLOW);
-            logger.print("Press Enter to continue...");
+            logger.print(PRESS_ENTER_CONTINUE);
             inputManager.getLine();
             return;
         }
@@ -488,7 +497,7 @@ public class RestaurantManagerMenu extends Menu {
 
             if (food == null) {
                 logger.error("Food item not found!");
-                logger.print("Press Enter to continue...");
+                logger.print(PRESS_ENTER_CONTINUE);
                 inputManager.getLine();
                 return;
             }
@@ -520,7 +529,7 @@ public class RestaurantManagerMenu extends Menu {
             logger.error("Invalid food ID!");
         }
 
-        logger.print("Press Enter to continue...");
+        logger.print(PRESS_ENTER_CONTINUE);
         inputManager.getLine();
     }
 
@@ -530,7 +539,7 @@ public class RestaurantManagerMenu extends Menu {
 
         if (currentRestaurant.getMenu().isEmpty()) {
             logger.print("Menu is empty.", TextColor.YELLOW);
-            logger.print("Press Enter to continue...");
+            logger.print(PRESS_ENTER_CONTINUE);
             inputManager.getLine();
             return;
         }
@@ -565,7 +574,7 @@ public class RestaurantManagerMenu extends Menu {
             logger.error("Invalid food ID!");
         }
 
-        logger.print("Press Enter to continue...");
+        logger.print(PRESS_ENTER_CONTINUE);
         inputManager.getLine();
     }
 
@@ -577,8 +586,8 @@ public class RestaurantManagerMenu extends Menu {
             logger.print("1. View New Orders", TextColor.CYAN);
             logger.print("2. View Active Orders", TextColor.CYAN);
             logger.print("3. View Order History", TextColor.CYAN);
-            logger.print("0. Back", TextColor.RED);
-            logger.print("Choose an option: ");
+            logger.print(BACK_OPTION, TextColor.RED);
+            logger.print(CHOOSE_OPTION);
 
             String choice = inputManager.getLine();
 
@@ -595,7 +604,7 @@ public class RestaurantManagerMenu extends Menu {
                 case "0":
                     return;
                 default:
-                    logger.print("Invalid option! Please try again.", TextColor.RED);
+                    logger.print(INVALID_OPTION, TextColor.RED);
                     break;
             }
         }
@@ -607,7 +616,7 @@ public class RestaurantManagerMenu extends Menu {
 
         if (newOrders.isEmpty()) {
             logger.print("No new orders.", TextColor.YELLOW);
-            logger.print("Press Enter to continue...");
+            logger.print(PRESS_ENTER_CONTINUE);
             inputManager.getLine();
             return;
         }
@@ -619,7 +628,7 @@ public class RestaurantManagerMenu extends Menu {
             logger.print("Actions:", TextColor.CYAN);
             logger.print("1. Accept Order", TextColor.GREEN);
             logger.print("2. Reject Order", TextColor.RED);
-            logger.print("Choose: ");
+            logger.print(CHOOSE_COMMAND);
 
             String choice = inputManager.getLine();
 
@@ -632,7 +641,7 @@ public class RestaurantManagerMenu extends Menu {
             }
         }
 
-        logger.print("Press Enter to continue...");
+        logger.print(PRESS_ENTER_CONTINUE);
         inputManager.getLine();
     }
 
@@ -648,7 +657,7 @@ public class RestaurantManagerMenu extends Menu {
                 logger.print("Status: " + order.getStatus().getDisplayName());
                 logger.print("Customer: " + order.getCustomer().getName());
                 logger.print("Items: " + order.getItems().size());
-                logger.print("Total: " + order.getFinalAmount() + " Toman");
+                logger.print("Total: " + order.getFinalAmount() + TOMAN_SUFFIX);
 
                 if (order.getStatus() == OrderStatus.PREPARING) {
                     logger.print("1. Mark as Sent", TextColor.GREEN);
@@ -663,7 +672,7 @@ public class RestaurantManagerMenu extends Menu {
             }
         }
 
-        logger.print("Press Enter to continue...");
+        logger.print(PRESS_ENTER_CONTINUE);
         inputManager.getLine();
     }
 
@@ -681,24 +690,24 @@ public class RestaurantManagerMenu extends Menu {
                 logger.print("\n--- ORDER #" + order.getId() + " ---", TextColor.CYAN);
                 logger.print("Status: " + order.getStatus().getDisplayName());
                 logger.print("Customer: " + order.getCustomer().getName());
-                logger.print("Total: " + order.getFinalAmount() + " Toman");
+                logger.print("Total: " + order.getFinalAmount() + TOMAN_SUFFIX);
                 logger.print("Date: " + order.getOrderTime().toLocalDate());
             }
         }
 
-        logger.print("Press Enter to continue...");
+        logger.print(PRESS_ENTER_CONTINUE);
         inputManager.getLine();
     }
 
     private void handleWalletView() {
         Logger logger = Logger.getInstance();
         logger.print("\n--- RESTAURANT WALLET ---", TextColor.GREEN);
-        logger.print("Current Balance: " + currentRestaurant.getWallet() + " Toman", TextColor.YELLOW);
+        logger.print("Current Balance: " + currentRestaurant.getWallet() + TOMAN_SUFFIX, TextColor.YELLOW);
 
         logger.print("\nWallet operations:", TextColor.CYAN);
         logger.print("1. Request Withdrawal", TextColor.CYAN);
         logger.print("0. Back", TextColor.RED);
-        logger.print("Choose: ");
+        logger.print(CHOOSE_COMMAND);
 
         String choice = inputManager.getLine();
         if (choice.equals("1")) {
@@ -717,7 +726,7 @@ public class RestaurantManagerMenu extends Menu {
             }
         }
 
-        logger.print("Press Enter to continue...");
+        logger.print(PRESS_ENTER_CONTINUE);
         inputManager.getLine();
     }
 
@@ -728,8 +737,8 @@ public class RestaurantManagerMenu extends Menu {
             logger.print("\n--- REPORT GENERATION ---", TextColor.BLUE);
             logger.print("1. Generate HTML Report", TextColor.CYAN);
             logger.print("2. View Report Files", TextColor.CYAN);
-            logger.print("0. Back", TextColor.RED);
-            logger.print("Choose an option: ");
+            logger.print(BACK_OPTION, TextColor.RED);
+            logger.print(CHOOSE_OPTION);
 
             String choice = inputManager.getLine();
 
@@ -743,7 +752,7 @@ public class RestaurantManagerMenu extends Menu {
                 case "0":
                     return;
                 default:
-                    logger.print("Invalid option! Please try again.", TextColor.RED);
+                    logger.print(INVALID_OPTION, TextColor.RED);
                     break;
             }
         }
@@ -769,7 +778,7 @@ public class RestaurantManagerMenu extends Menu {
             logger.error("Failed to generate report: " + e.getMessage());
         }
 
-        logger.print("Press Enter to continue...");
+        logger.print(PRESS_ENTER_CONTINUE);
         inputManager.getLine();
     }
 
@@ -788,7 +797,7 @@ public class RestaurantManagerMenu extends Menu {
         logger.print("• Monthly performance dashboards", TextColor.CYAN);
         logger.print("");
 
-        logger.print("Press Enter to continue...");
+        logger.print(PRESS_ENTER_CONTINUE);
         inputManager.getLine();
     }
 
@@ -809,8 +818,8 @@ public class RestaurantManagerMenu extends Menu {
             logger.print("2. Edit Per Zone Cost", TextColor.CYAN);
             logger.print("3. Edit Restaurant Address", TextColor.CYAN);
             logger.print("4. Edit Zone Number", TextColor.CYAN);
-            logger.print("0. Back", TextColor.RED);
-            logger.print("Choose an option: ");
+            logger.print(BACK_OPTION, TextColor.RED);
+            logger.print(CHOOSE_OPTION);
 
             String choice = inputManager.getLine().trim();
 
@@ -830,7 +839,7 @@ public class RestaurantManagerMenu extends Menu {
                 case "0":
                     return;
                 default:
-                    logger.print("Invalid option! Please try again.", TextColor.RED);
+                    logger.print(INVALID_OPTION, TextColor.RED);
             }
         }
     }
@@ -843,7 +852,7 @@ public class RestaurantManagerMenu extends Menu {
         currentRestaurant.setBaseDeliveryCost(newCost);
 
         logger.success("Base delivery cost updated to " + String.format("%.0f", newCost) + " Toman");
-        logger.print("Press Enter to continue...");
+        logger.print(PRESS_ENTER_CONTINUE);
         inputManager.getLine();
     }
 
@@ -855,7 +864,7 @@ public class RestaurantManagerMenu extends Menu {
         currentRestaurant.setPerZoneCost(newCost);
 
         logger.success("Per zone cost updated to " + String.format("%.0f", newCost) + " Toman");
-        logger.print("Press Enter to continue...");
+        logger.print(PRESS_ENTER_CONTINUE);
         inputManager.getLine();
     }
 
@@ -872,7 +881,7 @@ public class RestaurantManagerMenu extends Menu {
             logger.print("Address not changed.", TextColor.YELLOW);
         }
 
-        logger.print("Press Enter to continue...");
+        logger.print(PRESS_ENTER_CONTINUE);
         inputManager.getLine();
     }
 
@@ -884,7 +893,7 @@ public class RestaurantManagerMenu extends Menu {
         currentRestaurant.setZoneNumber(newZone);
 
         logger.success("Zone number updated to " + newZone);
-        logger.print("Press Enter to continue...");
+        logger.print(PRESS_ENTER_CONTINUE);
         inputManager.getLine();
     }
 }

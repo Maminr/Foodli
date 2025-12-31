@@ -42,8 +42,12 @@ public class RestaurantManager {
     }
 
     public Restaurant findRestaurantByManager(Manager manager) {
+        if (manager == null) {
+            return null;
+        }
         return restaurants.stream()
-                .filter(r -> r.getManager().equals(manager)).min((r1, r2) -> {
+                .filter(r -> r != null && r.getManager() != null && r.getManager().equals(manager))
+                .min((r1, r2) -> {
                     int priority1 = r1.getStatus() == RestaurantStatus.APPROVED ? 0 :
                             r1.getStatus() == RestaurantStatus.PENDING_REVIEW ? 1 : 2;
                     int priority2 = r2.getStatus() == RestaurantStatus.APPROVED ? 0 :

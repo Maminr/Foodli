@@ -76,12 +76,24 @@ public class Food {
     }
 
     // Main dish methods
+    public String getIngredients() {
+        return ingredients;
+    }
+
     public void setIngredients(String ingredients) {
         this.ingredients = ingredients;
     }
 
+    public int getCookingTime() {
+        return cookingTime;
+    }
+
     public void setCookingTime(int cookingTime) {
         this.cookingTime = cookingTime;
+    }
+
+    public ServingType getServingType() {
+        return servingType;
     }
 
     public void setServingType(ServingType servingType) {
@@ -89,8 +101,16 @@ public class Food {
     }
 
     // Appetizer methods
+    public int getPiecesPerServing() {
+        return piecesPerServing;
+    }
+
     public void setPiecesPerServing(int piecesPerServing) {
         this.piecesPerServing = piecesPerServing;
+    }
+
+    public PortionSize getPortionSize() {
+        return portionSize;
     }
 
     public void setPortionSize(PortionSize portionSize) {
@@ -98,12 +118,24 @@ public class Food {
     }
 
     // Beverage methods
+    public int getVolume() {
+        return volume;
+    }
+
     public void setVolume(int volume) {
         this.volume = volume;
     }
 
+    public DrinkPackaging getPackaging() {
+        return packaging;
+    }
+
     public void setPackaging(DrinkPackaging packaging) {
         this.packaging = packaging;
+    }
+
+    public SugarStatus getSugarStatus() {
+        return sugarStatus;
     }
 
     public void setSugarStatus(SugarStatus sugarStatus) {

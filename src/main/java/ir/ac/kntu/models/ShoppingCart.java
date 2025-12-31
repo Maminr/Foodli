@@ -32,9 +32,19 @@ public class ShoppingCart {
             throw new IllegalStateException("Restaurant not set for cart");
         }
 
+        // Don't add items with zero or negative quantity
+        if (quantity <= 0) {
+            return;
+        }
+
         for (OrderItem item : items) {
             if (item.getFood().getId() == food.getId()) {
-                item.setQuantity(item.getQuantity() + quantity);
+                int newQuantity = item.getQuantity() + quantity;
+                if (newQuantity <= 0) {
+                    items.remove(item);
+                } else {
+                    item.setQuantity(newQuantity);
+                }
                 return;
             }
         }

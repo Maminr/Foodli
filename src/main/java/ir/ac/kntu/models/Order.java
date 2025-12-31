@@ -70,6 +70,10 @@ public class Order {
         return getItemsTotal() + deliveryCost;
     }
 
+    public Address getDeliveryAddress() {
+        return deliveryAddress;
+    }
+
     public OrderStatus getStatus() {
         return status;
     }
