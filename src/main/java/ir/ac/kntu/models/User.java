@@ -28,10 +28,6 @@ public abstract class User {
         return password;
     }
 
-//    public String getFullName() {
-//        return name + " " + lastName;
-//    }
-
     public UserRole getRole() {
         return role;
     }

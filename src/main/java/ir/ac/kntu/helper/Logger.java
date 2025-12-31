@@ -53,10 +53,6 @@ public class Logger {
         }
     }
 
-//    public void customLog(String message, TextColor color) {
-//        logInternal(color, "LOG", message);
-//    }
-
     public void print(String message) {
         System.out.println(message);
     }

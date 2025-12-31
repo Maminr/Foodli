@@ -893,7 +893,8 @@ public class CustomerMenu extends Menu {
         logger.print("\n--- WALLET BALANCE ---", TextColor.YELLOW);
         logger.print("Current Balance: " + customer.getWallet() + " Toman", TextColor.GREEN);
 
-        // TODO: Show transaction history if available
+        // FEATURE: Transaction history - Not implemented yet
+        // TODO: Implement wallet transaction history tracking
         logger.print("Transaction history feature coming soon...", TextColor.CYAN);
 
         logger.print("Press Enter to continue...");

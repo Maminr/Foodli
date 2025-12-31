@@ -66,21 +66,9 @@ public class Order {
         return deliveryCost;
     }
 
-//    public void setDeliveryCost(double deliveryCost) {
-//        this.deliveryCost = deliveryCost;
-//    }
-
     public double getFinalAmount() {
         return getItemsTotal() + deliveryCost;
     }
-
-//    public Address getDeliveryAddress() {
-//        return deliveryAddress;
-//    }
-
-//    public void setDeliveryAddress(Address deliveryAddress) {
-//        this.deliveryAddress = deliveryAddress;
-//    }
 
     public OrderStatus getStatus() {
         return status;
@@ -109,14 +97,6 @@ public class Order {
     public void setReviewRating(int reviewRating) {
         this.reviewRating = reviewRating;
     }
-
-//    public void addItem(OrderItem item) {
-//        items.add(item);
-//    }
-
-//    public void removeItem(OrderItem item) {
-//        items.remove(item);
-//    }
 
     public String getInvoice() {
         StringBuilder invoice = new StringBuilder();

@@ -50,7 +50,4 @@ public class MenuHandler {
         }
     }
 
-//    public boolean canGoBack() {
-//        return menuStack.size() > 1;
-//    }
 }

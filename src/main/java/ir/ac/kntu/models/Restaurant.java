@@ -91,10 +91,6 @@ public class Restaurant {
         return manager;
     }
 
-//    public void setManager(Manager manager) {
-//        this.manager = manager;
-//    }
-
     public String getAddress() {
         return address;
     }
@@ -114,10 +110,6 @@ public class Restaurant {
     public List<FoodType> getFoodTypes() {
         return foodTypes;
     }
-
-//    public void setFoodTypes(List<FoodType> foodTypes) {
-//        this.foodTypes = foodTypes;
-//    }
 
     public RestaurantStatus getStatus() {
         return status;
@@ -142,10 +134,6 @@ public class Restaurant {
     public void setRating(double rating) {
         this.rating = rating;
     }
-
-//    public int getRatingCount() {
-//        return ratingCount;
-//    }
 
     public void setRatingCount(int ratingCount) {
         this.ratingCount = ratingCount;

@@ -199,6 +199,8 @@ public class DatabaseManager {
         return results;
     }
 
+    // TODO: Implement transaction management methods for future use
+    /*
     /**
      * Begin transaction
      */

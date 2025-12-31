@@ -152,7 +152,7 @@ public class TextSimilarity {
                 .replaceAll("[^a-zA-Z0-9\\s]", "")
                 .trim();
     }
-    
+
     public static class SearchResult {
         private final String text;
         private final double score;

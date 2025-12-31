@@ -30,13 +30,6 @@ public class OrderManager {
         return order;
     }
 
-//    public Order findOrderById(int id) {
-//        return orders.stream()
-//                .filter(o -> o.getId() == id)
-//                .findFirst()
-//                .orElse(null);
-//    }
-
     public List<Order> getOrdersByCustomer(User customer) {
         return orders.stream()
                 .filter(o -> o.getCustomer().equals(customer))

@@ -41,13 +41,6 @@ public class RestaurantManager {
         return restaurant;
     }
 
-//    public Restaurant findRestaurantById(int id) {
-//        return restaurants.stream()
-//                .filter(r -> r.getId() == id)
-//                .findFirst()
-//                .orElse(null);
-//    }
-
     public Restaurant findRestaurantByManager(Manager manager) {
         return restaurants.stream()
                 .filter(r -> r.getManager().equals(manager)).min((r1, r2) -> {
@@ -65,12 +58,6 @@ public class RestaurantManager {
                 .filter(r -> r.getName().toLowerCase().contains(name.toLowerCase()))
                 .collect(Collectors.toList());
     }
-
-//    public List<Restaurant> findRestaurantsByFoodType(FoodType foodType) {
-//        return restaurants.stream()
-//                .filter(r -> r.getFoodTypes().contains(foodType))
-//                .collect(Collectors.toList());
-//    }
 
     public List<Restaurant> findRestaurantsByFoodName(String foodName) {
         return restaurants.stream()
@@ -153,26 +140,4 @@ public class RestaurantManager {
                 .sorted((r1, r2) -> Double.compare(r2.getRating(), r1.getRating()))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
-
-//    public List<String> getSearchSuggestions(String partial) {
-//
-//        List<String> restaurantNames = getApprovedRestaurants().stream()
-//                .map(Restaurant::getName)
-//                .collect(Collectors.toList());
-//
-//        List<String> suggestions = new ArrayList<>(TextSimilarity.getAutocompleteSuggestions(partial, restaurantNames, 5));
-//
-//        List<String> foodNames = getApprovedRestaurants().stream()
-//                .flatMap(r -> r.getMenu().stream())
-//                .filter(Food::isAvailable)
-//                .map(Food::getName)
-//                .collect(Collectors.toList());
-//
-//        suggestions.addAll(TextSimilarity.getAutocompleteSuggestions(partial, foodNames, 5));
-//
-//        return suggestions.stream()
-//                .distinct()
-//                .limit(8)
-//                .collect(Collectors.toList());
-//    }
 }
